@@ -20,6 +20,7 @@ gem "github-pages", group: :jekyll_plugins
 # gem "jekyll-redirect-from"
 # gem "kramdown-parser-gfm"
 # gem "webrick"
+# Run : bundle update; bundle exec jekyll serve
 
 gem "wdm", "~> 0.1.0" if Gem.win_platform?
 

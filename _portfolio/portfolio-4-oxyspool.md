@@ -1,0 +1,8 @@
+---
+title: "<b>OxySpool</b> - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - <b>Second Place</b> [May 2021]"
+excerpt: "A low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards.<br/><img width=600 src='/images/oxyspool.png'>"
+collection: portfolio
+---
+* TOM is a service organization that sponsors open source solutions to the real challenges of underserved people.
+* Created a low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards.
+* Personally helped design/manufacture using Onshape, and wrote embedded C++ to control the device.
