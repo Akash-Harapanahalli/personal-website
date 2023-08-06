@@ -27,20 +27,20 @@ import re
 #todo: incorporate different collection types rather than a catch all publications, requires other changes to template
 publist = {
     "proceeding": {
-        "file" : "proceedings.bib",
+        "file" : "pubs.bib",
         "venuekey": "booktitle",
-        "venue-pretext": "In the proceedings of ",
+        "venue-pretext": "pretext",
         "collection" : {"name":"publications",
                         "permalink":"/publication/"}
         
     },
-    "journal":{
-        "file": "pubs.bib",
-        "venuekey" : "journal",
-        "venue-pretext" : "",
-        "collection" : {"name":"publications",
-                        "permalink":"/publication/"}
-    } 
+    # "journal":{
+    #     "file": "pubs.bib",
+    #     "venuekey" : "journal",
+    #     "venue-pretext" : "",
+    #     "collection" : {"name":"publications",
+    #                     "permalink":"/publication/"}
+    # } 
 }
 
 html_escape_table = {
@@ -100,16 +100,30 @@ for pubsource in publist:
 
             #citation authors - todo - add highlighting for primary author?
             for author in bibdata.entries[bib_id].persons["author"]:
-                citation = citation+" "+author.first_names[0]+" "+author.last_names[0]+", "
+                if author.first_names[0].lower() == 'akash' :
+                    citation = citation+" <b>"+author.first_names[0]+" "+author.last_names[0]+"</b>, "
+                else :
+                    citation = citation+" "+author.first_names[0]+" "+author.last_names[0]+", "
 
             #citation title
             citation = citation + "\"" + html_escape(b["title"].replace("{", "").replace("}","").replace("\\","")) + ".\""
 
             #add venue logic depending on citation type
-            venue = publist[pubsource]["venue-pretext"]+b[publist[pubsource]["venuekey"]].replace("{", "").replace("}","").replace("\\","")
+            venue = ""
+            venue = b[publist[pubsource]["venue-pretext"]]+' <i>'+b[publist[pubsource]["venuekey"]].replace("{", "").replace("}","").replace("\\","")+'</i>'
 
             citation = citation + " " + html_escape(venue)
             citation = citation + ", " + pub_year + "."
+
+            pdf = ""
+            if "pdf" in b.keys() :
+                # if b["url"].lower().contains('arxiv') :
+                # venue += "[pdf](" + b["pdf"] + '){:target=\"_blank\"}\n'
+                pdf += f"<a href=\"{b['pdf']}\" target=\"_blank\">[pdf]</a> "
+            elif "archivePrefix" in b.keys() :
+                if b["archivePrefix"] == "arXiv" :
+                    pdf += f"<a href=\"https://arxiv.org/pdf/{b['eprint']}.pdf\" target=\"_blank\">[pdf]</a> "
+            #         citation += " [pdf](https://arxiv.org/pdf/" + b["eprint"] + '.pdf){:target=\"_blank\"}\n'
 
             
             ## YAML variables
@@ -127,7 +141,7 @@ for pubsource in publist:
 
             md += "\ndate: " + str(pub_date) 
 
-            md += "\nvenue: '" + html_escape(venue) + "'"
+            md += "\nvenue: '" + pdf + html_escape(venue) + "'"
             
             url = False
             if "url" in b.keys():
@@ -144,10 +158,10 @@ for pubsource in publist:
             if note:
                 md += "\n" + html_escape(b["note"]) + "\n"
 
-            if url:
-                md += "\n[Access paper here](" + b["url"] + "){:target=\"_blank\"}\n" 
-            else:
-                md += "\nUse [Google Scholar](https://scholar.google.com/scholar?q="+html.escape(clean_title.replace("-","+"))+"){:target=\"_blank\"} for full citation"
+            # if url:
+            #     md += "\n[Access paper here](" + b["url"] + "){:target=\"_blank\"}\n" 
+            # else:
+            #     md += "\nUse [Google Scholar](https://scholar.google.com/scholar?q="+html.escape(clean_title.replace("-","+"))+"){:target=\"_blank\"} for full citation"
 
             md_filename = os.path.basename(md_filename)
 
