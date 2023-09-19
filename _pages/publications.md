@@ -12,6 +12,19 @@ author_profile: true
 
 {% include base_path %}
 
-{% for post in site.publications reversed %}
-  {% include archive-single.html %}
-{% endfor %}
+<!-- {% for post in site.publications reversed %}
+  {% include archive-pub.html %}
+{% endfor %} -->
+<!-- <style>
+  /* .laparent li { font-size: 20 } */
+  /* .laparent ol { counter-reset: item } */
+  /* .laparent li { display: block ; counter-increment: item; } */
+    /* replace the counter before list item with
+              open parenthesis + counter + close parenthesis */
+  /* .laparent li:before { content: "[" counter(item) "] "; } */
+</style> -->
+<div>
+  <ol class="laparent" reversed>{% for post in site.publications reversed %}
+    {% include archive-pub.html %}
+  {% endfor %}</ol>
+</div>
