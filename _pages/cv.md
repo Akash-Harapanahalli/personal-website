@@ -7,9 +7,10 @@ redirect_from:
   - /resume
 ---
 
-<a href="/files/AkashHarapanahalliCV.pdf" target="_blank">[pdf]</a>
+<!-- <a href="/files/AkashHarapanahalliCV.pdf" target="_blank">[pdf]</a> -->
+<embed src="/files/AkashHarapanahalliCV.pdf" type="application/pdf" width=800 height=600/>
 
-{% include base_path %}
+<!-- {% include base_path %}
 
 Education
 ======
@@ -20,7 +21,8 @@ Education
 Research and Professional Experience
 ======
 * Graduate Research Assistant, Special Problems - [FACTS Lab](https://coogan.ece.gatech.edu/group.html), Georgia Tech [Aug 2022, Present]
-  * Proving formal guarantees for the safety of control algorithms with learning-based methods in the loop.
+  * Proving formal guarantees for the safety of uncertain controlled systems with learning-based methods in-the-loop.
+  * Developed a framework for certifying paralleletope forward invariant sets in neural network controlled systems.
   * Developing a novel, efficient library called [$\\texttt{ReachMM}$](https://github.com/gtfactslab/ReachMM) for online reachable set analysis of closed-loop nonlinear dynamical systems with neural network feedback to guarantee safety during runtime.
   * Created [$\\texttt{npinterval}$](https://github.com/gtfactslab/npinterval), an interval analysis extension module for $\\texttt{numpy}$.
   * Supported by an NSF grant dedicated to finding formal assurances for learning-enabled assistive driving
@@ -38,15 +40,6 @@ Research and Professional Experience
   * Designed a modern Over-The-Air update process for Wi-Fi network processors using embedded C with RTOS.
   * Analyzed customer feedback to optimize the design for utility, functionality, and practicality.
   * Developed interpersonal professional skills while learning about product lifecycle and post-market strategies.
-
-<!-- Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3 -->
 
 Publications
 ======
@@ -66,13 +59,22 @@ Honors and Awards
 * Best Latest Breaking Results Poster - 2020 IEEE/ASME Intl. Conf. on Adv. Int. Mechatronics [Jul 2020]
 * Best in Show - HackGT Horizons 2020 [Feb 2020]
 * Second Place, Best TI Integration - The Invention Studio’s Hack-A-Thing 2020 [Jan 2020]
-* State Tournament Champion - 2019 California VEX VRC High School State Championship [Mar 2019]
+* State Tournament Champion - 2019 California VEX VRC High School State Championship [Mar 2019] -->
 
 <!-- Talks
 ======
   <ul>{% for post in site.talks %}
     {% include archive-single-talk-cv.html %}
   {% endfor %}</ul> -->
+
+<!-- Skills
+======
+* Skill 1
+* Skill 2
+  * Sub-skill 2.1
+  * Sub-skill 2.2
+  * Sub-skill 2.3
+* Skill 3 -->
 
 
 
