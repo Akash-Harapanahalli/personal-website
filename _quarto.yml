@@ -9,11 +9,11 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: papers.qmd
+      - href: papers
         text: Papers
-      - href: "portfolio/portfolio.qmd"
+      - href: portfolio
         text: Portfolio
-      - href: cv.qmd
+      - href: cv
         text: CV
   # page-footer:
   #   left: ""

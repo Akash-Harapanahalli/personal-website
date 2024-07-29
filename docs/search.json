@@ -1,122 +1,73 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Akash Harapanahalli",
+    "objectID": "papers/index.html",
+    "href": "papers/index.html",
+    "title": "Papers",
     "section": "",
-    "text": "akash.harapanahalli [at] gmail.com\nI am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.\nMy research is centered around safety verification of nonlinear control systems—mainly through reachability and invariance analysis. I have been developing a toolbox called immrax, which is an implementation of interval analysis and mixed monotone reachability in JAX. Using this toolbox, we have been able to scalably certify safe performance of neural networks in safety-critical control systems [see here], and also train neural networks with robust safety guarantees outright [see here].\nI am also interested in more mathematical tools such as contraction theory and geometric control. For instance, combining monotone systems theory with geometric integration theory, I developed an algorithm to efficiently compute reachable sets in control systems evolving on Lie groups [see here]."
+    "text": "Akash Harapanahalli, Samuel Coogan, “Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.” To Appear in 2024 63rd IEEE Conference on Decision and Control (CDC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.” Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (ADHS), 2024. [pdf] [slides]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops.” Published in IEEE Transactions on Automatic Control (TAC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Forward Invariance in Neural Network Controlled Systems.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf] [slides]\nLuke Baird, Akash Harapanahalli, Samuel Coogan, “Interval Signal Temporal Logic From Natural Inclusion Functions.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Contraction-Guided Adaptive Partitioning for Reachability Analysis of Neural Network Controlled Systems.” Appeared in 2023 62nd IEEE Conference on Decision and Control (CDC), 2023. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “A Toolbox for Fast Interval Arithmetic in numpy with an Application to Formal Verification of Neural Network Controlled Systems.” Appeared in 2nd Workshop on Formal Verification of Machine Learning (WFVML), 2023. [pdf]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Interval Reachability of Nonlinear Dynamical Systems with Neural Network Controllers.” Appeared in The 5th Annual Learning for Dynamics and Control Conference (L4DC), 2023. [pdf]\nAkash Harapanahalli*, Emil Muly*, Hogan Welch*, Timothy Brumfiel, Zhengyang Weng, Manzano Akhtar, Ahmed Abouelnasr, Austin Newland, James Bunting, Kevin McGorrey, Juo Lee, Gaorong Wang, Luke Drnach, Don Lee, Ye Zhao, “Towards a Biomimetic and Dexterous Robot Avatar: Design, Control, and Kinematics Considerations.” Best Latest Breaking Results Poster at 2020 IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM), 2020. [pdf]\n\n* indicates equal contribution"
   },
   {
-    "objectID": "portfolio/zen.html",
-    "href": "portfolio/zen.html",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "Ryan Chen, Akash Harapanahalli, Andrew Hellrigel, Jinwoo Park\n\n\n\nThere is no doubt that life the past few years has been hectic to say the least. That is why we built Zen, a device that is equal parts complex data-visualization tool and gorgeous art piece. Underneath the calming sandy surface of Zen lies a complex mechanism built from the scrapped parts of a broken 3d printer. A robotic arm magnetically guides a stainless steel marble in the sand to create grooves that can tell you the time, display text, and more. This combination of art with data reminds us that there is always beauty in information: you just need to dig a bit deeper.\n\n\n\nAn onboard microcontroller first chooses what data it wishes to display: say the current time. Using computer vision, we calculate the coordinates that would carve out the numbers in the sand. These coordinates are passed through our custom pathing algorithm to determine a most efficient route, which is then sent to the mechanical assembly. An on-board computer translates the rectangular coordinates to polar coordinates to determine which angle and radius values to move the magnetic arm. As the arm traces its path under the surface of the table, the magnetic ball slowly imprints out the number in the sand, giving us a dynamic and physical means to visualize data.\n\n\n\nTo view the plotting process in real time, follow the Colab notebook here. The project broke down into software focused on the plotting algorithm and hardware focusing on the mechanism of the magnetic arm. The software team used the opencv library to skeletonize the paths of a single-stroke font family. This allowed us to select the coordinates of the image that should be part of the letter/number and put them into our algorithm that will trace an optimal path through those points whilst removing outliers at the same time. This trace information can therefore be used to plot any set of letter and numbers, as long as they fit within the dimensions of the display.\nThe hardware side involved iterating over several designs until we settled on the current radially pointed magnetic arm. A lot of soldering, CADing, sawing, lasering, and drilling eventually gave us the semi-transparent design for Zen.\n\n\n\nOn the hardware side, we ran into several issues, the biggest being that the tolerances from our 3d prints were too tight, leading to our entire assembly being unable to spin freely around the center. But with a little ingenuity (and a little hammering), we managed to salvage the situation without having to cut, break, sand, or print any new parts. On the software side, we were dealing with an unfamiliar library and for some, a completely new language, so we first had to climb a learning curve to come out on the other end successful.\n\n\n\nWith this being the third hackathon we have completed together as team Big Fishies, we have noticed a significant increase in both our design quality and aesthetics. The overall look of the device and it’s capabilities has demonstrated our collective growth as a team of engineers and a group of friends.\n\n\n\nWe came into this project idea unsure about whether we would be able to complete this goliath task over the course of the short 36 hours we were allotted. Learning new languages, new skills, and new techniques in such a short amount of time is never an easy task, but creating Zen has been the challenge that has proven there are no limits to the things we can accomplish.\n\n\n\nWe have more plans for what sort of information we can display on our 550 square inch sand display. Using complex apis, we can display stock charts in real time, or even communicate wirelessly with a drawing application to allow users to draw their own paths in the sand. There are as many possibilities for Zen as there are grains of sand on Earth."
-  },
-  {
-    "objectID": "portfolio/zen.html#inspiration",
-    "href": "portfolio/zen.html#inspiration",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "There is no doubt that life the past few years has been hectic to say the least. That is why we built Zen, a device that is equal parts complex data-visualization tool and gorgeous art piece. Underneath the calming sandy surface of Zen lies a complex mechanism built from the scrapped parts of a broken 3d printer. A robotic arm magnetically guides a stainless steel marble in the sand to create grooves that can tell you the time, display text, and more. This combination of art with data reminds us that there is always beauty in information: you just need to dig a bit deeper."
-  },
-  {
-    "objectID": "portfolio/zen.html#what-it-does",
-    "href": "portfolio/zen.html#what-it-does",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "An onboard microcontroller first chooses what data it wishes to display: say the current time. Using computer vision, we calculate the coordinates that would carve out the numbers in the sand. These coordinates are passed through our custom pathing algorithm to determine a most efficient route, which is then sent to the mechanical assembly. An on-board computer translates the rectangular coordinates to polar coordinates to determine which angle and radius values to move the magnetic arm. As the arm traces its path under the surface of the table, the magnetic ball slowly imprints out the number in the sand, giving us a dynamic and physical means to visualize data."
-  },
-  {
-    "objectID": "portfolio/zen.html#how-we-built-it",
-    "href": "portfolio/zen.html#how-we-built-it",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "To view the plotting process in real time, follow the Colab notebook here. The project broke down into software focused on the plotting algorithm and hardware focusing on the mechanism of the magnetic arm. The software team used the opencv library to skeletonize the paths of a single-stroke font family. This allowed us to select the coordinates of the image that should be part of the letter/number and put them into our algorithm that will trace an optimal path through those points whilst removing outliers at the same time. This trace information can therefore be used to plot any set of letter and numbers, as long as they fit within the dimensions of the display.\nThe hardware side involved iterating over several designs until we settled on the current radially pointed magnetic arm. A lot of soldering, CADing, sawing, lasering, and drilling eventually gave us the semi-transparent design for Zen."
-  },
-  {
-    "objectID": "portfolio/zen.html#challenges-we-ran-into",
-    "href": "portfolio/zen.html#challenges-we-ran-into",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "On the hardware side, we ran into several issues, the biggest being that the tolerances from our 3d prints were too tight, leading to our entire assembly being unable to spin freely around the center. But with a little ingenuity (and a little hammering), we managed to salvage the situation without having to cut, break, sand, or print any new parts. On the software side, we were dealing with an unfamiliar library and for some, a completely new language, so we first had to climb a learning curve to come out on the other end successful."
-  },
-  {
-    "objectID": "portfolio/zen.html#accomplishments-that-were-proud-of",
-    "href": "portfolio/zen.html#accomplishments-that-were-proud-of",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "With this being the third hackathon we have completed together as team Big Fishies, we have noticed a significant increase in both our design quality and aesthetics. The overall look of the device and it’s capabilities has demonstrated our collective growth as a team of engineers and a group of friends."
-  },
-  {
-    "objectID": "portfolio/zen.html#what-we-learned",
-    "href": "portfolio/zen.html#what-we-learned",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "We came into this project idea unsure about whether we would be able to complete this goliath task over the course of the short 36 hours we were allotted. Learning new languages, new skills, and new techniques in such a short amount of time is never an easy task, but creating Zen has been the challenge that has proven there are no limits to the things we can accomplish."
-  },
-  {
-    "objectID": "portfolio/zen.html#whats-next-for-zen",
-    "href": "portfolio/zen.html#whats-next-for-zen",
-    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
-    "section": "",
-    "text": "We have more plans for what sort of information we can display on our 550 square inch sand display. Using complex apis, we can display stock charts in real time, or even communicate wirelessly with a drawing application to allow users to draw their own paths in the sand. There are as many possibilities for Zen as there are grains of sand on Earth."
-  },
-  {
-    "objectID": "portfolio/trashtalker.html",
-    "href": "portfolio/trashtalker.html",
-    "title": "TrashTalker - HackGT Horizons 2020 - Best in Show [Feb 2020]",
-    "section": "",
-    "text": "Integrated art and technology by engineering a music instrument out of trashed beer bottles.\nPersonally modeled mounts and connections in Solidworks, wrote embedded Arduino software using MATLAB."
-  },
-  {
-    "objectID": "portfolio/portfolio.html",
-    "href": "portfolio/portfolio.html",
+    "objectID": "portfolio/index.html",
+    "href": "portfolio/index.html",
     "title": "Portfolio",
     "section": "",
     "text": "The world’s first fully volumetric high-density holographic persistence of vision display."
   },
   {
-    "objectID": "portfolio/portfolio.html#voxel---ece-senior-capstone-project-aug-2021-may-2022",
-    "href": "portfolio/portfolio.html#voxel---ece-senior-capstone-project-aug-2021-may-2022",
+    "objectID": "portfolio/index.html#voxel---ece-senior-capstone-project-aug-2021-may-2022",
+    "href": "portfolio/index.html#voxel---ece-senior-capstone-project-aug-2021-may-2022",
     "title": "Portfolio",
     "section": "",
     "text": "The world’s first fully volumetric high-density holographic persistence of vision display."
   },
   {
-    "objectID": "portfolio/portfolio.html#stepdance---hackgt-horizons-2022---best-overall-hack-mar-2022",
-    "href": "portfolio/portfolio.html#stepdance---hackgt-horizons-2022---best-overall-hack-mar-2022",
+    "objectID": "portfolio/index.html#stepdance---hackgt-horizons-2022---best-overall-hack-mar-2022",
+    "href": "portfolio/index.html#stepdance---hackgt-horizons-2022---best-overall-hack-mar-2022",
     "title": "Portfolio",
     "section": "StepDance - HackGT Horizons 2022 - Best Overall Hack [Mar 2022]",
     "text": "StepDance - HackGT Horizons 2022 - Best Overall Hack [Mar 2022]\nAn interactable piano using stepper motor vibrations to generate music with computer vision features."
   },
   {
-    "objectID": "portfolio/portfolio.html#zen---hackgt-8---best-hardware-hack-oct-2021",
-    "href": "portfolio/portfolio.html#zen---hackgt-8---best-hardware-hack-oct-2021",
+    "objectID": "portfolio/index.html#zen---hackgt-8---best-hardware-hack-oct-2021",
+    "href": "portfolio/index.html#zen---hackgt-8---best-hardware-hack-oct-2021",
     "title": "Portfolio",
     "section": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
     "text": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]\nRepurposed old 3D printer to make a data visualization tool and art piece.\n”"
   },
   {
-    "objectID": "portfolio/portfolio.html#oxyspool---tikkum-olam-makers-tom-at-gt-makeathon-2021---second-place-may-2021",
-    "href": "portfolio/portfolio.html#oxyspool---tikkum-olam-makers-tom-at-gt-makeathon-2021---second-place-may-2021",
+    "objectID": "portfolio/index.html#oxyspool---tikkum-olam-makers-tom-at-gt-makeathon-2021---second-place-may-2021",
+    "href": "portfolio/index.html#oxyspool---tikkum-olam-makers-tom-at-gt-makeathon-2021---second-place-may-2021",
     "title": "Portfolio",
     "section": "OxySpool - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - Second Place [May 2021]”",
     "text": "OxySpool - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - Second Place [May 2021]”\nA low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards."
   },
   {
-    "objectID": "portfolio/portfolio.html#trashtalker---hackgt-horizons-2020---best-in-show-feb-2020",
-    "href": "portfolio/portfolio.html#trashtalker---hackgt-horizons-2020---best-in-show-feb-2020",
+    "objectID": "portfolio/index.html#trashtalker---hackgt-horizons-2020---best-in-show-feb-2020",
+    "href": "portfolio/index.html#trashtalker---hackgt-horizons-2020---best-in-show-feb-2020",
     "title": "Portfolio",
     "section": "TrashTalker - HackGT Horizons 2020 - Best in Show [Feb 2020]”",
     "text": "TrashTalker - HackGT Horizons 2020 - Best in Show [Feb 2020]”\nA music instrument made out of beer bottles from the trash."
   },
   {
-    "objectID": "portfolio/portfolio.html#industrial-screw-sorter---hack-a-thing---second-place-best-ti-integration-sep-2019-jan-2020",
-    "href": "portfolio/portfolio.html#industrial-screw-sorter---hack-a-thing---second-place-best-ti-integration-sep-2019-jan-2020",
+    "objectID": "portfolio/index.html#industrial-screw-sorter---hack-a-thing---second-place-best-ti-integration-sep-2019-jan-2020",
+    "href": "portfolio/index.html#industrial-screw-sorter---hack-a-thing---second-place-best-ti-integration-sep-2019-jan-2020",
     "title": "Portfolio",
     "section": "Industrial Screw Sorter - Hack-a-Thing - Second Place, Best TI Integration [Sep 2019, Jan 2020]”",
     "text": "Industrial Screw Sorter - Hack-a-Thing - Second Place, Best TI Integration [Sep 2019, Jan 2020]”\nIndustrial screw sorting attachment for an off-the-shelf robot arm."
+  },
+  {
+    "objectID": "portfolio/industrialscrewsorter.html",
+    "href": "portfolio/industrialscrewsorter.html",
+    "title": "Industrial Screw Sorter - Hack-a-Thing - Second Place, Best TI Integration [Sep 2019, Jan 2020]",
+    "section": "",
+    "text": "Competed in a five-month-long competition to create an industrial screw sorting apparatus.\nPersonally worked on its design and on reusable embedded C++ for its TI MSP-432 using Energia."
+  },
+  {
+    "objectID": "portfolio/voxel.html",
+    "href": "portfolio/voxel.html",
+    "title": "VOXEL - ECE Senior Capstone Project [Aug 2021, May 2022]",
+    "section": "",
+    "text": "[expo] [report] [github]\n\n\nVoxel: A Spinning, 3D LED Persistence of Vision Display\n\nVoxel is a spinning 3D LED display that generates a 360 degree visual in three dimensional space by spinning a panel of densely packed LEDs about a central axis. By spinning at a fast enough rate and rapidly flashing each individually addressable LED on and off, persistence of vision (POV) will take effect. POV is a phenomenon in which a rapid succession of images becomes blended into a persistent, moving image when processed by the human brain [1]. By flashing the LEDs in a specific pattern over time, Voxel will be able to display a smooth, sharp 3D video.\nPersistence of vision has already been exploited in the design of many 2D LED displays. Most monitors use this phenomenon by turning on and off individual rows of LEDs at high frequencies to create the illusion of having the entire display on [2]. More recently, LED ‘fans’ have emerged on the commercial market. These fans have two to four blades lined with LEDs that create smooth 2D images when spun at high enough speeds. These commercial products are generally used for either entertainment or advertising and cost 300 dollars on the low end [3] and upwards of 10,000 dollars on the high end [4].\nInstead of spinning individual lines of LEDs to create a 2D display, the premise of Voxel is to spin a grid of LEDs to create a truly 3D LED display. Three dimensional displays that appear to be holographic would be useful in applications such as home entertainment or commercial advertising. If production of Voxel devices is scaled up to 1,000 a year, the unit cost would be 609.78 dollars. It could be sold at 999 dollars for a profit margin of 61% - making it economically viable to market for home design and commercial advertising uses."
   },
   {
     "objectID": "portfolio/stepdance.html",
@@ -175,13 +126,6 @@
     "text": "What’s next for Step Dance\nWe can always go bigger! Due to time and cost limitations, we only have 10 stepper motors and 24 keys we can use, but our dream would be to upgrade Step Dance to a full 88 key piano."
   },
   {
-    "objectID": "papers.html",
-    "href": "papers.html",
-    "title": "Papers",
-    "section": "",
-    "text": "Akash Harapanahalli, Samuel Coogan, “Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.” To Appear in 2024 63rd IEEE Conference on Decision and Control (CDC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.” Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (ADHS), 2024. [pdf] [slides]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops.” Published in IEEE Transactions on Automatic Control (TAC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Forward Invariance in Neural Network Controlled Systems.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf] [slides]\nLuke Baird, Akash Harapanahalli, Samuel Coogan, “Interval Signal Temporal Logic From Natural Inclusion Functions.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Contraction-Guided Adaptive Partitioning for Reachability Analysis of Neural Network Controlled Systems.” Appeared in 2023 62nd IEEE Conference on Decision and Control (CDC), 2023. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “A Toolbox for Fast Interval Arithmetic in numpy with an Application to Formal Verification of Neural Network Controlled Systems.” Appeared in 2nd Workshop on Formal Verification of Machine Learning (WFVML), 2023. [pdf]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Interval Reachability of Nonlinear Dynamical Systems with Neural Network Controllers.” Appeared in The 5th Annual Learning for Dynamics and Control Conference (L4DC), 2023. [pdf]\nAkash Harapanahalli*, Emil Muly*, Hogan Welch*, Timothy Brumfiel, Zhengyang Weng, Manzano Akhtar, Ahmed Abouelnasr, Austin Newland, James Bunting, Kevin McGorrey, Juo Lee, Gaorong Wang, Luke Drnach, Don Lee, Ye Zhao, “Towards a Biomimetic and Dexterous Robot Avatar: Design, Control, and Kinematics Considerations.” Best Latest Breaking Results Poster at 2020 IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM), 2020. [pdf]\n\n* indicates equal contribution"
-  },
-  {
     "objectID": "portfolio/yawyaw.html",
     "href": "portfolio/yawyaw.html",
     "title": "YawYaw - HackGT 6 [Oct 2019]",
@@ -189,18 +133,67 @@
     "text": "Created “YawYaw”, a camera mount that moves around to follow the movement of a head.\nPersonally built the hardware codebase, using C++ and focusing on readability/usability."
   },
   {
-    "objectID": "portfolio/voxel.html",
-    "href": "portfolio/voxel.html",
-    "title": "VOXEL - ECE Senior Capstone Project [Aug 2021, May 2022]",
+    "objectID": "portfolio/trashtalker.html",
+    "href": "portfolio/trashtalker.html",
+    "title": "TrashTalker - HackGT Horizons 2020 - Best in Show [Feb 2020]",
     "section": "",
-    "text": "[expo] [report] [github]\n\n\nVoxel: A Spinning, 3D LED Persistence of Vision Display\n\nVoxel is a spinning 3D LED display that generates a 360 degree visual in three dimensional space by spinning a panel of densely packed LEDs about a central axis. By spinning at a fast enough rate and rapidly flashing each individually addressable LED on and off, persistence of vision (POV) will take effect. POV is a phenomenon in which a rapid succession of images becomes blended into a persistent, moving image when processed by the human brain [1]. By flashing the LEDs in a specific pattern over time, Voxel will be able to display a smooth, sharp 3D video.\nPersistence of vision has already been exploited in the design of many 2D LED displays. Most monitors use this phenomenon by turning on and off individual rows of LEDs at high frequencies to create the illusion of having the entire display on [2]. More recently, LED ‘fans’ have emerged on the commercial market. These fans have two to four blades lined with LEDs that create smooth 2D images when spun at high enough speeds. These commercial products are generally used for either entertainment or advertising and cost 300 dollars on the low end [3] and upwards of 10,000 dollars on the high end [4].\nInstead of spinning individual lines of LEDs to create a 2D display, the premise of Voxel is to spin a grid of LEDs to create a truly 3D LED display. Three dimensional displays that appear to be holographic would be useful in applications such as home entertainment or commercial advertising. If production of Voxel devices is scaled up to 1,000 a year, the unit cost would be 609.78 dollars. It could be sold at 999 dollars for a profit margin of 61% - making it economically viable to market for home design and commercial advertising uses."
+    "text": "Integrated art and technology by engineering a music instrument out of trashed beer bottles.\nPersonally modeled mounts and connections in Solidworks, wrote embedded Arduino software using MATLAB."
   },
   {
-    "objectID": "portfolio/industrialscrewsorter.html",
-    "href": "portfolio/industrialscrewsorter.html",
-    "title": "Industrial Screw Sorter - Hack-a-Thing - Second Place, Best TI Integration [Sep 2019, Jan 2020]",
+    "objectID": "portfolio/zen.html",
+    "href": "portfolio/zen.html",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
     "section": "",
-    "text": "Competed in a five-month-long competition to create an industrial screw sorting apparatus.\nPersonally worked on its design and on reusable embedded C++ for its TI MSP-432 using Energia."
+    "text": "Ryan Chen, Akash Harapanahalli, Andrew Hellrigel, Jinwoo Park\n\n\n\nThere is no doubt that life the past few years has been hectic to say the least. That is why we built Zen, a device that is equal parts complex data-visualization tool and gorgeous art piece. Underneath the calming sandy surface of Zen lies a complex mechanism built from the scrapped parts of a broken 3d printer. A robotic arm magnetically guides a stainless steel marble in the sand to create grooves that can tell you the time, display text, and more. This combination of art with data reminds us that there is always beauty in information: you just need to dig a bit deeper.\n\n\n\nAn onboard microcontroller first chooses what data it wishes to display: say the current time. Using computer vision, we calculate the coordinates that would carve out the numbers in the sand. These coordinates are passed through our custom pathing algorithm to determine a most efficient route, which is then sent to the mechanical assembly. An on-board computer translates the rectangular coordinates to polar coordinates to determine which angle and radius values to move the magnetic arm. As the arm traces its path under the surface of the table, the magnetic ball slowly imprints out the number in the sand, giving us a dynamic and physical means to visualize data.\n\n\n\nTo view the plotting process in real time, follow the Colab notebook here. The project broke down into software focused on the plotting algorithm and hardware focusing on the mechanism of the magnetic arm. The software team used the opencv library to skeletonize the paths of a single-stroke font family. This allowed us to select the coordinates of the image that should be part of the letter/number and put them into our algorithm that will trace an optimal path through those points whilst removing outliers at the same time. This trace information can therefore be used to plot any set of letter and numbers, as long as they fit within the dimensions of the display.\nThe hardware side involved iterating over several designs until we settled on the current radially pointed magnetic arm. A lot of soldering, CADing, sawing, lasering, and drilling eventually gave us the semi-transparent design for Zen.\n\n\n\nOn the hardware side, we ran into several issues, the biggest being that the tolerances from our 3d prints were too tight, leading to our entire assembly being unable to spin freely around the center. But with a little ingenuity (and a little hammering), we managed to salvage the situation without having to cut, break, sand, or print any new parts. On the software side, we were dealing with an unfamiliar library and for some, a completely new language, so we first had to climb a learning curve to come out on the other end successful.\n\n\n\nWith this being the third hackathon we have completed together as team Big Fishies, we have noticed a significant increase in both our design quality and aesthetics. The overall look of the device and it’s capabilities has demonstrated our collective growth as a team of engineers and a group of friends.\n\n\n\nWe came into this project idea unsure about whether we would be able to complete this goliath task over the course of the short 36 hours we were allotted. Learning new languages, new skills, and new techniques in such a short amount of time is never an easy task, but creating Zen has been the challenge that has proven there are no limits to the things we can accomplish.\n\n\n\nWe have more plans for what sort of information we can display on our 550 square inch sand display. Using complex apis, we can display stock charts in real time, or even communicate wirelessly with a drawing application to allow users to draw their own paths in the sand. There are as many possibilities for Zen as there are grains of sand on Earth."
+  },
+  {
+    "objectID": "portfolio/zen.html#inspiration",
+    "href": "portfolio/zen.html#inspiration",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "There is no doubt that life the past few years has been hectic to say the least. That is why we built Zen, a device that is equal parts complex data-visualization tool and gorgeous art piece. Underneath the calming sandy surface of Zen lies a complex mechanism built from the scrapped parts of a broken 3d printer. A robotic arm magnetically guides a stainless steel marble in the sand to create grooves that can tell you the time, display text, and more. This combination of art with data reminds us that there is always beauty in information: you just need to dig a bit deeper."
+  },
+  {
+    "objectID": "portfolio/zen.html#what-it-does",
+    "href": "portfolio/zen.html#what-it-does",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "An onboard microcontroller first chooses what data it wishes to display: say the current time. Using computer vision, we calculate the coordinates that would carve out the numbers in the sand. These coordinates are passed through our custom pathing algorithm to determine a most efficient route, which is then sent to the mechanical assembly. An on-board computer translates the rectangular coordinates to polar coordinates to determine which angle and radius values to move the magnetic arm. As the arm traces its path under the surface of the table, the magnetic ball slowly imprints out the number in the sand, giving us a dynamic and physical means to visualize data."
+  },
+  {
+    "objectID": "portfolio/zen.html#how-we-built-it",
+    "href": "portfolio/zen.html#how-we-built-it",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "To view the plotting process in real time, follow the Colab notebook here. The project broke down into software focused on the plotting algorithm and hardware focusing on the mechanism of the magnetic arm. The software team used the opencv library to skeletonize the paths of a single-stroke font family. This allowed us to select the coordinates of the image that should be part of the letter/number and put them into our algorithm that will trace an optimal path through those points whilst removing outliers at the same time. This trace information can therefore be used to plot any set of letter and numbers, as long as they fit within the dimensions of the display.\nThe hardware side involved iterating over several designs until we settled on the current radially pointed magnetic arm. A lot of soldering, CADing, sawing, lasering, and drilling eventually gave us the semi-transparent design for Zen."
+  },
+  {
+    "objectID": "portfolio/zen.html#challenges-we-ran-into",
+    "href": "portfolio/zen.html#challenges-we-ran-into",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "On the hardware side, we ran into several issues, the biggest being that the tolerances from our 3d prints were too tight, leading to our entire assembly being unable to spin freely around the center. But with a little ingenuity (and a little hammering), we managed to salvage the situation without having to cut, break, sand, or print any new parts. On the software side, we were dealing with an unfamiliar library and for some, a completely new language, so we first had to climb a learning curve to come out on the other end successful."
+  },
+  {
+    "objectID": "portfolio/zen.html#accomplishments-that-were-proud-of",
+    "href": "portfolio/zen.html#accomplishments-that-were-proud-of",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "With this being the third hackathon we have completed together as team Big Fishies, we have noticed a significant increase in both our design quality and aesthetics. The overall look of the device and it’s capabilities has demonstrated our collective growth as a team of engineers and a group of friends."
+  },
+  {
+    "objectID": "portfolio/zen.html#what-we-learned",
+    "href": "portfolio/zen.html#what-we-learned",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "We came into this project idea unsure about whether we would be able to complete this goliath task over the course of the short 36 hours we were allotted. Learning new languages, new skills, and new techniques in such a short amount of time is never an easy task, but creating Zen has been the challenge that has proven there are no limits to the things we can accomplish."
+  },
+  {
+    "objectID": "portfolio/zen.html#whats-next-for-zen",
+    "href": "portfolio/zen.html#whats-next-for-zen",
+    "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
+    "section": "",
+    "text": "We have more plans for what sort of information we can display on our 550 square inch sand display. Using complex apis, we can display stock charts in real time, or even communicate wirelessly with a drawing application to allow users to draw their own paths in the sand. There are as many possibilities for Zen as there are grains of sand on Earth."
   },
   {
     "objectID": "portfolio/oxyspool.html",
@@ -208,5 +201,12 @@
     "title": "OxySpool - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - Second Place [May 2021]",
     "section": "",
     "text": "TOM is a service organization that sponsors open source solutions to the real challenges of underserved people.\nCreated a low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards.\nPersonally helped design/manufacture using Onshape, and wrote embedded C++ to control the device."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Akash Harapanahalli",
+    "section": "",
+    "text": "akash.harapanahalli [at] gmail.com\nI am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.\nMy research is centered around safety verification of nonlinear control systems—mainly through reachability and invariance analysis. I have been developing a toolbox called immrax, which is an implementation of interval analysis and mixed monotone reachability in JAX. Using this toolbox, we have been able to scalably certify safe performance of neural networks in safety-critical control systems [see here], and also train neural networks with robust safety guarantees outright [see here].\nI am also interested in more mathematical tools such as contraction theory and geometric control. For instance, combining monotone systems theory with geometric integration theory, I developed an algorithm to efficiently compute reachable sets in control systems evolving on Lie groups [see here]."
   }
 ]
