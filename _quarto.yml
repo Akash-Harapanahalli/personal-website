@@ -9,8 +9,8 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: papers
-        text: Papers
+      - href: publications
+        text: Publications
       - href: portfolio
         text: Portfolio
       - href: cv
