@@ -1,0 +1,35 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Akash Harapanahalli"
+  description: "I am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech. Broadly, I am interested in the intersection of control theory and machine learning; more specifically, I want to guarantee safe behavior in safety-critical learning-enabled applications."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: papers.qmd
+        text: Papers
+      - href: "portfolio/portfolio.qmd"
+        text: Portfolio
+      - href: cv.qmd
+        text: CV
+  # page-footer:
+  #   left: ""
+  twitter-card: true
+  open-graph: true
+
+format:
+  html:
+    theme:
+      - cosmo
+    # page-layout: full
+      # - custom.scss
+    # toc: true
+    # toc_depth: 3
+    # toc_float: true
+    # toc_smooth_scroll: true
+    # toc_highlight: true
+    # fig-align: center
+ 

@@ -1,0 +1,21 @@
+---
+title: "<b>VOXEL</b> - ECE Senior Capstone Project [Aug 2021, May 2022]"
+excerpt: "The world's first fully volumetric high-density holographic persistence of vision display.<br/><img width=600 src='/images/voxel-gif.gif'>"
+---
+<a href="https://expo.gatech.edu/prod1/portal/portal.jsp?c=17462&p=413142918&g=413665329&id=416289822">[expo]</a>
+<a href="/files/Voxel_FINALProjectReport.pdf">[report]</a>
+<a href="https://github.com/Voxel-3D-Display">[github]</a>
+
+<!-- * Created the world’s first fully volumetric high-density holographic persistence of vision display.
+* Designed an algorithm to convert arbitrary mesh files to a custom cylindrical 3D display video format.
+* Wrote critical embedded system code in C++ and SystemVerilog to encode and decode custom 3D video format. -->
+
+Voxel: A Spinning, 3D LED Persistence of Vision Display
+===
+<img width=600 src='images/voxel-gif.gif'>
+
+Voxel is a spinning 3D LED display that generates a 360 degree visual in three dimensional space by spinning a panel of densely packed LEDs about a central axis. By spinning at a fast enough rate and rapidly flashing each individually addressable LED on and off, persistence of vision (POV) will take effect. POV is a phenomenon in which a rapid succession of images becomes blended into a persistent, moving image when processed by the human brain [1]. By flashing the LEDs in a specific pattern over time, Voxel will be able to display a smooth, sharp 3D video.
+
+Persistence of vision has already been exploited in the design of many 2D LED displays. Most monitors use this phenomenon by turning on and off individual rows of LEDs at high frequencies to create the illusion of having the entire display on [2]. More recently, LED ‘fans’ have emerged on the commercial market. These fans have two to four blades lined with LEDs that create smooth 2D images when spun at high enough speeds. These commercial products are generally used for either entertainment or advertising and cost 300 dollars on the low end [3] and upwards of 10,000 dollars on the high end [4].
+
+Instead of spinning individual lines of LEDs to create a 2D display, the premise of Voxel is to spin a grid of LEDs to create a truly 3D LED display. Three dimensional displays that appear to be holographic would be useful in applications such as home entertainment or commercial advertising. If production of Voxel devices is scaled up to 1,000 a year, the unit cost would be 609.78 dollars. It could be sold at 999 dollars for a profit margin of 61% - making it economically viable to market for home design and commercial advertising uses.

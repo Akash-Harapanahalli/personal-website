@@ -1,0 +1,6 @@
+---
+title: "<b>TrashTalker</b> - HackGT Horizons 2020 - <b>Best in Show</b> [Feb 2020]"
+excerpt: "A music instrument made out of beer bottles from the trash.<br/><img width=600 src='/images/trashtalker.jpg'>"
+---
+* Integrated art and technology by engineering a music instrument out of trashed beer bottles.
+* Personally modeled mounts and connections in Solidworks, wrote embedded Arduino software using MATLAB.

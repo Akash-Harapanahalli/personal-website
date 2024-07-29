@@ -1,0 +1,5 @@
+---
+title: CV
+---
+
+<embed src="/files/AkashHarapanahalliCV.pdf" type="application/pdf" width=800 height=600/>

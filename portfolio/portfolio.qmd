@@ -1,0 +1,34 @@
+---
+title: Portfolio
+---
+
+## [VOXEL - ECE Senior Capstone Project [Aug 2021, May 2022]](voxel.qmd)
+The world's first fully volumetric high-density holographic persistence of vision display.
+
+<img width=600 src='images/voxel-gif.gif'>
+
+
+## [StepDance - HackGT Horizons 2022 - Best Overall Hack [Mar 2022]](stepdance.qmd)
+An interactable piano using stepper motor vibrations to generate music with computer vision features.
+
+<img width=600 src='images/StepDance.jpg'>
+
+## [Zen - HackGT 8 - Best Hardware Hack [Oct 2021]](zen.qmd)
+Repurposed old 3D printer to make a data visualization tool and art piece.
+
+<img width=600 src='images/zen.jpeg'>"
+
+## [OxySpool - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - <b>Second Place</b> [May 2021]"](oxyspool.qmd)
+A low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards.
+
+<img width=600 src='images/oxyspool.png'>
+
+## [TrashTalker - HackGT Horizons 2020 - <b>Best in Show</b> [Feb 2020]"](trashtalker.qmd)
+A music instrument made out of beer bottles from the trash.
+
+<img width=600 src='images/trashtalker.jpg'>
+
+## [Industrial Screw Sorter - Hack-a-Thing - <b>Second Place, Best TI Integration</b> [Sep 2019, Jan 2020]"](industrialscrewsorter.qmd)
+Industrial screw sorting attachment for an off-the-shelf robot arm.
+
+<img width=600 src='images/hackathing.jpg'>

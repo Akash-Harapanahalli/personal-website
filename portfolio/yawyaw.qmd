@@ -1,0 +1,6 @@
+---
+title: "YawYaw - HackGT 6 [Oct 2019]"
+---
+* Created “YawYaw”, a camera mount that moves around to follow the movement of a head.
+* Personally built the hardware codebase, using C++ and focusing on readability/usability.
+
