@@ -3,8 +3,7 @@ title: Publications
 ---
 
 <style>
-  .publist {padding-left: 0em;}
-  .publist a {font-weight: bold;}
+  a {font-weight: bold;}
   
   /* .publist {list-style-type: none; padding-left: 0;}
   .pubitem:before {content: "[" counter(section, numeric) "] ";}
