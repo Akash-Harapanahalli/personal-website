@@ -32,4 +32,4 @@ A music instrument made out of beer bottles from the trash.
 ## [Industrial Screw Sorter - Hack-a-Thing - <b>Second Place, Best TI Integration</b> [Sep 2019, Jan 2020]"](industrialscrewsorter.qmd)
 Industrial screw sorting attachment for an off-the-shelf robot arm.
 
-![](images/hackathing.jpg')
+![](images/hackathing.jpg)

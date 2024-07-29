@@ -144,22 +144,22 @@ ul.task-list li input[type="checkbox"] {
 
 
 <style>
-  a {font-weight: bold;}
-  
   /* .publist {list-style-type: none; padding-left: 0;}
   .pubitem:before {content: "[" counter(section, numeric) "] ";}
   .pubitem { counter-increment: section;} */
-  ol {
+  .publist ol {
     list-style-type:none;
     counter-reset:item 10;
   }
-  ol > li {
+  .publist ol > li {
     counter-increment:item -1;
   }
-  ol > li::marker {
+  .publist ol > li::marker {
     content: "[" counter(item) "]  ";
   }
+  .publist ol > a {font-weight: bold;}
 </style>
+<div class="publist">
 <ol type="1">
 <li><strong>Akash Harapanahalli</strong>, Samuel Coogan, “<a href="https://arxiv.org/abs/2403.16214">Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.</a>” To Appear in 2024 63rd IEEE Conference on Decision and Control (<strong>CDC</strong>), 2024. [<a href="https://arxiv.org/pdf/2403.16214">pdf</a>]</li>
 <li><strong>Akash Harapanahalli</strong>, Saber Jafarpour, Samuel Coogan, “<a href="https://arxiv.org/abs/2401.11608">immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.</a>” Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (<strong>ADHS</strong>), 2024. [<a href="https://arxiv.org/pdf/2401.11608">pdf</a>] [<a href="">slides</a>]</li>
@@ -171,6 +171,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Saber Jafarpour*, <strong>Akash Harapanahalli</strong>*, Samuel Coogan, “<a href="https://proceedings.mlr.press/v211/jafarpour23a.html">Interval Reachability of Nonlinear Dynamical Systems with Neural Network Controllers.</a>” Appeared in The 5th Annual Learning for Dynamics and Control Conference (<strong>L4DC</strong>), 2023. [<a href="https://arxiv.org/pdf/2301.07912">pdf</a>]</li>
 <li><strong>Akash Harapanahalli</strong>*, Emil Muly*, Hogan Welch*, Timothy Brumfiel, Zhengyang Weng, Manzano Akhtar, Ahmed Abouelnasr, Austin Newland, James Bunting, Kevin McGorrey, Juo Lee, Gaorong Wang, Luke Drnach, Don Lee, Ye Zhao, “<a href="https://akashhara.com/files/AIM_2020_Athena.pdf">Towards a Biomimetic and Dexterous Robot Avatar: Design, Control, and Kinematics Considerations.</a>” <strong>Best Latest Breaking Results Poster</strong> at 2020 IEEE/ASME International Conference on Advanced Intelligent Mechatronics (<strong>AIM</strong>), 2020. [<a href="https://akashhara.com/files/AIM_2020_Athena.pdf">pdf</a>]</li>
 </ol>
+</div>
 <p>* <em>indicates equal contribution</em></p>
 
 
