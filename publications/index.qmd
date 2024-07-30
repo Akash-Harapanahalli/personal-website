@@ -16,7 +16,7 @@ title: Publications
   .publist ol > li::marker {
     content: "[" counter(item) "]  ";
   }
-  .publist ol > a {font-weight: bold;}
+  .publist a {font-weight: bold;}
 </style>
 
 :::{.publist}
