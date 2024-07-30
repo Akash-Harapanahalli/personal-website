@@ -20,11 +20,11 @@ akash.harapanahalli \[at\] gmail.com
 
 I am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems ([FACTS](https://coogan.ece.gatech.edu/)) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.
 
-My research is centered around safety verification of nonlinear control systems---mainly through reachability and invariance analysis. I have been developing a toolbox called [`immrax`](https://github.com/gtfactslab/immrax), which is an implementation of interval analysis and mixed monotone reachability in JAX. 
-Using this toolbox, we have been able to scalably *certify* safe performance of neural networks in safety-critical control systems \[[see here](https://doi.org/10.1109/TAC.2024.3420968)\], and also *train* neural networks with robust safety guarantees outright \[[see here]()\].
+My research is centered around safety verification of nonlinear control systems---mainly through reachability and invariance analysis. 
+I have been developing a toolbox called [`immrax`](https://github.com/gtfactslab/immrax), which we have used to scalably *certify* safe performance of neural networks in safety-critical control systems, and *train* neural networks with robust safety guarantees outright.
+I am also interested in more mathematical tools such as contraction theory and differential geometry, and how they factor into modern control systems analysis.
 
-I am also interested in more mathematical tools such as contraction theory and geometric control.
-For instance, combining monotone systems theory with geometric integration theory, I developed an algorithm to efficiently compute reachable sets in control systems evolving on Lie groups \[[see here]()\]. 
+<!-- For instance, combining monotone systems theory with geometric integration theory, I developed an algorithm to efficiently compute reachable sets in control systems evolving on Lie groups \[[see here]()\].  -->
 
 <!-- # Selected Results -->
 <!-- ## Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals
