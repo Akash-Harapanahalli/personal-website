@@ -16,22 +16,14 @@ about:
       href: https://orcid.org/0000-0001-8968-4565
 ---
 
+$\mathfrak{Akash}$ $\mathfrak{Harapanahalli}$
+
 akash.harapanahalli \[at\] gmail.com
 
 I am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems ([FACTS](https://coogan.ece.gatech.edu/)) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.
 
 My research is centered around safety verification of nonlinear control systems---mainly through reachability and invariance analysis. 
-I have been developing a toolbox called [`immrax`](https://github.com/gtfactslab/immrax), which we have used to scalably *certify* safe performance of neural networks in safety-critical control systems, and *train* neural networks with robust safety guarantees outright.
+I have been developing a toolbox called [`immrax`](https://github.com/gtfactslab/immrax), which we have used to scalably certify safe performance of neural networks in safety-critical control systems, and train neural networks with robust safety guarantees outright.
 I am also interested in more mathematical tools such as contraction theory and differential geometry, and how they factor into modern control systems analysis.
 
 <!-- For instance, combining monotone systems theory with geometric integration theory, I developed an algorithm to efficiently compute reachable sets in control systems evolving on Lie groups \[[see here]()\].  -->
-
-<!-- # Selected Results -->
-<!-- ## Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals
-<embed src="/files/CDCLieReachv1.pdf" type="application/pdf" width=600 height=600/>
-
-## Forward Invariance in Neural Network Controlled Systems
-<embed src="/files/ForwardInvariance.pdf" type="application/pdf" width=600 height=600/>
-
-## Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops
-<embed src="/files/InteractionAware.pdf" type="application/pdf" width=600 height=600/> -->

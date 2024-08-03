@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: docs
+  resources: CNAME
 
 website:
   title: "Akash Harapanahalli"
@@ -32,4 +33,5 @@ format:
     # toc_smooth_scroll: true
     # toc_highlight: true
     # fig-align: center
+    html-math-method: mathjax
  
