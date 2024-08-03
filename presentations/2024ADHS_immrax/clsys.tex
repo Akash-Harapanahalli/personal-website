@@ -1,0 +1,19 @@
+\usetikzlibrary{shapes, arrows, positioning}
+\tikzstyle{equation} = [rectangle, rounded corners, text centered, draw=black, fill=blue!15]
+\tikzstyle{block} = [rectangle, rounded corners, text centered, draw=black, fill=nodebg]
+\tikzstyle{neuron} = [circle, minimum size=0.2cm, inner sep=0cm, draw=black, line width=2pt, fill opacity=0]
+\begin{tikzpicture}[thick]
+    % Blocks
+    % \node [draw, inner sep=0.5cm, yshift=-2cm] (feedback) {$p = \phi(t,x)$};
+    \node [draw, inner sep=0.5cm] (plant) at (0,2) {$\begin{aligned}
+        \dot{x} &= f(x,u,w) \\
+        u &= \pi(x)
+    \end{aligned}$};
+    \node [draw, minimum width=3cm, minimum height=1.5cm] (neural) at (0,0) {};
+    \input{neural}
+
+    % Arrows
+    \draw [->] (plant.east) -- +(1,0) -- +(1,-2) node[midway, right] {$x$} -- (neural);
+    \draw [<-] ([yshift=-0.25cm]plant.west) -- +(-1,0) -- +(-1,-1.75) node[midway, left] {$u$} -- (neural.west);
+    \draw [<-] ([yshift=0.25cm]plant.west) -- node[midway, above] {$w$} +(-1,0) ;
+\end{tikzpicture}

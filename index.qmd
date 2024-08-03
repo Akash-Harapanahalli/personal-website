@@ -16,8 +16,6 @@ about:
       href: https://orcid.org/0000-0001-8968-4565
 ---
 
-$\mathfrak{Akash}$ $\mathfrak{Harapanahalli}$
-
 akash.harapanahalli \[at\] gmail.com
 
 I am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems ([FACTS](https://coogan.ece.gatech.edu/)) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.

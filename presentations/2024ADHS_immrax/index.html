@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="immrax_files/libs/clipboard/clipboard.min.js"></script>
+<script src="immrax_files/libs/quarto-html/tabby.min.js"></script>
+<script src="immrax_files/libs/quarto-html/popper.min.js"></script>
+<script src="immrax_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="immrax_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="immrax_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="immrax_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="immrax_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.4.555">
+
+  <meta name="author" content="Akash Harapanahalli^\dagger, Saber Jafarpour^*, Samuel Coogan^\dagger">
+  <meta name="dcterms.date" content="2024-07-02">
+  <title>immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="immrax_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="immrax_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="immrax_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="immrax_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="immrax_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="immrax_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="immrax_files/libs/revealjs/plugin/reveal-pointer/pointer.css" rel="stylesheet">
+  <link href="immrax_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title"><code>immrax</code>: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX</h1>
+  <p class="subtitle">ADHS 2024</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Akash Harapanahalli<span class="math inline">\(^\dagger\)</span>, Saber Jafarpour<span class="math inline">\(^*\)</span>, Samuel Coogan<span class="math inline">\(^\dagger\)</span> 
+</div>
+        <p class="quarto-title-affiliation">
+            <span class="math inline">\(^\dagger\)</span>School of Electrical and Computer Engineering, Georgia Institute of Technology
+          </p>
+        <p class="quarto-title-affiliation">
+            <span class="math inline">\(^*\)</span>Department of Electrical, Computer, and Energy Engineering, University of Colorado, Boulder
+          </p>
+    </div>
+</div>
+
+  <p class="date">July 2, 2024</p>
+</section>
+<section id="acknowledgements" class="slide level2">
+<h2>Acknowledgements</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/jafarpour.jpg" class="quarto-figure quarto-figure-center" style="height:10em"></p>
+</figure>
+</div>
+<p>Saber Jafarpour<br>
+<a href="https://saberjafarpour.github.io/">saberjafarpour.github.io</a></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/coogan.jpg" class="quarto-figure quarto-figure-center" style="height:10em"></p>
+</figure>
+</div>
+<p>Advisor: Samuel Coogan<br>
+<a href="https://coogan.ece.gatech.edu/">coogan.ece.gatech.edu</a></p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<section id="motivation" class="title-slide slide level1 center">
+<h1>Motivation</h1>
+<div class="cell">
+<style type="text/css">
+div.callout{font-size:25px !important}.reveal .slide aside,.reveal .slide div.aside{bottom:-10px}.reveal pre{font-size:1.8rem !important}.reveal code{font-size:0.85em !important}.cite-footnotes{font-size:25px !important}
+</style>
+</div>
+<div class="hidden">
+%
+</div>
+</section>
+<section id="motivation-safety-of-neural-network-controlled-feedback-systems" class="slide level2">
+<h2>Motivation: Safety of Neural Network Controlled Feedback Systems</h2>
+<ul>
+<li><em>Efficiently</em> and <em>scalably</em> certify neural network controlled systems</li>
+<li>Simple enough to <em>train</em> neural network controllers with safety guarantees</li>
+</ul>
+<div class="columns">
+<div id="vcenter" class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-2-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:50%;">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Reachability</strong></p>
+</div>
+<div class="callout-content">
+<p>Given a set of possible initial states <span class="math inline">\(\mathcal{X}\)</span> and possible disturbances <span class="math inline">\(\mathcal{W}\)</span>, show that the set of all possible states <span class="math inline">\(\mathcal{R}(t,\mathcal{X},\mathcal{W})\)</span> does not hit unsafe states <span class="math inline">\(\mathcal{A}\)</span> while reaching goal states <span class="math inline">\(\mathcal{G}\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Invariance</strong></p>
+</div>
+<div class="callout-content">
+<p>Show that a set of possible states <span class="math inline">\(\mathcal{X}\)</span> is <span class="math inline">\(\mathcal{W}\)</span>-robustly forward invariant, <em>i.e.</em>, trajectories starting in <span class="math inline">\(\mathcal{X}\)</span> remain in <span class="math inline">\(\mathcal{X}\)</span> for all future time.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="interval-analysis-for-neural-network-controlled-system-robustness" class="slide level2">
+<h2>Interval Analysis for Neural Network Controlled System Robustness</h2>
+<p>Our Approach:</p>
+<ul>
+<li>Interval analysis for general nonlinear systems analysis + neural network verification tools <span class="citation" data-cites="SJ-AH-SC:24"><a href="#/references" role="doc-biblioref" onclick="">[1]</a></span></li>
+<li>Scalable in state dimension compared to existing tools</li>
+</ul>
+<div class="fragment">
+<p><strong>Why we built <code>immrax</code></strong></p>
+<p>No existing interval analysis tool supported either:</p>
+<ol type="i">
+<li>GPU processing/parallelization, for rapid, batched verification online or in-the-loop</li>
+<li>Automatic differentiability, for implementation in the training loop</li>
+</ol>
+<p>A interval analysis toolbox supporting these features could potentially be useful in other applications beyond learning-enabled systems.</p>
+</div>
+
+<aside><div>
+<span class="citation" data-cites="SJ-AH-SC:24"><a href="#/references" role="doc-biblioref" onclick="">[1]</a></span> S. Jafarpour, A. Harapanahalli, S. Coogan, “Efficient interaction-aware interval analysis of neural network feedback loops,” <em>IEEE TAC</em>, 2024.
+</div></aside></section></section>
+<section>
+<section id="background-interval-analysis" class="title-slide slide level1 center">
+<h1>Background: Interval Analysis</h1>
+
+</section>
+<section id="inclusion-functions" class="slide level2">
+<h2>Inclusion Functions</h2>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Definition (Inclusion Function)</strong></p>
+</div>
+<div class="callout-content">
+<p>Given a map <span class="math inline">\(f:\mathbb{R}^n\to\mathbb{R}^m\)</span>, the map <span class="math inline">\(\mathsf{F}=[\underline{\mathsf{F}},\overline{\mathsf{F}}]\)</span> is an <em>inclusion function</em> <span class="citation" data-cites="LJ-MK-OD-EW:01"><a href="#/references" role="doc-biblioref" onclick="">[2]</a></span> for <span class="math inline">\(f\)</span> if <span class="math display">\[\begin{align*}
+\underline{\mathsf{F}}(\underline{x},\overline{x}) \leq f(x) \leq \overline{\mathsf{F}}(\underline{x},\overline{x}),
+\end{align*}\]</span> for every <span class="math inline">\(x\in[\underline{x},\overline{x}]\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="columns">
+<div id="vcenter" class="column">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Definition (Interval)</strong></p>
+</div>
+<div class="callout-content">
+<p>An interval <span class="math inline">\([\underline{x},\overline{x}]\subset\mathbb{R}^n\)</span> is defined as the closed and bounded set <span class="math display">\[
+\begin{align*}
+\{x\in\mathbb{R}^n : \underline{x}\leq x\leq \overline{x}\},
+\end{align*}
+\]</span> where <span class="math inline">\(\leq\)</span> is element-wise.</p>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/interval_example.svg" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<aside><div>
+<span class="citation" data-cites="LJ-MK-OD-EW:01"><a href="#/references" role="doc-biblioref" onclick="">[2]</a></span> L. Jaulin, et al, <em>Applied Interval Analysis</em>. Springer London, 2001.
+</div></aside></section>
+<section id="minimal-inclusion-function" class="slide level2">
+<h2>Minimal Inclusion Function</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:55%;">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Definition (Minimal Inclusion Function)</strong></p>
+</div>
+<div class="callout-content">
+<p>Given <span class="math inline">\(f:\mathbb{R}^n\to\mathbb{R}^m\)</span>, <span class="math inline">\(\mathsf{F}\)</span> defined by <span class="math display">\[
+  \underline{\mathsf{F}}_i(\underline{x},\overline{x}) = \inf_{x\in[\underline{x},\overline{x}]} f_i(x), \
+  \overline{\mathsf{F}}_i(\underline{x},\overline{x}) = \sup_{x\in[\underline{x},\overline{x}]} f_i(x),
+\]</span> is called the <em>minimal inclusion function</em> of <span class="math inline">\(f\)</span>.</p>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:45%;">
+<div class="callout callout-tip no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Example (Arithmetic)</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math display">\[
+\begin{align*}
+&amp;[\underline{a},\overline{a}] + [\underline{b},\overline{b}] = [\underline{a}+ \underline{b}, \overline{a}+ \overline{b}] \\
+&amp;[\underline{a},\overline{a}]\cdot[\underline{b},\overline{b}] := [\min \{\underline{a}\underline{b},\underline{a}\overline{b},\overline{a}\underline{b},\overline{a}\overline{b}\}, \\
+&amp; \quad \max\{\underline{a}\underline{b},\underline{a}\overline{b},\overline{a}\underline{b},\overline{a}\overline{b}\}
+\end{align*}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="columns">
+<div id="vcenter" class="column" style="width:26%;">
+<ul>
+<li>Can define for primitive functions like <span class="math inline">\(\sin\)</span>, <span class="math inline">\(\exp\)</span>, <span class="math inline">\(x^n\)</span>, <span class="math inline">\(1/x\)</span></li>
+<li>Generally computationally intractible</li>
+</ul>
+</div><div id="vcenter" class="column" style="width:37%;">
+<div class="callout callout-tip no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Example (Monotone)</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f\)</span> be monotone wrt <span class="math inline">\(\leq\)</span>. <span class="math display">\[
+\begin{align*}
+  \underline{\mathsf{F}}_i(\underline{x},\overline{x}) &amp;= \min\{f_i(\underline{x}),f_i(\overline{x})\}, \\
+  \overline{\mathsf{F}}_i(\underline{x},\overline{x}) &amp;= \max\{f_i(\underline{x}),f_i(\overline{x})\}.
+\end{align*}
+\]</span></p>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:37%;">
+<div class="callout callout-tip no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Example (Continuous)</strong></p>
+</div>
+<div class="callout-content">
+<p><span class="math inline">\(\mathcal{S}= \{\text{critical points}\}\cap[\underline{x},\overline{x}]\)</span> <span class="math display">\[
+\begin{align*}
+    \underline{\mathsf{F}}_i(\underline{x},\overline{x}) &amp;= \min_{x\in \mathcal{S}\cup \{\underline{x},\overline{x}\}} f_i(x), \\
+    \overline{\mathsf{F}}_i(\underline{x},\overline{x}) &amp;= \max_{x\in \mathcal{S}\cup \{\underline{x},\overline{x}\}} f_i(x).
+\end{align*}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="building-inclusion-functions-natural-inclusion-function" class="slide level2">
+<h2>Building Inclusion Functions: Natural Inclusion Function</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:50%;">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Definition (Natural Inclusion Function)</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f = f_1 \circ \cdots \circ f_\ell\)</span> be the composition of functions/operators <span class="math inline">\(f_i\)</span>, with inclusion functions <span class="math inline">\(\mathsf{F}_i\)</span>. Then <span class="math display">\[\begin{align*}
+    \mathsf{F}(\underline{x},\overline{x}) = (\mathsf{F}_1\circ \mathsf{F}_2\circ\cdots\circ \mathsf{F}_\ell)(\underline{x},\overline{x}),
+\end{align*}\]</span> is a <em>natural inclusion function</em> of <span class="math inline">\(f\)</span>.</p>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:50%;">
+<div class="callout callout-tip no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Example</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f(x) = \sin(x^2)\)</span>. Let <span class="math inline">\(\textsf{SIN}\)</span>, <span class="math inline">\(\textsf{POW}_2\)</span> be the minimal inclusion functions of <span class="math inline">\(\sin(x)\)</span> and <span class="math inline">\(x^2\)</span>. <span class="math display">\[\begin{align*}
+    \mathsf{F}(\underline{x},\overline{x}) = \textsf{SIN}(\textsf{POW}_2(\underline{x},\overline{x}))
+\end{align*}\]</span> is an inclusion function for <span class="math inline">\(f\)</span>.</p>
+</div>
+</div>
+</div>
+</div><ul>
+<li>Simple strategy to build inclusion functions for general mappings through <em>composition</em></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="immrax.inclusion-interval-analysis-in-jax" class="title-slide slide level1 center">
+<h1><code>immrax.inclusion</code>: Interval Analysis in JAX</h1>
+
+</section>
+<section id="basics-of-jax-jax2018github-a-numerical-computation-library-for-python" class="slide level2">
+<h2>Basics of JAX <span class="citation" data-cites="jax2018github"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span>: A Numerical Computation Library for Python</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-3-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:55%;">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><code>jit(f)</code>: Just-in-time Compilation</strong></p>
+</div>
+<div class="callout-content">
+<p>Compiles <code>f</code> upon its first execution</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><code>vmap(f)</code>: Vectorizing/Parallelizing</strong></p>
+</div>
+<div class="callout-content">
+<p>Vectorizes <code>f</code> along specified axis of input array</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><code>{jvp,vjp,jacfwd,grad}(f)</code>: Automatic Differentiation</strong></p>
+</div>
+<div class="callout-content">
+<p>Forward- or Reverse-mode autodiff using JVP/VJP</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Key Feature</strong>: These transformations are arbitrarily composable.</li>
+</ul>
+
+<aside><div>
+<span class="citation" data-cites="jax2018github"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span> J. Bradbury, et al, “JAX: Composable Transformations of Python+NumPy Programs.”. Springer London, 2001.
+</div></aside></section>
+<section id="basics-of-jax-jax2018github-a-numerical-computation-library-for-python-1" class="slide level2">
+<h2>Basics of JAX <span class="citation" data-cites="jax2018github"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span>: A Numerical Computation Library for Python</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-4-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:55%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> jax</span>
+<span id="cb1-2"><a href=""></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a><span class="kw">def</span> f (x) :</span>
+<span id="cb1-5"><a href=""></a>  <span class="cf">return</span> jnp.sin(x<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb1-6"><a href=""></a></span>
+<span id="cb1-7"><a href=""></a>f_grad <span class="op">=</span> jax.grad(f)</span>
+<span id="cb1-8"><a href=""></a><span class="bu">print</span>(f_grad(<span class="fl">1.</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.0806046</code></pre>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Key Feature</strong>: These transformations are arbitrarily composable.</li>
+</ul>
+
+<aside><div>
+<span class="citation" data-cites="jax2018github"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span> J. Bradbury, et al, “JAX: Composable Transformations of Python+NumPy Programs.”. Springer London, 2001.
+</div></aside></section>
+<section id="internals-of-jax-jax2018github" class="slide level2">
+<h2>Internals of JAX <span class="citation" data-cites="jax2018github"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span></h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:45%;">
+<ul>
+<li>Traces functions into JAX programs dependent on input shapes and <em>primitives</em></li>
+<li>Functionality is added by an <em>interpreter</em>, which binds each primitive into their desired behavior</li>
+</ul>
+</div><div id="vcenter" class="column" style="width:55%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers=""><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">import</span> jax</span>
+<span id="cb3-2"><a href=""></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a><span class="kw">def</span> f (x) :</span>
+<span id="cb3-5"><a href=""></a>  <span class="cf">return</span> jnp.sin(x<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb3-6"><a href=""></a></span>
+<span id="cb3-7"><a href=""></a>jax.make_jaxpr(f)(jnp.ones(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{ lambda ; a:f32[5]. let
+    b:f32[5] = integer_pow[y=2] a
+    c:f32[5] = sin b
+  in (c,) }</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<aside><div>
+<span class="citation" data-cites="jax2018github"><a href="#/references" role="doc-biblioref" onclick="">[3]</a></span> J. Bradbury, et al, “JAX: Composable Transformations of Python+NumPy Programs.”. Springer London, 2001.
+</div></aside></section>
+<section id="immrax.inclusion-module-a-jax-interpreter-for-interval-analysis" class="slide level2">
+<h2><code>immrax.inclusion</code> Module: A JAX Interpreter for Interval Analysis</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-7-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:55%;">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><code>Interval</code> Class</strong></p>
+</div>
+<div class="callout-content">
+<p><code>lower</code> and <code>upper</code> attribute for lower and upper bound of interval.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong><code>natif(f)</code>: Natural Inclusion Function</strong></p>
+</div>
+<div class="callout-content">
+<p>Traces <code>f</code> into a JAX program, and interprets primitives using their minimal inclusion functions.</p>
+</div>
+</div>
+</div>
+</div><div class="callout callout-tip no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Example <span class="math inline">\(f(x) = \sin(x^2)\)</span></strong></p>
+</div>
+<div class="callout-content">
+<div class="r-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="cell-output cell-output-stdout">
+<pre><code>{ lambda ; a:f32[5]. let
+    b:f32[5] = integer_pow[y=2] a
+    c:f32[5] = sin b
+  in (c,) }</code></pre>
+</div>
+</div>
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<div class="cell-output cell-output-stdout">
+<pre><code style="color:gray">{ lambda ; <text style="color:blue">a:f32[5]</text>. let
+    b:f32[5] = integer_pow[y=2] a
+    c:f32[5] = sin b
+  in (c,) }</code></pre>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="2">
+<div class="cell-output cell-output-stdout">
+<pre><code style="color:gray">{ lambda ; a:f32[5]. let
+    b:f32[5] = <text style="color:red">integer_pow[y=2]</text> a
+    c:f32[5] = <text style="color:red">sin</text> b
+  in (c,) }</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="immrax.inclusion-module-a-jax-interpreter-for-interval-analysis-1" class="slide level2">
+<h2><code>immrax.inclusion</code> Module: A JAX Interpreter for Interval Analysis</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-8-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:55%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="|3,8-9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="im">import</span> jax</span>
+<span id="cb5-2"><a href=""></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb5-3"><a href=""></a><span class="im">from</span> immrax <span class="im">import</span> natif, interval</span>
+<span id="cb5-4"><a href=""></a></span>
+<span id="cb5-5"><a href=""></a><span class="kw">def</span> f (x) :</span>
+<span id="cb5-6"><a href=""></a>  <span class="cf">return</span> jnp.sin(x<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-7"><a href=""></a></span>
+<span id="cb5-8"><a href=""></a>F <span class="op">=</span> natif(f)</span>
+<span id="cb5-9"><a href=""></a><span class="bu">print</span>(F(interval(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[(0., 0.24740396)]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><code>immrax</code> is fully compatible with the JAX ecosystem, <code>Interval</code> is registered as a Pytree node</li>
+<li><code>natif</code> is fully composable with all other JAX transformations</li>
+</ul>
+</section>
+<section id="example-jacobian-based-inclusion-function" class="slide level2">
+<h2>Example: Jacobian-based Inclusion Function</h2>
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Definition (Jacobian-Based Inclusion Function)</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f:\mathbb{R}^n\to\mathbb{R}^m\)</span> be differentiable, with inclusion function <span class="math inline">\(\mathsf{J}\)</span> for its Jacobian as <span class="math inline">\(\frac{\partial f}{\partial x}(x) \in \mathsf{J}(\underline{x},\overline{x})\)</span> for every <span class="math inline">\(x\in[\underline{x},\overline{x}]\)</span>. Let <span class="math inline">\({\mathring{x}}\in[\underline{x},\overline{x}]\)</span>.</p>
+<!-- i) $f(x)\in [\sfJ(\ulx,\olx)](x - \ox) + f(\ox)$, and -->
+<p><span class="math display">\[
+\begin{align*}
+\mathsf{F}(\underline{x},\overline{x}) = [\mathsf{J}(\underline{x},\overline{x})]([\underline{x},\overline{x}] - {\mathring{x}}) + f({\mathring{x}})
+\end{align*}
+\]</span></p>
+<p>is a <em>Jacobian-based inclusion function</em> of <span class="math inline">\(f\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="columns">
+<div id="vcenter" class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/incl_compared.svg" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div><div id="vcenter" class="column" style="width:60%;">
+<div class="sourceCode" id="cb7" data-code-line-numbers="|6-8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="im">import</span> jax</span>
+<span id="cb7-2"><a href=""></a><span class="im">import</span> jax.numpy <span class="im">as</span> jnp</span>
+<span id="cb7-3"><a href=""></a><span class="im">from</span> immrax <span class="im">import</span> natif</span>
+<span id="cb7-4"><a href=""></a></span>
+<span id="cb7-5"><a href=""></a><span class="kw">def</span> jacif (f) :</span>
+<span id="cb7-6"><a href=""></a>  J <span class="op">=</span> natif(jax.jacfwd(f))</span>
+<span id="cb7-7"><a href=""></a>  <span class="kw">def</span> F (ix, xc) :</span>
+<span id="cb7-8"><a href=""></a>    <span class="cf">return</span> J(ix)<span class="op">@</span>(ix<span class="op">-</span>xc) <span class="op">+</span> f(xc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="immrax.embedding-bounding-nonlinear-systems" class="title-slide slide level1 center">
+<h1><code>immrax.embedding</code>: Bounding Nonlinear Systems</h1>
+
+</section>
+<section id="immrax.embedding-module-bounding-nonlinear-systems" class="slide level2">
+<h2><code>immrax.embedding</code> Module: Bounding Nonlinear Systems</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:40%;">
+<div data-id="invcond">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-10-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div><div id="vcenter" class="column" style="width:60%;">
+<div class="callout callout-note no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Definition (Embedding System)</strong></p>
+</div>
+<div class="callout-content">
+<p>Given a nonlinear system <span class="math inline">\(\dot{x} = f(x,w)\)</span>, an inclusion function <span class="math inline">\(\mathsf{F}(\underline{x},\overline{x},\underline{w},\overline{w})\)</span> induces the embedding system <span class="math display">\[
+\begin{aligned}
+    \dot{\underline{x}}_i = \big(\underline{\mathsf{E}}(\underline{x},\overline{x},\underline{w},\overline{w})\big)_i := \big(\underline{\mathsf{F}}(\underline{x},\overline{x}_{i:\underline{x}},\underline{w},\overline{w})\big)_i,\\
+    \dot{\overline{x}}_i = \big(\overline{\mathsf{E}}(\underline{x},\overline{x},\underline{w},\overline{w})\big)_i := \big(\overline{\mathsf{F}}(\underline{x}_{i:\overline{x}},\overline{x},\underline{w},\overline{w})\big)_i.
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- - **Notation**: $(x_{i:y})_j = x_j$ if $j\neq i$ and $y_i$ if $j=i$. -->
+<ul>
+<li><span class="math inline">\(2n\)</span>-dimensional monotone dynamical system that “contains” the original system</li>
+<li>Evaluates inclusion function separately on each face of the interval <span class="math inline">\([\underline{x},\overline{x}]\)</span></li>
+<li><span class="math inline">\(x(t)\in [\underline{x}(t), \overline{x}(t)]\)</span>, for <span class="math inline">\(x_0\in[\underline{x}_0,\overline{x}_0]\)</span></li>
+<li><code>immrax.ifemb</code> transforms a <code>System</code> into an <code>EmbeddingSystem</code></li>
+</ul>
+</section>
+<section id="embedding-system-trajectory" class="slide level2">
+<h2>Embedding System Trajectory</h2>
+<video controls="" src="figs/NoPartitions_0005.mp4">
+</video>
+<p><span class="math display">\[
+x_0\in[\underline{x}_0,\overline{x}_0] \implies x(t) \in [\underline{x}(t),\overline{x}(t)]
+\]</span></p>
+</section>
+<section id="example-robust-optimal-control-of-a-pendulum" class="slide level2">
+<h2>Example: Robust Optimal Control of a Pendulum</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Pendulum Dynamics</a></li><li><a href="#tabset-1-2"><code>immrax</code> Implementation</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="columns">
+<div id="vcenter" class="column">
+<p>Consider a forced, damped pendulum</p>
+<p><span class="math display">\[
+ml^2\ddot{\theta} + b\dot{\theta} + mgl\sin(\theta) = \tau,
+\]</span></p>
+<!-- $m=0.15\mathrm{kg}$, $l=0.5\mathrm{m}$, $b=0.1\mathrm{N\cdot m \cdot s}$, and $g=9.81\mathrm{m}/\mathrm{s}^2$. -->
+<p>The torque <span class="math inline">\(\tau := (1 + w)u\)</span>:</p>
+<ul>
+<li><span class="math inline">\(u\in\mathbb{R}\)</span> is the desired torque input</li>
+<li><span class="math inline">\(w\in[\underline{w},\overline{w}] := [-0.01,0.01]\)</span> is a bounded multiplicative disturbance</li>
+</ul>
+<p><span class="math display">\[
+\dot{x} =
+     f(x,u,w) =
+     \left[\begin{matrix} x_2 \\ \frac{(1 + w)u - bx_2}{ml^2} - \frac{g}{l}\sin x_1 \end{matrix}\right]
+\]</span></p>
+<p>The goal is to stabilize the pendulum from the bottom to a specified region at the top.</p>
+</div><div id="vcenter" class="column">
+<div class="r-stack">
+<video controls="" autoplay="" loop="" src="pendulum.mp4">
+</video>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="sourceCode" id="cb8" data-code-line-numbers="|6-11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="kw">class</span> Pendulum (immrax.System) :</span>
+<span id="cb8-2"><a href=""></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, m<span class="op">=</span><span class="fl">0.15</span>, l<span class="op">=</span><span class="fl">0.5</span>, b<span class="op">=</span><span class="fl">0.1</span>) :</span>
+<span id="cb8-3"><a href=""></a>    <span class="va">self</span>.evolution <span class="op">=</span> <span class="st">'continuous'</span><span class="op">;</span> <span class="va">self</span>.xlen <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb8-4"><a href=""></a>    <span class="va">self</span>.m <span class="op">=</span> m<span class="op">;</span> <span class="va">self</span>.l <span class="op">=</span> l<span class="op">;</span> <span class="va">self</span>.b <span class="op">=</span> b</span>
+<span id="cb8-5"><a href=""></a></span>
+<span id="cb8-6"><a href=""></a>  <span class="kw">def</span> f(<span class="va">self</span>, t, x, u, w) :</span>
+<span id="cb8-7"><a href=""></a>    <span class="cf">return</span> jnp.array([</span>
+<span id="cb8-8"><a href=""></a>      x[<span class="dv">1</span>],</span>
+<span id="cb8-9"><a href=""></a>      (((<span class="dv">1</span> <span class="op">+</span> w[<span class="dv">0</span>])<span class="op">*</span>u[<span class="dv">0</span>] <span class="op">-</span> <span class="va">self</span>.b<span class="op">*</span>x[<span class="dv">1</span>]) <span class="op">/</span> </span>
+<span id="cb8-10"><a href=""></a>          ((<span class="va">self</span>.m) <span class="op">*</span> <span class="va">self</span>.l<span class="op">**</span><span class="dv">2</span>)) <span class="op">-</span> (g<span class="op">/</span><span class="va">self</span>.l)<span class="op">*</span>jnp.sin(x[<span class="dv">0</span>])</span>
+<span id="cb8-11"><a href=""></a>    ])</span>
+<span id="cb8-12"><a href=""></a>sys <span class="op">=</span> Pendulum()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<!-- This is implemented in `immrax` as a `System`, with the specified dynamics written using `jax.numpy` -->
+</section>
+<section id="example-inclusion-function-for-the-pendulum" class="slide level2">
+<h2>Example: Inclusion Function for the Pendulum</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Pendulum Inclusion Function and Embedding System</a></li><li><a href="#tabset-2-2"><code>immrax</code> Implementation</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<p>With a closed loop policy <span class="math inline">\(\pi(t,x) = K(x(t) - x_\mathrm{nom}(t)) + u_\mathrm{ff}(t)\)</span>, the following is an inclusion function for <span class="math inline">\(f(x,\pi(t,x),w)\)</span>,</p>
+<p><span class="math display">\[
+\begin{align*}
+[\textsf{F}^\pi(t,\underline{x},\overline{x},\underline{w},\overline{w})] := &amp;\, ([\textsf{J}_x] + [\textsf{J}_u]K)([\underline{x},\overline{x}] - x_\mathrm{nom}(t)) \\
+    % &amp;+ [\textsf{M}_u^\mathcal{O}]([\ulu,\olu] - \mathring{u})
+    &amp; + [\textsf{J}_w]([\underline{w},\overline{w}] - w_\mathrm{nom}(t)) \\
+    &amp; + f(x_\mathrm{nom}(t),u_{\mathrm{ff}}(t),w_\mathrm{nom}(t)),
+\end{align*}
+\]</span></p>
+<p>where <span class="math inline">\(\mathsf{J}\)</span> is from the Jacobian-based inclusion function.</p>
+<p>Once we have the inclusion function <span class="math inline">\(\mathsf{F}\)</span>, the <code>immrax.ifemb</code> transform automatically builds the induced embedding system.</p>
+</div>
+<div id="tabset-2-2">
+<div class="sourceCode" id="cb9" data-code-line-numbers="|6=10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>sys_mjacM <span class="op">=</span> immrax.mjacM(sys.f)</span>
+<span id="cb9-2"><a href=""></a></span>
+<span id="cb9-3"><a href=""></a><span class="kw">def</span> F (t, x, w, <span class="op">*</span>, K, nominal) :</span>
+<span id="cb9-4"><a href=""></a>  tc, xc, uc, wc <span class="op">=</span> nominal</span>
+<span id="cb9-5"><a href=""></a>  Jt, Jx, Ju, Jw <span class="op">=</span> sys_mjacM(t, x, immrax.interval(uc), w, </span>
+<span id="cb9-6"><a href=""></a>                              centers<span class="op">=</span>(nominal,))[<span class="dv">0</span>]</span>
+<span id="cb9-7"><a href=""></a>  <span class="cf">return</span> (</span>
+<span id="cb9-8"><a href=""></a>    (Jx <span class="op">+</span> Ju <span class="op">@</span> immrax.interval(K)) <span class="op">@</span> (x <span class="op">-</span> xc)</span>
+<span id="cb9-9"><a href=""></a>    <span class="op">+</span> Jw <span class="op">@</span> (w <span class="op">-</span> wc) <span class="op">+</span> sys.f(tc, xc, uc, wc)</span>
+<span id="cb9-10"><a href=""></a>  )</span>
+<span id="cb9-11"><a href=""></a></span>
+<span id="cb9-12"><a href=""></a>embsys <span class="op">=</span> immrax.ifemb(sys, F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-optimization-problem-to-control-the-pendulum" class="slide level2">
+<h2>Example: Optimization Problem to Control the Pendulum</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Optimization Problem</a></li><li><a href="#tabset-3-2"><code>immrax</code> Implementation</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<p>We build the following problem, <span class="math display">\[
+\begin{aligned}
+    \min_{u_\mathrm{ff}, K} &amp;\sum_{i=1}^N |u_{\mathrm{ff}}(t_i)|^2 + \|K\|_F^2 + \sum_{i=1}^N \|\overline{x}(t_i) - \underline{x}(t_i)\|_2^2 \\
+    \text{s.t.}&amp; \ \  \underline{x}_f \leq \underline{x}(t_j),\ \ \overline{x}(t_j) \leq \overline{x}_f, \ \ j=N_e,\dots,N, \ \\
+    &amp; \underline{x}(0) = \overline{x}(0) = (0, 0), \\
+    &amp; \left[\begin{matrix} \underline{x}(t_{i+1}) \\ \overline{x}(t_{i+1}) \end{matrix}\right] = \left[\begin{matrix} \underline{x}(t_{i}) \\ \overline{x}(t_{i}) \end{matrix}\right] + \Delta t \textsf{E}(t_i,\underline{x}(t_i),\overline{x}(t_i),\underline{w},\overline{w}).
+\end{aligned}
+\]</span></p>
+<ul>
+<li>Embedding system is discretized with step <span class="math inline">\(\Delta t\)</span>.</li>
+<li>Starts at <span class="math inline">\(\underline{x}(0) = \overline{x}(0) = 0\)</span></li>
+<li>Must end in target set <span class="math inline">\([\underline{x}_f,\overline{x}_f]\)</span>, stay for <span class="math inline">\(t\in[N_e\Delta t, N\Delta t]\)</span></li>
+</ul>
+<!-- ## Parameter Setup
+
+```{.python}
+# Time horizon and discretization
+t0, te, tf, dt = 0, 3., 3.25, 0.05
+Ne = round((te - t0)/dt) 
+N = round((tf - t0)/dt) + 1
+tt = jnp.arange(t0, tf + dt, dt)
+
+# Initial condition (no initial perturbation)
+x0 = irx.interval(jnp.array([0.,0.]))
+x0ut = irx.i2ut(x0); x0cent, x0pert = irx.i2centpert(x0)
+
+# Final set constraint
+xf = irx.icentpert(jnp.array([jnp.pi,0.]), 
+                    jnp.array([10.*(jnp.pi/360),0.1]))
+xfl, xfu = irx.i2lu(xf); xfut = irx.i2ut(xf); 
+xfcent, xfpert = irx.i2centpert(xf)
+
+# Disturbance bounds [-0.01, 0.01]
+w = irx.icentpert(0., 0.01)
+``` -->
+</div>
+<div id="tabset-3-2">
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="co"># Objective function</span></span>
+<span id="cb10-2"><a href=""></a><span class="kw">def</span> obj (u) :</span>
+<span id="cb10-3"><a href=""></a>    x <span class="op">=</span> rollout_cl_embsys(u)</span>
+<span id="cb10-4"><a href=""></a>    <span class="cf">return</span> jnp.<span class="bu">sum</span>(u<span class="op">**</span><span class="dv">2</span>) <span class="op">+</span> jnp.<span class="bu">sum</span>((x[:,<span class="dv">2</span>:] <span class="op">-</span> x[:,:<span class="dv">2</span>])<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb10-5"><a href=""></a></span>
+<span id="cb10-6"><a href=""></a><span class="co"># Inequality constraints</span></span>
+<span id="cb10-7"><a href=""></a><span class="kw">def</span> con_ineq (u) :</span>
+<span id="cb10-8"><a href=""></a>    x <span class="op">=</span> rollout_cl_embsys(u)</span>
+<span id="cb10-9"><a href=""></a>    <span class="cf">return</span> jnp.concatenate(((x[Ne:,:<span class="dv">2</span>] <span class="op">-</span> xfl).reshape(<span class="op">-</span><span class="dv">1</span>), </span>
+<span id="cb10-10"><a href=""></a>                            (xfu <span class="op">-</span> x[Ne:,<span class="dv">2</span>:]).reshape(<span class="op">-</span><span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>rollout_cl_embsys</code> takes <code>u</code> containing <span class="math inline">\(K\)</span> and <span class="math inline">\(u_\mathrm{ff}\)</span> (at sampled steps), returns Euler integration on <code>embsys</code> using <code>jax.lax.scan</code></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="example-setting-up-ipopt-using-automatic-differentiation" class="slide level2">
+<h2>Example: Setting up IPOPT Using Automatic Differentiation</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="co"># Objective Gradient</span></span>
+<span id="cb11-2"><a href=""></a>obj_grad <span class="op">=</span> jax.grad(obj)</span>
+<span id="cb11-3"><a href=""></a><span class="co"># Objective Hessian</span></span>
+<span id="cb11-4"><a href=""></a>obj_hess <span class="op">=</span> jax.jacfwd(jax.jacrev(obj))</span>
+<span id="cb11-5"><a href=""></a><span class="co"># Constraint Jacobian</span></span>
+<span id="cb11-6"><a href=""></a>con_ineq_jac <span class="op">=</span> jax.jacfwd(con_ineq)</span>
+<span id="cb11-7"><a href=""></a><span class="co"># Constraint Hessian</span></span>
+<span id="cb11-8"><a href=""></a>con_ineq_hess <span class="op">=</span> jax.jacfwd(jax.jacrev(con_ineq))</span>
+<span id="cb11-9"><a href=""></a><span class="co"># Constraint Hessian-Vector Product</span></span>
+<span id="cb11-10"><a href=""></a><span class="kw">def</span> con_ineq_hessvp (u, v) :</span>
+<span id="cb11-11"><a href=""></a>  <span class="kw">def</span> hessvp (u) :</span>
+<span id="cb11-12"><a href=""></a>    _, hvp <span class="op">=</span> jax.vjp(con_ineq, u)</span>
+<span id="cb11-13"><a href=""></a>    <span class="cf">return</span> hvp(v)[<span class="dv">0</span>] </span>
+<span id="cb11-14"><a href=""></a>  <span class="cf">return</span> jax.jacrev(hessvp)(u) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>These can all be JIT compiled for rapid execution</li>
+<li>True values, not numerical estimations</li>
+</ul>
+</section>
+<section id="example-solving-the-problem-using-ipopt" class="slide level2">
+<h2>Example: Solving the Problem Using IPOPT</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>cons <span class="op">=</span> [ {<span class="st">'type'</span>: <span class="st">'ineq'</span>, <span class="st">'fun'</span>: con_ineq, </span>
+<span id="cb12-2"><a href=""></a>  <span class="st">'jac'</span>: con_ineq_jac, <span class="st">'hess'</span>: con_ineq_hessvp}, ]</span>
+<span id="cb12-3"><a href=""></a></span>
+<span id="cb12-4"><a href=""></a>res <span class="op">=</span> minimize_ipopt(obj, jac<span class="op">=</span>obj_grad, hess<span class="op">=</span>obj_hess, x0<span class="op">=</span>u0, </span>
+<span id="cb12-5"><a href=""></a>  constraints<span class="op">=</span>cons, options<span class="op">=</span>ipopt_opts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div style="text-align: center;">
+<p><span class="math inline">\(5.262\)</span> seconds, <span class="math inline">\(100\)</span> iterations</p>
+<div class="columns">
+<div id="vcenter" class="column" style="width:60%;">
+<p><img data-src="figs/pendulum.svg"></p>
+</div><div id="vcenter" class="column" style="width:40%;">
+<video controls="" loop="" autoplay="" src="pendulum.mp4">
+</video>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="further-applications-of-immrax" class="title-slide slide level1 center">
+<h1>Further Applications of <code>immrax</code></h1>
+
+</section>
+<section id="revisiting-the-neural-network-verification-problem" class="slide level2">
+<h2>Revisiting the Neural Network Verification Problem</h2>
+<div class="columns">
+<div id="vcenter" class="column" style="width:45%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="immrax_files/figure-revealjs/unnamed-chunk-11-1.svg" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math display">\[
+% \begin{xalignat*}{2} \label{eq:vehicle}
+%   \dot{p}_x &amp;= v \cos(\phi + \beta(u_2)), &amp; \dot{\phi} &amp;=v\sin(\beta(u_2)),\\
+%   \dot{p}_y &amp;= v \sin(\phi + \beta(u_2)), &amp; \dot{v} &amp;= u_1.
+% \end{xalignat*}
+\begin{align*}
+  \dot{p}_x &amp;= v \cos(\phi + \beta(u_2)), \\
+  \dot{p}_y &amp;= v \sin(\phi + \beta(u_2)), \\
+  \dot{\phi} &amp;=v\sin(\beta(u_2)), \\
+  \dot{v} &amp;= u_1, \\
+  \beta(u_1) &amp;= \arctan \left(\frac{1}{2}\tan(u_2)\right).
+\end{align*}
+\]</span></p>
+<ul>
+<li>Controlled by <span class="math inline">\(4\times 100\times 100\times 2\)</span> ReLU network mimicking stabilizing MPC</li>
+<li>Inclusion function from <span class="citation" data-cites="SJ-AH-SC:24"><a href="#/references" role="doc-biblioref" onclick="">[1]</a></span>, ReachMM</li>
+</ul>
+</div><div id="vcenter" class="column" style="width:55%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 28%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th># Part.</th>
+<th>ReachMM</th>
+<th><code>immrax</code> CPU</th>
+<th><code>immrax</code> GPU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(1^4 = 1\)</span></td>
+<td><span class="math inline">\(.0476\)</span></td>
+<td><span class="math inline">\(.0112\)</span></td>
+<td><span class="math inline">\(.0178\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(2^4 = 16\)</span></td>
+<td><span class="math inline">\(.690\)</span></td>
+<td><span class="math inline">\(.143\)</span></td>
+<td><span class="math inline">\(.0207\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(3^4 = 81\)</span></td>
+<td><span class="math inline">\(3.44\)</span></td>
+<td><span class="math inline">\(.627\)</span></td>
+<td><span class="math inline">\(.0306\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(4^4 = 256\)</span></td>
+<td><span class="math inline">\(11.0\)</span></td>
+<td><span class="math inline">\(1.44\)</span></td>
+<td><span class="math inline">\(.0489\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(5^4 = 625\)</span></td>
+<td><span class="math inline">\(27.1\)</span></td>
+<td><span class="math inline">\(4.60\)</span></td>
+<td><span class="math inline">\(.095\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(6^4 = 1296\)</span></td>
+<td><span class="math inline">\(55.8\)</span></td>
+<td><span class="math inline">\(11.1\)</span></td>
+<td><span class="math inline">\(.198\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><img data-src="figs/vehicle.svg" style="width:80.0%"></p>
+</div>
+</div>
+
+<aside><div>
+<span class="citation" data-cites="SJ-AH-SC:24"><a href="#/references" role="doc-biblioref" onclick="">[1]</a></span> S. Jafarpour, A. Harapanahalli, S. Coogan, “Efficient interaction-aware interval analysis of neural network feedback loops,” <em>IEEE TAC</em>, 2024.
+</div></aside></section>
+<section id="training-certifiably-robust-neural-network-controllers-in-progress" class="slide level2">
+<h2>Training Certifiably Robust Neural Network Controllers (in progress)</h2>
+<ul>
+<li><p>If <span class="math inline">\(\underline{\mathsf{E}}(\underline{x},\overline{x},\underline{w},\overline{w}) \geq 0\)</span> and <span class="math inline">\(\overline{\mathsf{E}}(\underline{x},\overline{x},\underline{w},\overline{w}) \leq 0\)</span>, then <span class="math inline">\([\underline{x},\overline{x}]\)</span> is <span class="math inline">\([\underline{w},\overline{w}]\)</span>-robustly forward invariant.</p>
+<p><span class="math display">\[
+\mathcal{L}(\pi,\eta) = \operatorname{ReLU}(\overline{\mathsf{E}}(\underline{x},\overline{x},\underline{w},\overline{w}) + \varepsilon) + \operatorname{ReLU}(-\underline{\mathsf{E}}(\underline{x},\overline{x},\underline{w},\overline{w}) + \varepsilon)
+\]</span></p></li>
+</ul>
+<div style="text-align: center;">
+<div class="columns">
+<div id="vcenter" class="column" style="width:40%;">
+<div style="text-align: center;">
+<p><img data-src="figs/segway-1.svg"> Nonlinear segway model</p>
+</div>
+</div><div id="vcenter" class="column" style="width:30%;">
+<div style="text-align: center;">
+<p><img data-src="figs/4-platoon-1.svg" class="quarto-figure quarto-figure-center"> Platoon up to 56 states</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<ul>
+<li>Interval analysis is an automated, scalable tool to analyze robustness of general functions.</li>
+<li><code>immrax</code> provides a JAX interpreter <code>natif</code> for the natural inclusion function, and an <code>Interval</code> class compatible with the rest of JAX.</li>
+<li>Simple composable API as a function transformation.</li>
+<li>Automatic differentiation can solve robust optimal control problems and train certified robust neural network controllers.</li>
+<li>JIT compilation/GPU parallelization improves efficiency/scalability compared to previous work.</li>
+</ul>
+<div class="columns">
+<div class="column">
+<div style="text-align: center;">
+<p><strong>Github</strong>: <a href="https://github.com/gtfactslab/immrax">github.com/gtfactslab/immrax</a> <img data-src="figs/githubQR.svg" style="width:50.0%"></p>
+</div>
+</div><div class="column">
+<div style="text-align: center;">
+<p><strong>Documentation</strong>: <a href="https://immrax.readthedocs.io/en/latest/index.html">immrax.readthedocs.io</a> <img data-src="figs/docsQR.svg" style="width:50.0%"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-SJ-AH-SC:24" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">S. Jafarpour, A. Harapanahalli, and S. Coogan, <span>“Efficient interaction-aware interval analysis of neural network feedback loops,”</span> <em>IEEE Transactions on Automatic Control</em>, pp. 1–16, 2024, doi: <a href="https://doi.org/10.1109/TAC.2024.3420968">10.1109/TAC.2024.3420968</a></div>
+</div>
+<div id="ref-LJ-MK-OD-EW:01" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">L. Jaulin, M. Kieffer, O. Didrit, and É. Walter, <em>Applied interval analysis</em>. Springer London, 2001. doi: <a href="https://doi.org/10.1007/978-1-4471-0249-6">10.1007/978-1-4471-0249-6</a></div>
+</div>
+<div id="ref-jax2018github" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">J. Bradbury <em>et al.</em>, <span>“<span>JAX</span>: Composable transformations of <span>P</span>ython+<span>N</span>um<span>P</span>y programs.”</span> 2018. Available: <a href="http://github.com/google/jax">http://github.com/google/jax</a></div>
+</div>
+</div>
+<div class="quarto-auto-generated-content">
+<div class="footer footer-default">
+<p><code>immrax</code>: Interval Analysis in JAX</p>
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="immrax_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="immrax_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/reveal-pointer/pointer.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="immrax_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="immrax_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'pointer': {"key":"q","color":"red","pointerSize":16,"alwaysVisible":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'fast',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealPointer, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
