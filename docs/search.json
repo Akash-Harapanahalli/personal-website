@@ -1,10 +1,17 @@
 [
   {
-    "objectID": "portfolio/voxel.html",
-    "href": "portfolio/voxel.html",
-    "title": "VOXEL - ECE Senior Capstone Project [Aug 2021, May 2022]",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Akash Harapanahalli",
     "section": "",
-    "text": "[expo] [report] [github]\n\n\nVoxel: A Spinning, 3D LED Persistence of Vision Display\n\nVoxel is a spinning 3D LED display that generates a 360 degree visual in three dimensional space by spinning a panel of densely packed LEDs about a central axis. By spinning at a fast enough rate and rapidly flashing each individually addressable LED on and off, persistence of vision (POV) will take effect. POV is a phenomenon in which a rapid succession of images becomes blended into a persistent, moving image when processed by the human brain [1]. By flashing the LEDs in a specific pattern over time, Voxel will be able to display a smooth, sharp 3D video.\nPersistence of vision has already been exploited in the design of many 2D LED displays. Most monitors use this phenomenon by turning on and off individual rows of LEDs at high frequencies to create the illusion of having the entire display on [2]. More recently, LED ‘fans’ have emerged on the commercial market. These fans have two to four blades lined with LEDs that create smooth 2D images when spun at high enough speeds. These commercial products are generally used for either entertainment or advertising and cost 300 dollars on the low end [3] and upwards of 10,000 dollars on the high end [4].\nInstead of spinning individual lines of LEDs to create a 2D display, the premise of Voxel is to spin a grid of LEDs to create a truly 3D LED display. Three dimensional displays that appear to be holographic would be useful in applications such as home entertainment or commercial advertising. If production of Voxel devices is scaled up to 1,000 a year, the unit cost would be 609.78 dollars. It could be sold at 999 dollars for a profit margin of 61% - making it economically viable to market for home design and commercial advertising uses."
+    "text": "akash.harapanahalli [at] gmail.com\nI am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.\nMy research is centered around safety verification of nonlinear control systems—mainly through reachability and invariance analysis. I have been developing a toolbox called immrax, which we have used to scalably certify safe performance of neural networks in safety-critical control systems, and train neural networks with robust safety guarantees outright. I am also interested in more mathematical tools such as contraction theory and differential geometry, and how they factor into modern control systems analysis."
+  },
+  {
+    "objectID": "publications/index.html",
+    "href": "publications/index.html",
+    "title": "Publications",
+    "section": "",
+    "text": "Akash Harapanahalli, Samuel Coogan, “Certified Robust Invariant Polytope Training in Neural Controlled ODEs.” In submission, 2024. [pdf] [code]\nAkash Harapanahalli, Samuel Coogan, “Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.” To Appear in 2024 63rd IEEE Conference on Decision and Control (CDC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.” Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (ADHS), 2024. [pdf] [github] [slides]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops.” Published in IEEE Transactions on Automatic Control (TAC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Forward Invariance in Neural Network Controlled Systems.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf] [slides]\nLuke Baird, Akash Harapanahalli, Samuel Coogan, “Interval Signal Temporal Logic From Natural Inclusion Functions.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Contraction-Guided Adaptive Partitioning for Reachability Analysis of Neural Network Controlled Systems.” Appeared in 2023 62nd IEEE Conference on Decision and Control (CDC), 2023. [pdf] [slides]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “A Toolbox for Fast Interval Arithmetic in numpy with an Application to Formal Verification of Neural Network Controlled Systems.” Appeared in 2nd Workshop on Formal Verification of Machine Learning (WFVML), 2023. [pdf] [github] [poster]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Interval Reachability of Nonlinear Dynamical Systems with Neural Network Controllers.” Appeared in The 5th Annual Learning for Dynamics and Control Conference (L4DC), 2023. [pdf] [poster]\nAkash Harapanahalli*, Emil Muly*, Hogan Welch*, Timothy Brumfiel*, Zhengyang Weng*, Manzano Akhtar, Ahmed Abouelnasr, Austin Newland, James Bunting, Kevin McGorrey, Juo Lee, Gaorong Wang, Luke Drnach, Don Lee, Ye Zhao, “Towards a Biomimetic and Dexterous Robot Avatar: Design, Control, and Kinematics Considerations.” Best Latest Breaking Results Poster at 2020 IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM), 2020. First Place in the Hardware, Devices & Robotics Track of the 2021 GaTech VIP Innovation Competition. [abstract] [poster] [video]\n\n\n* indicates equal contribution"
   },
   {
     "objectID": "portfolio/index.html",
@@ -56,39 +63,18 @@
     "text": "Industrial Screw Sorter - Hack-a-Thing - Second Place, Best TI Integration [Sep 2019, Jan 2020]”\nIndustrial screw sorting attachment for an off-the-shelf robot arm."
   },
   {
-    "objectID": "portfolio/yawyaw.html",
-    "href": "portfolio/yawyaw.html",
-    "title": "YawYaw - HackGT 6 [Oct 2019]",
-    "section": "",
-    "text": "Created “YawYaw”, a camera mount that moves around to follow the movement of a head.\nPersonally built the hardware codebase, using C++ and focusing on readability/usability."
-  },
-  {
-    "objectID": "portfolio/oxyspool.html",
-    "href": "portfolio/oxyspool.html",
-    "title": "OxySpool - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - Second Place [May 2021]",
-    "section": "",
-    "text": "TOM is a service organization that sponsors open source solutions to the real challenges of underserved people.\nCreated a low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards.\nPersonally helped design/manufacture using Onshape, and wrote embedded C++ to control the device."
-  },
-  {
-    "objectID": "publications/index.html",
-    "href": "publications/index.html",
-    "title": "Publications",
-    "section": "",
-    "text": "Akash Harapanahalli, Samuel Coogan, “Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.” To Appear in 2024 63rd IEEE Conference on Decision and Control (CDC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.” Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (ADHS), 2024. [pdf] [slides]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops.” Published in IEEE Transactions on Automatic Control (TAC), 2024. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Forward Invariance in Neural Network Controlled Systems.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf] [slides]\nLuke Baird, Akash Harapanahalli, Samuel Coogan, “Interval Signal Temporal Logic From Natural Inclusion Functions.” Published in IEEE Control Systems Letters (L-CSS), 2023. [pdf]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “Contraction-Guided Adaptive Partitioning for Reachability Analysis of Neural Network Controlled Systems.” Appeared in 2023 62nd IEEE Conference on Decision and Control (CDC), 2023. [pdf] [slides]\nAkash Harapanahalli, Saber Jafarpour, Samuel Coogan, “A Toolbox for Fast Interval Arithmetic in numpy with an Application to Formal Verification of Neural Network Controlled Systems.” Appeared in 2nd Workshop on Formal Verification of Machine Learning (WFVML), 2023. [pdf] [poster]\nSaber Jafarpour*, Akash Harapanahalli*, Samuel Coogan, “Interval Reachability of Nonlinear Dynamical Systems with Neural Network Controllers.” Appeared in The 5th Annual Learning for Dynamics and Control Conference (L4DC), 2023. [pdf] [poster]\nAkash Harapanahalli*, Emil Muly*, Hogan Welch*, Timothy Brumfiel*, Zhengyang Weng*, Manzano Akhtar, Ahmed Abouelnasr, Austin Newland, James Bunting, Kevin McGorrey, Juo Lee, Gaorong Wang, Luke Drnach, Don Lee, Ye Zhao, “Towards a Biomimetic and Dexterous Robot Avatar: Design, Control, and Kinematics Considerations.” Best Latest Breaking Results Poster at 2020 IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM), 2020. First Place in the Hardware, Devices & Robotics Track of the 2021 GaTech VIP Innovation Competition. [abstract] [poster] [video]\n\n\n* indicates equal contribution"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Akash Harapanahalli",
-    "section": "",
-    "text": "akash.harapanahalli [at] gmail.com\nI am a Graduate Research Assistant in the Formal Methods & Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech, under the supervision of Dr. Samuel Coogan, currently pursuing my PhD in Machine Learning and my MS in Mathematics.\nMy research is centered around safety verification of nonlinear control systems—mainly through reachability and invariance analysis. I have been developing a toolbox called immrax, which we have used to scalably certify safe performance of neural networks in safety-critical control systems, and train neural networks with robust safety guarantees outright. I am also interested in more mathematical tools such as contraction theory and differential geometry, and how they factor into modern control systems analysis."
-  },
-  {
     "objectID": "portfolio/industrialscrewsorter.html",
     "href": "portfolio/industrialscrewsorter.html",
     "title": "Industrial Screw Sorter - Hack-a-Thing - Second Place, Best TI Integration [Sep 2019, Jan 2020]",
     "section": "",
     "text": "Competed in a five-month-long competition to create an industrial screw sorting apparatus.\nPersonally worked on its design and on reusable embedded C++ for its TI MSP-432 using Energia."
+  },
+  {
+    "objectID": "portfolio/voxel.html",
+    "href": "portfolio/voxel.html",
+    "title": "VOXEL - ECE Senior Capstone Project [Aug 2021, May 2022]",
+    "section": "",
+    "text": "[expo] [report] [github]\n\n\nVoxel: A Spinning, 3D LED Persistence of Vision Display\n\nVoxel is a spinning 3D LED display that generates a 360 degree visual in three dimensional space by spinning a panel of densely packed LEDs about a central axis. By spinning at a fast enough rate and rapidly flashing each individually addressable LED on and off, persistence of vision (POV) will take effect. POV is a phenomenon in which a rapid succession of images becomes blended into a persistent, moving image when processed by the human brain [1]. By flashing the LEDs in a specific pattern over time, Voxel will be able to display a smooth, sharp 3D video.\nPersistence of vision has already been exploited in the design of many 2D LED displays. Most monitors use this phenomenon by turning on and off individual rows of LEDs at high frequencies to create the illusion of having the entire display on [2]. More recently, LED ‘fans’ have emerged on the commercial market. These fans have two to four blades lined with LEDs that create smooth 2D images when spun at high enough speeds. These commercial products are generally used for either entertainment or advertising and cost 300 dollars on the low end [3] and upwards of 10,000 dollars on the high end [4].\nInstead of spinning individual lines of LEDs to create a 2D display, the premise of Voxel is to spin a grid of LEDs to create a truly 3D LED display. Three dimensional displays that appear to be holographic would be useful in applications such as home entertainment or commercial advertising. If production of Voxel devices is scaled up to 1,000 a year, the unit cost would be 609.78 dollars. It could be sold at 999 dollars for a profit margin of 61% - making it economically viable to market for home design and commercial advertising uses."
   },
   {
     "objectID": "portfolio/stepdance.html",
@@ -145,6 +131,13 @@
     "title": "StepDance - HackGT Horizons 2022 - Best Overall Hack [Mar 2022]",
     "section": "What’s next for Step Dance",
     "text": "What’s next for Step Dance\nWe can always go bigger! Due to time and cost limitations, we only have 10 stepper motors and 24 keys we can use, but our dream would be to upgrade Step Dance to a full 88 key piano."
+  },
+  {
+    "objectID": "portfolio/yawyaw.html",
+    "href": "portfolio/yawyaw.html",
+    "title": "YawYaw - HackGT 6 [Oct 2019]",
+    "section": "",
+    "text": "Created “YawYaw”, a camera mount that moves around to follow the movement of a head.\nPersonally built the hardware codebase, using C++ and focusing on readability/usability."
   },
   {
     "objectID": "portfolio/trashtalker.html",
@@ -208,5 +201,12 @@
     "title": "Zen - HackGT 8 - Best Hardware Hack [Oct 2021]",
     "section": "",
     "text": "We have more plans for what sort of information we can display on our 550 square inch sand display. Using complex apis, we can display stock charts in real time, or even communicate wirelessly with a drawing application to allow users to draw their own paths in the sand. There are as many possibilities for Zen as there are grains of sand on Earth."
+  },
+  {
+    "objectID": "portfolio/oxyspool.html",
+    "href": "portfolio/oxyspool.html",
+    "title": "OxySpool - Tikkum Olam Makers (TOM) at GT Makeathon 2021 - Second Place [May 2021]",
+    "section": "",
+    "text": "TOM is a service organization that sponsors open source solutions to the real challenges of underserved people.\nCreated a low force motor-powered oxygen cord reel designed for patients with COPD to avoid tripping hazards.\nPersonally helped design/manufacture using Onshape, and wrote embedded C++ to control the device."
   }
 ]
