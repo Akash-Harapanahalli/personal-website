@@ -8,7 +8,7 @@ title: Publications
   .pubitem { counter-increment: section;} */
   .publist ol {
     list-style-type:none;
-    counter-reset:item 11;
+    counter-reset:item 12;
   }
   .publist ol > li {
     counter-increment:item -1;
@@ -20,6 +20,7 @@ title: Publications
 </style>
 
 :::{.publist}
+1. **Akash Harapanahalli**, Samuel Coogan, "[A Global Coordinate-Free Approach to Invariant Contraction on Homogeneous Manifolds.](https://arxiv.org/abs/2410.15441)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2410.15441)\] \[[code](https://github.com/gtfactslab/Polytope-Training)\]
 1. **Akash Harapanahalli**, Samuel Coogan, "[Certified Robust Invariant Polytope Training in Neural Controlled ODEs.](https://arxiv.org/abs/2408.01273)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2408.01273)\] \[[code](https://github.com/gtfactslab/Polytope-Training)\]
 1. **Akash Harapanahalli**, Samuel Coogan, "[Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.](https://arxiv.org/abs/2403.16214)" To Appear in 2024 63rd IEEE Conference on Decision and Control (**CDC**), 2024. \[[pdf](https://arxiv.org/pdf/2403.16214)\]
 1. **Akash Harapanahalli**, Saber Jafarpour, Samuel Coogan, "[immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.](https://arxiv.org/abs/2401.11608)" Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (**ADHS**), 2024. \[[pdf](https://arxiv.org/pdf/2401.11608)\] \[[github](https://github.com/gtfactslab/immrax)\] \[[slides](/presentations/2024ADHS_immrax/)\]
