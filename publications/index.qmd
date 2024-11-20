@@ -8,7 +8,7 @@ title: Publications
   .pubitem { counter-increment: section;} */
   .publist ol {
     list-style-type:none;
-    counter-reset:item 12;
+    counter-reset:item 13;
   }
   .publist ol > li {
     counter-increment:item -1;
@@ -20,6 +20,7 @@ title: Publications
 </style>
 
 :::{.publist}
+1. **Akash Harapanahalli**, Samuel Coogan, "[A Linear Differential Inclusion for Contraction Analysis to Known Trajectories.](https://arxiv.org/abs/2411.11587)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2411.11587)\] 
 1. **Akash Harapanahalli**, Samuel Coogan, "[A Global Coordinate-Free Approach to Invariant Contraction on Homogeneous Manifolds.](https://arxiv.org/abs/2410.15441)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2410.15441)\] 
 1. **Akash Harapanahalli**, Samuel Coogan, "[Certified Robust Invariant Polytope Training in Neural Controlled ODEs.](https://arxiv.org/abs/2408.01273)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2408.01273)\] \[[code](https://github.com/gtfactslab/Polytope-Training)\]
 1. **Akash Harapanahalli**, Samuel Coogan, "[Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.](https://arxiv.org/abs/2403.16214)" To Appear in 2024 63rd IEEE Conference on Decision and Control (**CDC**), 2024. \[[pdf](https://arxiv.org/pdf/2403.16214)\]
