@@ -1,0 +1,908 @@
+---
+title: Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals
+# subtitle: A subtitle
+format: 
+  clean-revealjs:
+    # footer: "Forward Invariance in Neural Network Controlled Systems"
+    pointer: default
+    preview-links: true
+    # embed-resources: true
+    width: 1280
+    height: 720
+css: style.css
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+# author:
+#   - name: Your Name
+#     orcid: 0000-0000-0000-0000
+#     email: alias@email.com
+#     affiliations: Your Institution
+author: Akash Harapanahalli, Samuel Coogan
+institute: 
+  - School of Electrical and Computer Engineering, Georgia Institute of Technology
+date: 12-16-2024
+subtitle: CDC 2024
+# toc: true
+callout-icon: false
+bibliography: citations.bib
+csl: ieee-with-url
+execute:
+  cache: true
+engine: knitr
+transition-speed: fast
+# smaller: true
+margin: 0.05
+auto-play-media: true
+
+---
+
+## Motivation: Why Reachability Analysis?
+
+```{scss}
+#| cache: false
+
+// Sets the font size for the callout blocks
+div {
+  &.callout {
+    // font-size: 1.75rem !important;
+    font-size: 25px !important;
+  }
+}
+
+// Changes placement of aside for the citation footnotes
+.reveal .slide aside, .reveal .slide div.aside {
+  bottom: -10px;
+}
+
+.reveal pre {
+  font-size: 1.8rem !important;
+}
+
+.reveal code {
+  font-size: 0.85em !important;
+}
+
+// Changes font size in footnote
+.cite-footnotes {
+  font-size: 25px !important;
+}
+
+```
+
+{{< include macros.qmd >}}
+
+<!-- Lots of recent work in the control community has been centered around safety verification in control systems. -->
+The modern control system is becoming increasingly complex: nonlinearities, learning-based components, hybrid jumps
+
+::: {.columns}
+::: {.column width=60%}
+
+::: {.callout-note}
+# Problem: Overapproximating Reachable Sets
+For the nonlinear system
+$$
+\dot{x} = f(x,u),\quad x(0) = x_0,
+$$
+<!-- where $x\in X$, $u\in U$,  -->
+*overapproximate* the reachable set given a set of initial conditions $x_0\in\calX_0$ and inputs $u(t)\in\calU$. 
+:::
+
+::: {.fragment}
+<!-- #### Current state-of-the-art -->
+- Many computational tools: Applied Verification for Continuous and Hybrid Systems (ARCH) workshop, competition, benchmarks
+- Address difficulties in highly nonlinear component functions, neural network controllers, hybrid systems, etc.
+- Existing method focus on vector state spaces
+:::
+
+:::
+
+::: {.column width=40%}
+
+::: {.callout-important}
+# Safety of the overapproximating reachable set $\implies$ Safety for any real trajectory of the system
+:::
+<!-- #### Subroutine to guarantee safety in many regimes: -->
+- Offline control synthesis
+- Post-synthesis verification
+- Online runtime assurance 
+
+
+<!-- Insert a figure here... -->
+
+![](figs/vehicle-mid.svg){width=50% fig-align="center"}
+
+:::
+
+:::
+
+
+<!-- <aside class="cite-footnotes">
+[@CORA] M. Althoff, et al, "An introduction to CORA 2015," ARCH, 2015.
+</aside> -->
+
+<!-- 
+## Acknowledgements
+::: {.columns}
+<div style="text-align: center;">
+![](figs/coogan.jpg){height="10em" fig-align="center"}
+
+Advisor: Samuel Coogan\
+[coogan.ece.gatech.edu](https://coogan.ece.gatech.edu/)
+</div>
+:::  -->
+
+## Motivation: Why Lie Groups?
+
+<!-- - We have implemented our own interval reachability framework  -->
+
+- Attempting to apply our interval reachability toolbox [@immrax] on matrix state spaces failed.
+
+
+::: {.columns}
+::: {.column width=50%}
+::: {.callout-tip}
+# Example (Quadrotor Control)
+Angular velocity integrates to rotation matrix as follows,
+$$
+\dot{R} = R\hat{\omega}
+$$
+Propogating a full set of matrices like $[\ulR,\olR]\subseteq\R^{3\times 3}$ is exceedingly overconservative: $9$ degrees of uncertainty to capture sets on the $3$-dim submanifold $SO(3)$.
+:::
+:::
+::: {.column width=40% style="text-align:center;"}
+![Holybro x500 v2](figs/3_my_holybrox500v2.png){width=60%}
+:::
+:::
+::: {.callout-note}
+# A naive implementation of reachability approaches for *e.g.* matrix Lie groups fails to capture underlying manifold structure.
+:::
+
+- We needed a framework for reachability on Lie groups which respects the underlying manifold structure.
+
+<aside class="cite-footnotes">
+[@immrax] A. Harapanahalli, S. Jafarpour, and S. Coogan, “`immrax`: A parallelizable and differentiable toolbox for interval analysis and mixed monotone reachability in JAX,” *ADHS*.
+</aside>
+
+
+## An Approach for Efficient Reachable Sets on Lie Groups
+
+::: {.columns}
+
+::: {.column width=50%}
+
+::: {.callout-note}
+## Question
+<!-- Can we apply mature vector space reachability frameworks to build a **computational framework** for reachability analysis of systems evolving on manifold state spaces? -->
+How can we approach the reachability problem when the underlying space is a nonlinear manifold?
+:::
+
+::: {.fragment .fade-up fragment-index=1}
+
+::: {.callout-warning}
+## This Presentation (Lie Groups)
+Borrow strategies from geometric integration theory:
+
+- **Build** locally equivalent system in Lie algebra
+- **Apply** existing reachability techniques 
+- **Exponentiate** back to the original manifold
+- **Transition** between tangent spaces to avoid injectivity issues
+:::
+
+- Amenable to any existing reachablity tool!
+
+:::
+:::
+
+::: {.column width=50% style="text-align:center;" .fragment .fade-up fragment-index=1}
+![Tangent Space Reachability](figs/liereach.svg){width=80%}
+
+![Transitioning via $\textsf{BCH}$ Recentering](figs/compare.svg)
+
+:::
+
+
+:::
+
+
+
+# Background: Interval Reachability and Lie Groups 
+
+## Interval Analysis
+
+::: {.columns}
+
+::: {.column width=50%}
+
+::: {.callout-note} 
+# Definition (Order, Intervals)
+**Element-wise Order**: $x,y\in\R^n$, 
+$$
+x \leq y \iff \ \forall i,\, x_i \leq y_i
+$$
+**Interval**: $\IR^n \ni [\ulx,\olx] = \{x : \ulx \leq x \leq \olx\}\subset \R^n$
+:::
+<!-- - Can be defined with respect to a general convex cone $K$ -->
+:::
+
+::: {.column width=50%}
+::: {.callout-note} 
+# Definition (Inclusion Function [@LJ-MK-OD-EW:01])
+Given $f:\R^n\to\R^m$, $\sfF=[\ul\sfF,\ol\sfF]:\IR^n\to\IR^m$ is an *inclusion function* if for every $x\in[\ulx,\olx]\in\IR^n$,
+$$
+f(x) \in [\ul\sfF(\ulx,\olx),\ol\sfF(\ulx,\olx)].
+$$
+:::
+:::
+
+:::
+
+- Automatable through composition: $\sfF = \sfF_1 \circ \cdots \circ \sfF_N$ is an inclusion function for $f = f_1\circ\cdots \circ f_N$
+
+::: {.column width=100%}
+![](figs/inclusion_func.svg){width=50% fig-align="center"}
+:::
+
+
+<aside class="cite-footnotes">
+[@LJ-MK-OD-EW:01] L. Jaulin, et al, *Applied Interval Analysis*. Springer London, 2001.
+</aside>
+
+
+
+## Embedding System and Interval Reachability
+
+::: {.columns}
+
+::: {.column width=50%}
+
+::: {.callout-note}
+# Original System
+$$
+\dot{x} = f(x,u), \quad x(0) = x_0
+$$
+$x\in\R^n$, $u\in\R^m$.
+:::
+
+$$
+\Big\Downarrow \text{ inclusion function } \sfF(\ulx,\olx,\ulu,\olu) \text{ of } f(x,u)
+$$
+
+::: {.callout-note}
+# Embedding System
+$$
+\begin{aligned}
+  \ulx_i &= \ul\sfF_i(\ulx,\olx_{i:\ulx},\ulu,\olu) = \ul\sfE_i(\ulx,\olx,\ulu,\olu) \\
+  \olx_i &= \ol\sfF_i(\ulx_{i:\olx},\olx,\ulu,\olu) = \ol\sfE_i(\ulx,\olx,\ulu,\olu) \\
+\end{aligned}
+$$
+$\smallconc{\ulx}{\olx}\in\R^{2n}$, $\smallconc{\ulu}{\olu}\in\R^{2m}$.
+
+:::
+
+
+:::
+
+::: {.column width=50%}
+::: {.callout-important .fragment .fade-up}
+# Proposition (Interval Reachability) [@SJ-AH-SC:24]
+For any $x_0\in[\ulx_0,\olx_0]\in\IR^n$, $u(t)\in[\ulu(t),\olu(t)]$,
+$$
+x(t) \in [\ulx(t), \olx(t)],
+$$
+where $t\mapsto x(t)$ is trajectory of original system, $t\mapsto\smallconc{\ulx(t)}{\olx(t)}$ is trajectory of embedding system.
+:::
+
+![](figs/embsys.svg){width=100%}
+
+:::
+:::
+
+<aside class="cite-footnotes">
+[@SJ-AH-SC:24] S. Jafarpour, A. Harapanahalli, and S. Coogan, “Efficient interaction-aware interval analysis of neural network feedback loops,” *IEEE TAC*, 2024.
+</aside>
+
+## Embedding System Visualization
+
+::: {.columns}
+<!-- ::: {.column width=20%}
+::: -->
+::: {.column width=60%}
+![](figs/Reach.mp4){muted=true loop=true}
+```{js}
+document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+```
+:::
+::: {.column width=40%}
+
+::: {.callout-note}
+# Embedding System
+$$
+\begin{aligned}
+  \ulx_i &= \ul\sfF_i(\ulx,\olx_{i:\ulx},\ulu,\olu) = \ul\sfE_i(\ulx,\olx,\ulu,\olu) \\
+  \olx_i &= \ol\sfF_i(\ulx_{i:\olx},\olx,\ulu,\olu) = \ol\sfE_i(\ulx,\olx,\ulu,\olu) \\
+\end{aligned}
+$$
+$\smallconc{\ulx}{\olx}\in\R^{2n}$, $\smallconc{\ulu}{\olu}\in\R^{2m}$.
+
+:::
+::: {.callout-important}
+# Proposition (Interval Reachability) [@SJ-AH-SC:24]
+$\forall x_0\in[\ulx_0,\olx_0]\in\IR^n$, $u(t)\in[\ulu(t),\olu(t)]$
+$$
+x(t) \in [\ulx(t), \olx(t)].
+$$
+:::
+:::
+:::
+
+<aside class="cite-footnotes">
+[@SJ-AH-SC:24] S. Jafarpour, A. Harapanahalli, and S. Coogan, “Efficient interaction-aware interval analysis of neural network feedback loops,” *IEEE TAC*, 2024.
+</aside>
+
+
+## Lie Group 
+
+::: {.callout-note}
+# Definition (Lie Group)
+
+A *Lie group* is a manifold $G$ with compatible group structure, *i.e.*, the group operation and group inverse are smooth.
+$$
+\begin{aligned}
+  * : G\times G &\to G \\
+  g_1 * g_2 &\mapsto g_1g_2
+\end{aligned}
+\quad \quad
+\begin{aligned}
+  \cdot^{-1} : G &\to G \\
+  g &\mapsto g^{-1}
+\end{aligned}
+$$
+:::
+
+For example, matrix groups (subgroups of $GL(n)$) are Lie groups. We will restrict to matrix Lie groups for simplicity.
+
+::: {.columns}
+::: {.column width=33%}
+::: {.callout-tip}
+# Example ($\bbS \simeq SO(2)$)
+
+The circle $\bbS = \{e^{i\theta} : \theta\in\R\}$ with the operation
+$$
+e^{i\theta_1} e^{i\theta_2} = e^{i(\theta_1 + \theta_2)}
+$$
+and inverse $(e^{i\theta})^{-1} = e^{-i\theta}$.
+:::
+:::
+::: {.column width=66%}
+::: {.callout-tip}
+# Example ($SO(3)$)
+
+The group of $3$D rotations, 
+$$
+\{R\in\R^{3\times 3} : R^TR = I,\ \det(R) = +1\},
+$$
+with matrix multiplication as group operation and $R^{-1} = R^T$.
+:::
+:::
+:::
+
+
+## Examples {visibility="hidden"}
+::: {.columns}
+::: {.column width=33%}
+::: {.callout-tip}
+# Example ($\bbS \simeq SO(2)$)
+
+The circle $\bbS = \{e^{i\theta} : \theta\in\R\}$ with the operation
+$$
+e^{i\theta_1} e^{i\theta_2} = e^{i(\theta_1 + \theta_2)}
+$$
+and inverse $(e^{i\theta})^{-1} = e^{-i\theta}$.
+:::
+:::
+::: {.column width=66%}
+::: {.callout-tip data-id="SO3"}
+# Example ($SO(3)$)
+
+The group of $3$D rotations, 
+$$
+\{R\in\R^{3\times 3} : R^TR = I,\ \det(R) = +1\},
+$$
+with matrix multiplication as group operation and $R^{-1} = R^T$.
+:::
+:::
+:::
+
+## Identifying Tangent Spaces via Left Translation {visibility="hidden"}
+
+::: {.columns}
+::: {.column width=50%}
+::: {.callout-note}
+# Definition (Left-Translation Map)
+For $g\in G$, let $\ell_g:G\to G$ be multiplication on the left,
+$$
+\ell_g(h) = gh.
+$$
+Then the differential map $(d\ell_g)_h : T_gG\to T_{gh}G$ canonically bijects vectors between tangent spaces.
+:::
+
+- In this manner, can identify every tangent space with the tangent space at the identity $T_eG$.
+:::
+
+
+:::
+
+## Lie Algebra: Left-Invariant Vector Fields
+
+::: {.columns}
+::: {.column width=50%}
+
+::: {.callout-note}
+# Definition (Left-Translation Map)
+For $g\in G$, $\ell_g:G\to G$ is multiplication on the left,
+$$
+\ell_g(h) = gh.
+$$
+Then the differential map $(d\ell_g)_h : T_gG\to T_{gh}G$ canonically bijects vectors between tangent spaces.
+:::
+
+::: {.callout-note}
+# Definition (Left-Invariant Vector Field, Lie Algebra)
+<!-- Vector field $f$ on $G$ is *left-invariant* if for any $g,h\in G$
+$$
+f(gh) = (d\ell_g)_h(f(h)).
+$$ -->
+Let $\frakg = T_eG$ be the tangent space to $e$ (Lie algebra). 
+$$
+\Theta\in T_eG \iff \Theta^L(g) = (d\ell_g)_e(\Theta) 
+% \text{ left-invariant}
+$$
+:::
+<!-- #### Interesting Properties -->
+<!-- - Every two vectors on the left-invariant field are *equivalent* in that they define one another through the differential of the group action. -->
+- The flow $\gamma:\R\to G$ of a left-invariant vector field $\Theta^L$ is a one-parameter subgroup, $\gamma(t)\gamma(s) = \gamma(t + s)$.
+
+<!-- - $\frakg$ forms a Lie algebra under the usual Lie bracket of vector fields. For matrix Lie groups, the commutator
+$$
+\dbrak{\Theta_1,\Theta_2} = \Theta_1\Theta_2 - \Theta_2\Theta_1
+$$ -->
+:::
+
+::: {.column width=50%}
+<!-- - **Every** tangent space is identified by $\frakg$ through the group operation, with $d\ell_g$ ($TG\simeq G\times\frakg$) -->
+
+
+![](figs/Sleftinv.mp4){muted=true loop=true}
+```{js}
+document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+```
+
+:::
+::: 
+
+## Lie Exponential Map: A Canonical Set of Coordinates
+
+::: {.columns}
+::: {.column width=50%}
+::: {.callout-note}
+# Definition (Exponential map)
+Let $\Theta\in\frakg$ and let $\gamma:\R\to G$ be the flow of the left-invariant vector field $\Theta^L$ passing through $\gamma(0) = e$. Define $\exp : \frakg \to G$,
+$$
+\exp(\Theta) = \gamma(1).
+$$
+
+:::
+
+#### Basic Properties 
+
+- $\exp(\Theta)\exp(\Omega) \neq \exp(\Theta + \Omega)$ 
+- Restricts to a bijection on neighborhood $N_{\exp}$ of $0\in\frakg$, *i.e.*, a canonical local parameterization
+- For matrix Lie group, usual matrix exponential:
+$$
+\exp(\Theta) = \sum_{k=0}^\infty \frac{\Theta^k}{k!}
+$$
+
+:::
+
+::: {.column width=50%}
+
+![](figs/ExpMap.mp4){muted=true loop=true}
+```{js}
+document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+```
+
+:::
+:::
+
+## Example: SO(3) Exponential Map {visibility="hidden"}
+
+# Efficient Reachable Sets on Lie Groups
+
+## Control Systems on Lie Groups
+
+::: {.columns}
+::: {.column width=50%}
+::: {.callout-note}
+# Definition (Control System)
+A Lie group control system is of the following form,
+$$
+\dot{x} = (d\ell_x)_e(A(x,u)) = xA(x,u), \quad x(0) = x_0,
+$$
+where $x\in \calX$ is a Lie group, $u\in\calU$ is a vector space, $A:\calX\times\calU\to\frakx$ is a mapping to the Lie algebra $\frakx$ of $\calX$.
+
+:::
+
+- General nonlinear system with input $u$
+- General parameterized vector field: $f(x,u)\in T_x\calX$, vectors identified by Lie algebra + left translation
+
+:::
+
+::: {.column width=50%}
+::: {.callout-tip}
+# Example (Single Integrator on $SO(3)$)
+With $\calX = SO(3)$, $\calU = \R^3$,
+$$
+\dot{R} = R\hat{u}, \quad R(0) = R_0,
+$$
+$\hat{\cdot}:\R^3\to\so(3)$ is the "hat map" identification of skew-symmetric matrices.
+
+:::
+
+:::
+:::
+
+## Locally Equivalent Control System on the Lie Algebra
+
+::: {.columns}
+
+::: {.column width=50%}
+
+::: {.callout-note}
+# Original Lie Group System
+$$
+\dot{x} = xA(x,u), \quad x(0) = x_0
+$$
+$x\in\calX$ (Lie group), $u\in\calU$ (vector space)
+:::
+
+$$
+\Big\Downarrow
+$$
+
+::: {.callout-note}
+# Locally Equivalent Lie Algebra System
+$$
+\begin{gathered}
+\dot{\Theta} = \dexp^{-1}_{\Theta} (A(x, u)), \quad \Theta(0) = \Theta_0, \\
+x = \underbrace{x_0 \exp(\Theta_0)^{-1}}_{\mathring{x}} \exp(\Theta)
+\end{gathered}
+$$
+$\Theta\in\frakx$ (Lie algebra), $u\in\calU$ (vector space)
+
+**Proposition**: For small $t$, recovers the original trajectory.
+:::
+
+
+:::
+
+::: {.column width=50%}
+
+::: {.callout-note}
+# Differential of $\exp$
+
+Left-trivialized differential of $\exp$: $\dexp:\frakx\times\frakx\to\frakx$
+$$
+\frac{d}{dt}\bigg|_{t=0} \exp(\Theta + t\Omega) = \exp(\Theta)\dexp_\Theta(\Omega)
+% = (d\ell_{\exp(\Theta)})_e(\dexp_\Theta(\Omega))
+$$
+:::
+<!-- - $\dexp_{\Theta}^{-1}$ takes the vector $A(x,u)$ and  -->
+- $\dexp_{\Theta}^{-1}$ has an analytic expression as an infinite summation of commutators
+
+::: {.callout-important}
+# Analysis is centered around $\ox = x_0\exp(\Theta_0^{-1})$, identifying the tangent space $T_{\ox}\calX\simeq\frakx$
+:::
+::: {.callout-important}
+# Crucial Fact: $\Theta$ evolves on the *vector space* $\frakx$
+:::
+
+:::
+:::
+
+
+## A Strategy for Numerical Integration [@HMK:98]
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/flow_rkmk.svg){width=80%}
+:::
+::: {.column width=50%}
+![](figs/RKMK.mp4){muted=true loop=true}
+```{js}
+document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+```
+:::
+:::
+
+<aside class="cite-footnotes">
+[@HMK:98] H. Munthe-Kaas, “Runge-Kutta methods on Lie groups,” BIT Numerical Mathematics, 1998.
+</aside>
+
+
+## Tangent Interval
+
+::: {.columns}
+::: {.column width=50%}
+
+<!-- - An interval in the tangent space at $x$ with respect to a cone $\calK(x)\subset T_x\calX$
+- Choose a basis of Lie algebra: $\hat{\cdot}:\R^n \to \frakx$, $\R^n_+$ identifies the cone $\calK(x) = (d\ell_x)_e(\R^n_+)$ in each tangent space & the standard element-wise order -->
+
+- Choose basis of Lie algebra: $\hat{\cdot}:\R^n\to\frakx$, so $\frakx\simeq\R^n$. 
+- Intervals in $\IR^n$ identify interval subsets of $\frakx$.
+- Intervals in $\bbI\frakx$ identify interval subsets of $T_x\calX$.
+
+::: {.callout-note}
+# Definition (Tangent inteval and Exponentiated Tangent interval)
+Let $[\ul\Theta,\ol\Theta] \in \bbI\frakx$ be an interval in the Lie algebra.
+
+- $(d\ell_x)_e([\ul\Theta,\ol\Theta])$ is a tangent interval in $T_x\calX$.
+- $x\exp([\ul\Theta,\ol\Theta])$ is an exponentiated tangent interval.
+
+<!-- Let $K\subset\frakx$ be a cone in the Lie algebra. A *tangent interval* is an interval in the Lie algebra left-translated to a point $x\in\calX$ as
+$$
+(d\ell_g)_e([\ul\Theta,\ol\Theta]_K) = [(d\ell_g)_e(\ul\Theta),(d\ell_g)_e(\ol\Theta)]_{(d\ell_g)_e(K)}
+% g[\ul\Theta,\ol\Theta]_K.
+$$
+This is an interval in the tangent space $T_x\calX$ with cone $(d\ell_g)_e(K)$. -->
+:::
+
+:::
+
+::: {.column width=50%}
+![](figs/liereach.svg){width=100%}
+:::
+:::
+
+## Lie Algebra Embedding System: Interval Reachability in the Tangent Space
+
+::: {.columns}
+
+::: {.column width=50%}
+
+::: {.callout-note}
+# Lie Algebra System
+$$
+\begin{gathered}
+\dot{\Theta} = \underbrace{\dexp^{-1}_{\Theta} (A(\ox \exp(\Theta), u))}_{f(\Theta,u)}, 
+% \quad \Theta(0) = \Theta_0, \\
+\end{gathered}
+$$
+$\Theta\in\frakx$ (Lie algebra), $u\in\calU$ (vector space)
+:::
+
+$$
+\Big\Downarrow \text{ inclusion function } \sfF(\ul\Theta,\ol\Theta,\ulu,\olu) \text{ of } f(\Theta,u)
+$$
+
+::: {.callout-note}
+# Embedding Lie Algebra System
+$$
+\begin{aligned}
+  \ul\Theta_i &= \ul\sfF_i(\ul\Theta,\ol\Theta_{i:\ul\Theta},\ulu,\olu) = \ul\sfE_i(\ul\Theta,\ol\Theta,\ulu,\olu) \\
+  \ol\Theta_i &= \ol\sfF_i(\ul\Theta_{i:\ol\Theta},\ol\Theta,\ulu,\olu) = \ol\sfE_i(\ul\Theta,\ol\Theta,\ulu,\olu) \\
+\end{aligned}
+$$
+$\smallconc{\ul\Theta}{\ol\Theta}\in\R^{2n}$, $\smallconc{\ulu}{\olu}\in\R^{2m}$.
+
+:::
+
+
+:::
+
+::: {.column width=50%}
+::: {.callout-important .fragment .fade-up}
+# Theorem (Tangent Interval Reachability)
+For any $x_0\in\ox\exp([\ul\Theta_0,\ol\Theta_0])$, $u(t)\in[\ulu(t),\olu(t)]$,
+***for small $t>0$***,
+$$
+x(t) \in \ox\exp([\ul\Theta(t), \ol\Theta(t)]),
+$$
+where $t\mapsto x(t)$ is trajectory of original Lie group system, $t\mapsto\smallconc{\ul\Theta(t)}{\ol\Theta(t)}$ is trajectory of embedding system.
+:::
+
+![](figs/embsys.svg){width=100%}
+
+:::
+:::
+
+
+
+## A Strategy for Numerical ~~Integration~~ Reachability
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/flow_rkmk.svg){width=80%}
+:::
+::: {.column width=50%}
+![](figs/flow_embliealg_q.svg){width=86%}
+:::
+:::
+
+
+
+
+## The BCH Formula: Transitioning Between Tangent Spaces
+
+
+::: {.columns}
+::: {.column width=70%}
+<!-- Another tool given Lie group structure: the solution to -->
+$$
+\exp(\Theta_1) \exp(\Theta_2) = \exp(\Theta_3)
+$$
+is solved by an infinite sum of commutators ($\dbrak{\Theta_1,\Theta_2} = \Theta_1\Theta_2 - \Theta_2\Theta_1$),
+$$
+\begin{align*}
+  \Theta_3 &= \operatorname{bch}_{\Theta_1}(\Theta_2) = \Theta_1 + \Theta_2 + \frac12\dbrak{\Theta_1,\Theta_2} + \cdots
+  % &+ \frac1{12} \dbrak{\Theta_1,\dbrak{\Theta_1,\Theta_2}} - \frac1{12} \dbrak{\Theta_2,\dbrak{\Theta_1,\Theta_2}} + \cdots
+\end{align*}
+$$
+
+Shift base point to move $[\ul\Theta,\ol\Theta]$ back towards origin. Take midpoint $\mathring{\Theta} = \frac{\ul\Theta + \ol\Theta}{2}$
+
+**New centering**: $\ox' = \ox\exp(\mathring{\Theta})$ \
+**New Lie algebra interval**: Need $\ox'\exp([\ul\Theta',\ol\Theta']) \supseteq \ox\exp([\ul\Theta,\ol\Theta])$
+
+::: {.callout-important}
+# Proposition (Recentering via BCH)
+If $\BCH_\Theta$ is an inclusion function for $\bch_\Theta$,
+$$
+\ox\exp([\ul\Theta,\ol\Theta]) \subseteq \ox\exp(\mathring{\Theta}) \exp(\BCH_{-\mathring{\Theta}}([\ul\Theta,\ol\Theta]))
+$$
+:::
+
+:::
+::: {.column width=30%}
+![](figs/compare-stacked.svg)
+:::
+:::
+
+
+## A Strategy for Numerical ~~Integration~~ Reachability
+
+::: {.columns}
+::: {.column width=50%}
+![](figs/flow_rkmk.svg){width=80%}
+:::
+::: {.column width=50%}
+![](figs/flow_embliealg.svg){width=100%}
+:::
+:::
+
+## Abelian State Spaces
+
+::: {.columns}
+::: {.column width=50%}
+::: {.callout-important}
+# Proposition (Abelian State Spaces)
+Let $G$ be an Abelian Lie group.
+
+1. $\dexp_\Theta$ and $\dexp^{-1}_\Theta$ are the identity map;
+2. The map $\textsf{BCH}_{\Theta_1}([\ul\Theta_2,\ol\Theta_2]) = [\Theta_1 + \ul\Theta_2, \Theta_1 + \ol\Theta_2]$ is an inclusion function for $\operatorname{bch}_{\Theta}$.
+:::
+:::
+
+::: {.column width=50%}
+::: {.callout-tip}
+# Examples
+
+- The circle $\bbS$
+- The line $\R$
+- Finite products $\bbS\times \cdots\times \bbS \times \bbR \times \cdots \times \bbR = \bbT^{n_1} \times \bbR^{n_2}$ 
+:::
+
+:::
+:::
+
+## Examples
+
+::: {.columns}
+::: {.column width=50% style="text-align: center;"}
+![](figs/Tn1.mp4){muted=true loop=true width=35%}
+```{js}
+document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+```
+Coupled Oscillators
+$$
+\begin{align*}
+  \dot{x}_1 &= x_1\left(\hat{\omega}_1 + \log(x_2x_1^{-1})\right) \\
+  \dot{x}_2 &= x_2\left(\hat{\omega}_2 + \log(x_1x_2^{-1})\right)
+\end{align*}
+$$
+:::
+::: {.column width=50% style="text-align:center;"}
+![](figs/SO3.mp4){muted=true loop=true width=70%}
+```{js}
+document.querySelectorAll('video').forEach(video => video.removeAttribute('controls'));
+```
+Single Integrator on $SO(3)$
+$$
+\begin{align*}
+  \dot{R} = R\hat{u}
+\end{align*}
+$$
+:::
+:::
+
+
+## Conclusion
+
+- The reachable set computation problem has not really been considered on non-vector state spaces
+- An intrinsic manner to handle reachable sets on Lie groups: apply existing reachability frameworks for a locally equivalent system in the tangent space, using the exponential map to describe real reachable sets on Lie group
+- Since tangent space only provides *local* information, use overapproximations of the BCH formula to transition intervals between tangent spaces
+
+::: {.columns}
+::: {.column width=50% style="text-align:center;"}
+For all the details, please see the paper
+
+![](figs/arxiv-link.svg){width=35%}
+
+[https://arxiv.org/pdf/2403.16214](https://arxiv.org/pdf/2403.16214)
+:::
+::: {.column width=50% style="text-align:center;"}
+Thank you for your attention!
+
+![](figs/liereach.svg){width=90%}
+:::
+:::
+
+::: {style="text-align:center;"}
+:::
+
+## References {visibility="uncounted"}
+::: {#refs}
+:::
+
+
+# Backup Slides {visibility="uncounted"}
+
+## Analytic expressions {visibility="uncounted"}
+
+$$
+\begin{align*}
+    \operatorname{ad}_\Theta(\Omega) &= [\![\Theta,\Omega]\!] \\
+    \dexp_{\Theta} &= \frac{1 - \exp(-\operatorname{ad}_\Theta)}{\operatorname{ad}_\Theta} = \sum_{k=0}^\infty \frac{(-1)^k}{(k+1)!}(\operatorname{ad}_\Theta)^k \\
+    \dexp^{-1}_{\Theta} &= \frac{\operatorname{ad}_\Theta}{1 - \exp(-\operatorname{ad}_\Theta)} = \sum_{k=0}^\infty \frac{B_k}{k!} (\operatorname{ad}_\Theta)^k
+\end{align*}
+$$
+
+
+## Cones and Intervals {visibility="uncounted"}
+
+- Cone $K$: Convex subset of vector space $V$ such that $K + K \subseteq K$, $\lambda K \subseteq K$
+- Induces a partial ordering $x \leq_K y\iff y - x\in K$.
+- Interval $[\ulx,\olx] := \{x\in V : \ulx\leq_K x \leq_K\olx\}\in \bbI_KV$
+- Given map between ordered spaces $f:(V,\leq_K)\to (W,\leq_C)$, $\sfF = [\ul\sfF,\ol\sfF]_C : \bbI_KV \to \bbI_CW$ is an *inclusion function* if for any $x\in [\ulx,\olx]_K\in\bbI_KV$,
+$$
+f(x) \in \sfF([\ulx,\olx]_K) = [\ul\sfF([\ulx,\olx]_K), \ol\sfF([\ulx,\olx]_K)]_C.
+$$
+
+
+## Cone Fields, Tangent Intervals {visibility="uncounted"}
+::: {.callout-note}
+# Definition (Cone field)
+A cone field $\calK$ on manifold $M$ is a mapping such that $\calK(p)\subseteq T_pM$ is a cone for every $p\in M$.
+:::
+
+::: {.callout-note}
+# Definition (Tangent interval) 
+Given a cone field $\calK$ on manifold $M$, a *tangent interval* is an interval in the tangent space at a point $p$, *i.e.*,
+$$
+[\ulv_p,\olv_p]_{\calK(p)}.
+$$
+A base point plus an interval in the tangent space.
+Through a map like the Lie exponential map (or Riemannian exponential map), these can represent real sets on the manifold.
+
+
+:::
