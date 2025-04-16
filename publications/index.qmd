@@ -3,28 +3,43 @@ title: Publications
 ---
 
 <style>
-  /* .publist {list-style-type: none; padding-left: 0;}
-  .pubitem:before {content: "[" counter(section, numeric) "] ";}
-  .pubitem { counter-increment: section;} */
-  .publist ol {
+  .preprints ol {
     list-style-type:none;
-    counter-reset:item 14;
+    counter-reset:item 5;
   }
-  .publist ol > li {
+  .preprints ol > li {
     counter-increment:item -1;
   }
-  .publist ol > li::marker {
+  .preprints ol > li::marker {
+    content: "[P" counter(item) "]  ";
+  }
+  .preprints a {font-weight: bold;}
+
+  .journals ol {
+    list-style-type:none;
+    counter-reset:item 10;
+  }
+  .journals ol > li {
+    counter-increment:item -1;
+  }
+  .journals ol > li::marker {
     content: "[" counter(item) "]  ";
   }
-  .publist a {font-weight: bold;}
+  .journals a {font-weight: bold;}
 </style>
 
-:::{.publist}
+### Preprints
+:::{.preprints}
 1. **Akash Harapanahalli**, Samuel Coogan, "[Parametric Reachable Sets Via Controlled Dynamical Embeddings.](https://arxiv.org/abs/2504.06955)" In submission, 2025. \[[pdf](https://arxiv.org/pdf/2504.06955)\] 
+1. **Akash Harapanahalli**, Samuel Coogan, "[A Global Coordinate-Free Approach to Invariant Contraction on Homogeneous Manifolds.](https://arxiv.org/abs/2410.15441)" To Appear in 2025 American Control Conference (**ACC**), 2025. \[[pdf](https://arxiv.org/pdf/2410.15441)\] 
 1. **Akash Harapanahalli**, Samuel Coogan, "[A Linear Differential Inclusion for Contraction Analysis to Known Trajectories.](https://arxiv.org/abs/2411.11587)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2411.11587)\] \[[slides](/presentations/2024CDC_LDIcontr/)\]
-1. **Akash Harapanahalli**, Samuel Coogan, "[A Global Coordinate-Free Approach to Invariant Contraction on Homogeneous Manifolds.](https://arxiv.org/abs/2410.15441)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2410.15441)\] 
 1. **Akash Harapanahalli**, Samuel Coogan, "[Certified Robust Invariant Polytope Training in Neural Controlled ODEs.](https://arxiv.org/abs/2408.01273)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2408.01273)\] \[[code](https://github.com/gtfactslab/Polytope-Training)\]
-1. **Akash Harapanahalli**, Samuel Coogan, "[Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.](https://arxiv.org/abs/2403.16214)" To Appear in 2024 63rd IEEE Conference on Decision and Control (**CDC**), 2024. \[[pdf](https://arxiv.org/pdf/2403.16214)\] \[[slides](/presentations/2024CDC_liereach/)\]
+:::
+
+### Conferences and Journals
+
+:::{.journals}
+1. **Akash Harapanahalli**, Samuel Coogan, "[Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.](https://arxiv.org/abs/2403.16214)" Appeared in 2024 63rd IEEE Conference on Decision and Control (**CDC**), 2024. \[[pdf](https://arxiv.org/pdf/2403.16214)\] \[[slides](/presentations/2024CDC_liereach/)\]
 1. **Akash Harapanahalli**, Saber Jafarpour, Samuel Coogan, "[immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.](https://arxiv.org/abs/2401.11608)" Appeared in The 8th IFAC Conference on Analysis and Design of Hybrid Systems (**ADHS**), 2024. \[[pdf](https://arxiv.org/pdf/2401.11608)\] \[[github](https://github.com/gtfactslab/immrax)\] \[[slides](/presentations/2024ADHS_immrax/)\]
 1. Saber Jafarpour\*, **Akash Harapanahalli**\*, Samuel Coogan, "[Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops.](https://doi.org/10.1109/TAC.2024.3420968)" Published in IEEE Transactions on Automatic Control (**TAC**), 2024. \[[pdf](https://arxiv.org/pdf/2307.14938)\]
 1. **Akash Harapanahalli**, Saber Jafarpour, Samuel Coogan, "[Forward Invariance in Neural Network Controlled Systems.](https://doi.org/10.1109/LCSYS.2023.3341980)" Published in IEEE Control Systems Letters (**L-CSS**), 2023. \[[pdf](https://arxiv.org/pdf/2309.09043)\] \[[slides](/presentations/2024ACC_Invariance/)\]
