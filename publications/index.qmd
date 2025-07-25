@@ -30,7 +30,7 @@ title: Publications
 
 ### Preprints
 :::{.preprints}
-1. **Akash Harapanahalli**, Samuel Coogan, "[Parametric Reachable Sets Via Controlled Dynamical Embeddings.](https://arxiv.org/abs/2504.06955)" In submission, 2025. \[[pdf](https://arxiv.org/pdf/2504.06955)\] 
+1. **Akash Harapanahalli**, Samuel Coogan, "[Parametric Reachable Sets Via Controlled Dynamical Embeddings.](https://arxiv.org/abs/2504.06955)" To appear in 2025 64th IEEE Conference on Decision and Control (**CDC**), 2025. \[[pdf](https://arxiv.org/pdf/2504.06955)\] 
 1. **Akash Harapanahalli**, Samuel Coogan, "[A Linear Differential Inclusion for Contraction Analysis to Known Trajectories.](https://arxiv.org/abs/2411.11587)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2411.11587)\] \[[slides](/presentations/2024CDC_LDIcontr/)\]
 1. **Akash Harapanahalli**, Samuel Coogan, "[Certified Robust Invariant Polytope Training in Neural Controlled ODEs.](https://arxiv.org/abs/2408.01273)" In submission, 2024. \[[pdf](https://arxiv.org/pdf/2408.01273)\] \[[code](https://github.com/gtfactslab/Polytope-Training)\]
 :::
