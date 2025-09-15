@@ -1,0 +1,23 @@
+/* file: style.css */
+#vcenter {
+    vertical-align: middle;
+  }
+
+#center {
+  text-align: center;
+}
+
+@font-face {
+  font-family: "Computer Modern";
+  src: url('fonts/cmunsi.ttf');
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url('fonts/cmunsx.ttf');
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Computer Modern";
+  src: url('fonts/cmunss.ttf');
+  font-style: italic, oblique;
+}
