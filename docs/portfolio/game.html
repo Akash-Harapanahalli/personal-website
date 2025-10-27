@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3 card over 25 or g under 30 but still over 25 and if you draw 3 of the same number in a row then you instantly lose and if you draw a joker in an unwinnable situation then you instantly win and we define unwinnable as you could not win in the base game but if you draw a joker in a winnable situation then you instantly lose and if two or more people are in an unwinnable position then they all must play pot limit omaha and the winner gets to remove one of their cards</title>
+    <title>3 card over 25 or 4 under 30 but still over 25 and if you draw 3 of the same number in a row then you instantly lose and if you draw a joker in an unwinnable situation then you instantly win and we define unwinnable as you could not win in the base game but if you draw a joker in a winnable situation then you instantly lose and if two or more people are in an unwinnable position then they all must play pot limit omaha and the winner gets to remove one of their cards</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
@@ -29,7 +29,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             color: #2d3748;
             font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
+            font-size: 2rem;
             position: relative;
         }
 
@@ -44,7 +44,7 @@
 
         .card span:last-child {
             align-self: flex-end;
-            transform: rotate(180deg);
+            /* transform: rotate(180deg); */
         }
 
         .card.red {
@@ -80,6 +80,7 @@
             border: none;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 1rem;
         }
 
         .discard-btn:hover {
@@ -111,7 +112,7 @@
 </head>
 <body class="min-h-screen p-4 sm:p-8">
 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-8xl mx-auto">
         
         <!-- Header -->
         <header class="text-center mb-6">
@@ -131,13 +132,13 @@
         </div>
 
         <!-- Players Area -->
-        <div id="players-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div id="players-container" class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <!-- Player cards will be injected here -->
         </div>
 
         <!-- Poker Module -->
         <div id="poker-module" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-            <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-3xl w-full text-center border-2 border-purple-500">
+            <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-5xl w-full text-center border-2 border-purple-500">
                 <h2 class="text-3xl font-bold mb-4 text-purple-300" style="font-family: 'Playfair Display', serif;">Poker Tie-Breaker!</h2>
                 <p class="text-lg mb-6" id="poker-message"></p>
 
@@ -151,7 +152,8 @@
                         </div>
                     </div>
                     <!-- Poker Player Hands -->
-                    <div id="poker-players-container" class="space-y-4">
+                    <!-- <div id="poker-players-container" class="space-y-2"> -->
+                    <div id="poker-players-container" class="grid grid-cols-1 md:grid-cols-4 gap-2">
                         <!-- Poker player hands will be rendered here -->
                     </div>
                 </div>
@@ -194,7 +196,7 @@
         let deck = [];
         let players = [];
         let currentPlayerIndex = 0;
-        let numPlayers = 2; // Hardcoded for this version
+        let numPlayers = 4; // Hardcoded for this version
         let gameInProgress = false;
         let pokerState = {
             players: [],
@@ -229,7 +231,7 @@
         }
 
         function getCardValue(rank) {
-            if (rank === 'A') return 11; // Ace is 11 for the main game
+            if (rank === 'A') return 1; // Ace is 1 for the main game
             if (['K', 'Q', 'J'].includes(rank)) return 10;
             if (rank === 'Joker') return 0;
             return parseInt(rank);
@@ -364,7 +366,7 @@
                 const cardValues = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
                 for (const v of cardValues) {
                     const newScore = score + v;
-                    if (newScore >= 25 && newScore < 30) {
+                    if (newScore > 25 && newScore < 30) {
                         return true; // Found a path to victory
                         // return false;
                     }
@@ -381,8 +383,8 @@
          */
         function checkWinConditions(hand, score) {
             const len = hand.length;
-            const is3CardWin = (len === 3 && score >= 25);
-            const is4CardWin = (len === 4 && score >= 25 && score < 30);
+            const is3CardWin = (len === 3 && score > 25);
+            const is4CardWin = (len === 4 && score > 25 && score < 30);
             return is3CardWin || is4CardWin;
             // return false;
         }
@@ -393,7 +395,7 @@
         function checkBust(hand, score) {
             const len = hand.length;
             // Bust on 4th card (score < 25 or score >= 30)
-            if (len === 4 && (score < 25 || score >= 30)) {
+            if (len === 4 && (score <= 25 || score >= 30)) {
                 return true;
             }
             // Any hand over 4 cards is a bust
@@ -525,6 +527,30 @@
             // Show discard buttons for the winner on their *main game hand*
             const mainGameWinner = players.find(p => p.id === winner.id);
             renderPlayerHand(mainGameWinner, true); // true = show discard buttons
+
+            const modalContent = pokerModule.querySelector('.bg-gray-800') || pokerModule.firstElementChild;
+            let pokerCloseBtn = modalContent.querySelector('#poker-close-btn');
+            if (!pokerCloseBtn) {
+                pokerCloseBtn = document.createElement('button');
+                pokerCloseBtn.id = 'poker-close-btn';
+                pokerCloseBtn.textContent = 'Close';
+                pokerCloseBtn.className = 'mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-lg transition duration-200';
+                pokerCloseBtn.addEventListener('click', () => {
+                    // Immediately hide the poker modal and clean up UI
+                    pokerModule.classList.add('hidden');
+                    communityCardsContainer.innerHTML = '';
+                    pokerPlayersContainer.innerHTML = '';
+                    pokerWinnerMessageEl.textContent = '';
+
+                    // Ensure main-game hands are re-rendered without discard buttons
+                    players.forEach(p => {
+                        if (p && p.el) renderPlayerHand(p, false);
+                    });
+                });
+                modalContent.appendChild(pokerCloseBtn);
+            }
+            
+            // setTimeout(() => {pokerModule.classList.add('hidden');}, 5000);
         }
 
 
@@ -605,10 +631,10 @@
             pokerPlayersContainer.innerHTML = '';
             pokerPlayers.forEach(player => {
                 const playerHandDiv = document.createElement('div');
-                playerHandDiv.className = 'border border-gray-600 p-3 rounded-lg';
+                playerHandDiv.className = 'border border-gray-600 p-3 rounded-lg ' + `col-start-${player.id}`;
                 playerHandDiv.innerHTML = `<h5 class="text-md font-semibold text-white mb-2">Player ${player.id}'s Hand</h5>`;
                 const cardsDiv = document.createElement('div');
-                cardsDiv.className = 'flex flex-wrap justify-center';
+                cardsDiv.className = 'flex flex-wrap justify-center ';
                 player.privateHand.forEach(card => {
                     cardsDiv.appendChild(getCardHTML(card));
                 });
