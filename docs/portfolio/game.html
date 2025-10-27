@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 card over 25 or g under 30 but still over 25 and if you draw 3 of the same number in a row then you instantly lose and if you draw a joker in an unwinnable situation then you instantly win and we define unwinnable as you could not win in the base game but if you draw a joker in a winnable situation then you instantly lose and if two or more people are in an unwinnable position then they all must play pot limit omaha and the winner gets to remove one of their cards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0;
+        }
+
+        .card {
+            width: 80px;
+            height: 120px;
+            background-color: #f7fafc;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+            margin: 4px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #2d3748;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            position: relative;
+        }
+
+        .card-joker {
+            background: linear-gradient(135deg, #6b46c1, #b794f4);
+            color: white;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .card span:last-child {
+            align-self: flex-end;
+            transform: rotate(180deg);
+        }
+
+        .card.red {
+            color: #e53e3e;
+        }
+
+        .player-card {
+            border: 2px solid #4a5568;
+            border-radius: 12px;
+            background-color: #2d3748;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .player-card.active {
+            border-color: #63b3ed;
+            box-shadow: 0 0 15px rgba(99, 179, 237, 0.5);
+        }
+
+        .hand-container {
+            min-height: 130px;
+        }
+
+        .discard-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .discard-btn:hover {
+            background-color: #c53030;
+        }
+
+        /* Message Box */
+        #message-box {
+            position: fixed;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2d3748;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: top 0.5s ease-in-out;
+            z-index: 100;
+            border: 1px solid #4a5568;
+            border-top: 0;
+            text-align: center;
+        }
+
+        #message-box.show {
+            top: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <header class="text-center mb-6">
+            <h1 class="text-4xl font-bold text-white" style="font-family: 'Playfair Display', serif;">3 card over 25 or 4 under 30 but still over 25 and if you draw 3 of the same number in a row then you instantly lose and if you draw a joker in an unwinnable situation then you instantly win and we define unwinnable as you could not win in the base game but if you draw a joker in a winnable situation then you instantly lose and if two or more people are in an unwinnable position then they all must play a hand of texas hold em and the winner gets to remove one of their cards</h1>
+            <p class="text-lg text-blue-300" id="game-status">Game in progress...</p>
+        </header>
+
+        <!-- Game Info Bar -->
+        <div class="flex justify-between items-center bg-gray-700 p-4 rounded-lg mb-6 shadow-md">
+            <div>
+                <h2 class="text-xl font-semibold">Current Turn: <span id="current-player-display" class="text-blue-300 font-bold"></span></h2>
+            </div>
+            <div>
+                <p class="text-lg">Deck: <span id="deck-count" class="font-bold">54</span> cards left</p>
+            </div>
+            <button id="new-game-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-200">New Game</button>
+        </div>
+
+        <!-- Players Area -->
+        <div id="players-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Player cards will be injected here -->
+        </div>
+
+        <!-- Poker Module -->
+        <div id="poker-module" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+            <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-3xl w-full text-center border-2 border-purple-500">
+                <h2 class="text-3xl font-bold mb-4 text-purple-300" style="font-family: 'Playfair Display', serif;">Poker Tie-Breaker!</h2>
+                <p class="text-lg mb-6" id="poker-message"></p>
+
+                <!-- Poker Game Area -->
+                <div id="poker-game-area" class="space-y-6 mb-6">
+                    <!-- Community Cards -->
+                    <div id="community-cards-container" class="min-h-[140px]">
+                        <h4 class="text-lg font-semibold text-gray-300 mb-2">Community Cards</h4>
+                        <div id="community-cards" class="flex flex-wrap justify-center">
+                            <!-- Community cards will be rendered here -->
+                        </div>
+                    </div>
+                    <!-- Poker Player Hands -->
+                    <div id="poker-players-container" class="space-y-4">
+                        <!-- Poker player hands will be rendered here -->
+                    </div>
+                </div>
+                
+                <button id="start-poker-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-lg transition duration-200">
+                    Play Texas Hold 'em
+                </button>
+                <p id="poker-winner-message" class="text-xl mt-6 font-semibold text-green-300"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Message Box -->
+    <div id="message-box">
+        <p id="message-text" class="text-lg font-semibold"></p>
+    </div>
+
+    <script type="module">
+        // --- DOM Elements ---
+        const playersContainer = document.getElementById('players-container');
+        const deckCountEl = document.getElementById('deck-count');
+        const gameStatusEl = document.getElementById('game-status');
+        const newGameBtn = document.getElementById('new-game-btn');
+        const currentPlayerDisplay = document.getElementById('current-player-display');
+        
+        // --- Poker Module Elements ---
+        const pokerModule = document.getElementById('poker-module');
+        const pokerMessageEl = document.getElementById('poker-message');
+        const startPokerBtn = document.getElementById('start-poker-btn');
+        const pokerWinnerMessageEl = document.getElementById('poker-winner-message');
+        const communityCardsContainer = document.getElementById('community-cards');
+        const pokerPlayersContainer = document.getElementById('poker-players-container');
+
+        // --- Message Box ---
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+
+        // --- Game State ---
+        let deck = [];
+        let players = [];
+        let currentPlayerIndex = 0;
+        let numPlayers = 2; // Hardcoded for this version
+        let gameInProgress = false;
+        let pokerState = {
+            players: [],
+            communityCards: []
+        };
+
+        // --- Constants ---
+        const SUITS = ['♥', '♦', '♣', '♠'];
+        const RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+        // --- Game Logic ---
+
+        function createDeck() {
+            deck = [];
+            for (const suit of SUITS) {
+                for (const rank of RANKS) {
+                    deck.push({ suit, rank, value: getCardValue(rank) });
+                }
+            }
+            // Add two Jokers
+            deck.push({ suit: 'Joker', rank: 'Joker', value: 0 });
+            deck.push({ suit: 'Joker', rank: 'Joker', value: 0 });
+            return shuffle(deck);
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getCardValue(rank) {
+            if (rank === 'A') return 11; // Ace is 11 for the main game
+            if (['K', 'Q', 'J'].includes(rank)) return 10;
+            if (rank === 'Joker') return 0;
+            return parseInt(rank);
+        }
+
+        function calculateScore(hand) {
+            return hand.reduce((total, card) => total + card.value, 0);
+        }
+
+        function startGame() {
+            deck = createDeck();
+            players = [];
+            for (let i = 1; i <= numPlayers; i++) {
+                players.push({
+                    id: i,
+                    hand: [],
+                    score: 0,
+                    status: 'Playing', // 'Playing', 'Won', 'Lost', 'Unwinnable (Bust)'
+                    el: null
+                });
+            }
+            currentPlayerIndex = 0;
+            gameInProgress = true;
+            
+            pokerModule.classList.add('hidden');
+            pokerWinnerMessageEl.textContent = '';
+            startPokerBtn.style.display = 'block';
+            communityCardsContainer.innerHTML = '';
+            pokerPlayersContainer.innerHTML = '';
+
+            renderAllPlayers();
+            updateGameUI();
+            showMessage("New game started!");
+        }
+
+        function hit() {
+            if (!gameInProgress) return;
+            
+            const player = players[currentPlayerIndex];
+            if (player.status !== 'Playing') {
+                endTurn(); // Should not happen, but as a safeguard
+                return;
+            }
+
+            // 1. Store pre-draw state for Joker rule
+            const preDrawState = {
+                hand: [...player.hand],
+                score: player.score,
+                handLength: player.hand.length
+            };
+
+            // 2. Draw card
+            if (deck.length === 0) {
+                showMessage("Deck is empty! Reshuffling.");
+                deck = createDeck();
+                // Note: In a real game, you'd use the discard pile. Here we just make a new one.
+            }
+            const card = deck.pop();
+            player.hand.push(card);
+            player.score = calculateScore(player.hand);
+            
+            // 3. Render card draw
+            renderPlayerHand(player);
+            
+            // 4. Check instant loss (3-in-a-row)
+            if (checkThreeInARow(player.hand)) {
+                player.status = 'Lost (3-in-a-row)';
+                showMessage(`Player ${player.id} lost! 3 of the same rank in a row.`);
+                endTurn();
+                return;
+            }
+
+            // 5. Check Joker rule
+            if (card.rank === 'Joker') {
+                const isWinnable = checkWinnable(preDrawState.handLength, preDrawState.score);
+                if (!isWinnable) {
+                    player.status = 'Won (Joker)';
+                    showMessage(`Player ${player.id} drew a Joker in an unwinnable situation! INSTANT WIN!`);
+                } else {
+                    player.status = 'Lost (Joker)';
+                    showMessage(`Player ${player.id} drew a Joker in a winnable situation. INSTANT LOSS!`);
+                }
+                endTurn();
+                return;
+            }
+
+            // 6. Check base win conditions
+            if (checkWinConditions(player.hand, player.score)) {
+                player.status = 'Won';
+                showMessage(`Player ${player.id} wins with a score of ${player.score}!`);
+                endTurn();
+                return;
+            }
+
+            // 7. Check bust conditions
+            if (checkBust(player.hand, player.score)) {
+                player.status = 'Unwinnable (Bust)';
+                showMessage(`Player ${player.id} has bust!`);
+                endTurn();
+                return;
+            }
+
+            // 8. No final state, just end turn
+            endTurn();
+        }
+
+        /**
+         * Checks for 3-in-a-row (rank) in the last 3 cards.
+         */
+        function checkThreeInARow(hand) {
+            if (hand.length < 3) return false;
+            const last3 = hand.slice(-3);
+            return last3[0].rank === last3[1].rank && last3[1].rank === last3[2].rank;
+        }
+
+        /**
+         * Checks if the game is "winnable" from a given state (pre-Joker draw).
+         * handLength: number of cards *before* drawing.
+         * score: score *before* drawing.
+         */
+        function checkWinnable(handLength, score) {
+            // With 0, 1, or 2 cards, a win is always possible.
+            if (handLength <= 2) {
+                return true;
+            }
+            
+            // With 3 cards (about to draw 4th):
+            if (handLength === 3) {
+                // 3-card win is already impossible (or would have won).
+                // Can we get a 4-card win (score >= 25 && score < 30)?
+                // Check all possible card values (2-11)
+                const cardValues = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+                for (const v of cardValues) {
+                    const newScore = score + v;
+                    if (newScore >= 25 && newScore < 30) {
+                        return true; // Found a path to victory
+                        // return false;
+                    }
+                }
+                return false; // No card can create a 4-card win
+            }
+
+            // With 4 or more cards, you've already passed win/loss states.
+            return false;
+        }
+
+        /**
+         * Checks for the 3-card or 4-card base win.
+         */
+        function checkWinConditions(hand, score) {
+            const len = hand.length;
+            const is3CardWin = (len === 3 && score >= 25);
+            const is4CardWin = (len === 4 && score >= 25 && score < 30);
+            return is3CardWin || is4CardWin;
+            // return false;
+        }
+
+        /**
+         * Checks for a final bust state.
+         */
+        function checkBust(hand, score) {
+            const len = hand.length;
+            // Bust on 4th card (score < 25 or score >= 30)
+            if (len === 4 && (score < 25 || score >= 30)) {
+                return true;
+            }
+            // Any hand over 4 cards is a bust
+            if (len > 4) {
+                return true;
+            }
+            return false;
+        }
+
+
+        function endTurn() {
+            // Check if all players are in a final state
+            const activePlayers = players.filter(p => p.status === 'Playing');
+            if (activePlayers.length === 0) {
+                gameInProgress = false;
+                resolveGame();
+            } else {
+                // Find next 'Playing' player
+                do {
+                    currentPlayerIndex = (currentPlayerIndex + 1) % numPlayers;
+                } while (players[currentPlayerIndex].status !== 'Playing');
+            }
+            updateGameUI();
+        }
+
+        function resolveGame() {
+            const unwinnablePlayers = players.filter(p => p.status === 'Unwinnable (Bust)');
+            
+            if (unwinnablePlayers.length >= 2) {
+                // Trigger Poker Mode
+                gameStatusEl.textContent = "Game Paused: Poker Tie-Breaker!";
+                pokerMessageEl.textContent = `Players ${unwinnablePlayers.map(p => p.id).join(' & ')} are in an unwinnable position! Playing one hand of Texas Hold 'em to decide who continues.`;
+                pokerWinnerMessageEl.textContent = '';
+                communityCardsContainer.innerHTML = '';
+                pokerPlayersContainer.innerHTML = '';
+                startPokerBtn.dataset.players = JSON.stringify(unwinnablePlayers.map(p => p.id));
+                startPokerBtn.style.display = 'block';
+                pokerModule.classList.remove('hidden');
+            } else {
+                // Normal game end
+                const winner = players.find(p => p.status.includes('Won'));
+                if (winner) {
+                    gameStatusEl.textContent = `Player ${winner.id} Wins!`;
+                } else {
+                    gameStatusEl.textContent = "Game Over! No winners.";
+                }
+            }
+            
+            // Disable all hit buttons
+            players.forEach(p => {
+                const hitBtn = p.el.querySelector('.hit-btn');
+                if (hitBtn) {
+                    hitBtn.disabled = true;
+                    hitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            });
+        }
+
+        function startPokerHand() {
+            const playerIds = JSON.parse(startPokerBtn.dataset.players);
+            const pokerPlayers = players
+                .filter(p => playerIds.includes(p.id))
+                .map(p => ({ ...p, privateHand: [] })); // Create new objects for poker game
+            
+            startPokerBtn.style.display = 'none';
+            pokerWinnerMessageEl.textContent = 'Dealing...';
+
+            const pokerDeck = createPokerDeck();
+            let communityCards = [];
+
+            // Deal private hands
+            pokerPlayers.forEach(p => {
+                p.privateHand.push(pokerDeck.pop());
+                p.privateHand.push(pokerDeck.pop());
+            });
+
+            // Deal community cards
+            for (let i = 0; i < 5; i++) {
+                communityCards.push(pokerDeck.pop());
+            }
+            
+            pokerState.players = pokerPlayers;
+            pokerState.communityCards = communityCards;
+
+            renderPokerUI(pokerPlayers, communityCards);
+
+            // Evaluate after a short delay
+            setTimeout(evaluatePokerShowdown, 1500);
+        }
+
+        function evaluatePokerShowdown() {
+            const { players, communityCards } = pokerState;
+            let bestHand = null;
+            let winner = null;
+
+            players.forEach(player => {
+                const sevenCards = [...player.privateHand, ...communityCards];
+                player.bestPokerHand = getBestPokerHand(sevenCards);
+            });
+
+            // Determine winner
+            let winners = [];
+            let bestEval = null;
+
+            for (const player of players) {
+                if (!bestEval) {
+                    winners = [player];
+                    bestEval = player.bestPokerHand.eval;
+                } else {
+                    const comparison = comparePokerHands(player.bestPokerHand.eval, bestEval);
+                    if (comparison > 0) { // New best hand
+                        winners = [player];
+                        bestEval = player.bestPokerHand.eval;
+                    } else if (comparison === 0) { // Tie
+                        winners.push(player);
+                    }
+                }
+            }
+
+            if (winners.length === 1) {
+                winner = winners[0];
+                pokerWinnerMessageEl.textContent = `Player ${winner.id} wins with a ${winner.bestPokerHand.name}! Choose a card to remove.`;
+            } else {
+                // Handle tie: pick one randomly (or could extend to split pot, but here we just need one winner)
+                winner = winners[Math.floor(Math.random() * winners.length)];
+                pokerWinnerMessageEl.textContent = `Tie! Players ${winners.map(p => p.id).join(' & ')} all had a ${winners[0].bestPokerHand.name}. Player ${winner.id} wins the random tie-break! Choose a card to remove.`;
+            }
+
+            // Show discard buttons for the winner on their *main game hand*
+            const mainGameWinner = players.find(p => p.id === winner.id);
+            renderPlayerHand(mainGameWinner, true); // true = show discard buttons
+        }
+
+
+        function onDiscard(playerId, cardIndex) {
+            const player = players.find(p => p.id === playerId);
+            if (!player) return;
+
+            // Remove card
+            player.hand.splice(cardIndex, 1);
+            player.score = calculateScore(player.hand);
+            player.status = 'Playing';
+
+            // Hide poker module
+            pokerModule.classList.add('hidden');
+            communityCardsContainer.innerHTML = '';
+            pokerPlayersContainer.innerHTML = '';
+            
+            // Re-render player hand (without discard buttons)
+            renderPlayerHand(player, false);
+
+            // Set game to continue, starting with this player
+            gameInProgress = true;
+            currentPlayerIndex = players.indexOf(player);
+            gameStatusEl.textContent = "Game in progress...";
+            
+            // Check if any other players are still playing
+            const otherPlaying = players.filter(p => p.id !== player.id && p.status === 'Playing');
+            if (otherPlaying.length === 0 && player.hand.length === 0) {
+                 // Edge case: if last player discards last card, what happens? Let's make them win.
+                player.status = 'Won (Poker)';
+                resolveGame();
+            } else {
+                endTurn(); // This will find the next active player (which might be this one or another)
+            }
+        }
+
+        // --- UI Rendering ---
+
+        function renderAllPlayers() {
+            playersContainer.innerHTML = '';
+            for (const player of players) {
+                const playerDiv = document.createElement('div');
+                playerDiv.className = `player-card p-4 transition-all duration-300`;
+                playerDiv.id = `player-${player.id}-card`;
+                player.el = playerDiv;
+
+                playerDiv.innerHTML = `
+                    <h3 class="text-2xl font-bold mb-3 text-white">Player ${player.id}</h3>
+                    <div class="hand-container flex flex-wrap mb-3" id="player-${player.id}-hand">
+                        <!-- Cards go here -->
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-lg font-semibold">Score: <span id="player-${player.id}-score" class="text-blue-300">0</span></p>
+                            <p class="text-sm font-medium">Status: <span id="player-${player.id}-status" class="text-gray-400">Playing</span></p>
+                        </div>
+                        <button id="player-${player.id}-hit-btn" class="hit-btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200">
+                            Hit
+                        </button>
+                    </div>
+                `;
+                playersContainer.appendChild(playerDiv);
+                
+                playerDiv.querySelector('.hit-btn').addEventListener('click', hit);
+                renderPlayerHand(player);
+                updatePlayerUI(player);
+            }
+        }
+
+        function renderPokerUI(pokerPlayers, communityCards) {
+            // Render community cards
+            communityCardsContainer.innerHTML = '';
+            communityCards.forEach(card => {
+                communityCardsContainer.appendChild(getCardHTML(card));
+            });
+
+            // Render player hands
+            pokerPlayersContainer.innerHTML = '';
+            pokerPlayers.forEach(player => {
+                const playerHandDiv = document.createElement('div');
+                playerHandDiv.className = 'border border-gray-600 p-3 rounded-lg';
+                playerHandDiv.innerHTML = `<h5 class="text-md font-semibold text-white mb-2">Player ${player.id}'s Hand</h5>`;
+                const cardsDiv = document.createElement('div');
+                cardsDiv.className = 'flex flex-wrap justify-center';
+                player.privateHand.forEach(card => {
+                    cardsDiv.appendChild(getCardHTML(card));
+                });
+                playerHandDiv.appendChild(cardsDiv);
+                pokerPlayersContainer.appendChild(playerHandDiv);
+            });
+        }
+
+        function renderPlayerHand(player, showDiscard = false) {
+            const handEl = player.el.querySelector(`#player-${player.id}-hand`);
+            handEl.innerHTML = '';
+            player.hand.forEach((card, index) => {
+                handEl.appendChild(getCardHTML(card, player.id, index, showDiscard));
+            });
+            player.el.querySelector(`#player-${player.id}-score`).textContent = player.score;
+        }
+
+        function getCardHTML(card, playerId, cardIndex, showDiscard) {
+            const cardDiv = document.createElement('div');
+            const isRed = card.suit === '♥' || card.suit === '♦';
+            
+            if (card.rank === 'Joker') {
+                cardDiv.className = 'card card-joker';
+                cardDiv.innerHTML = `<span>JOKER</span>`;
+            } else {
+                cardDiv.className = `card ${isRed ? 'red' : ''}`;
+                cardDiv.innerHTML = `
+                    <span>${card.rank}</span>
+                    <span>${card.suit}</span>
+                `;
+            }
+
+            if (showDiscard) {
+                const discardBtn = document.createElement('button');
+                discardBtn.className = 'discard-btn';
+                discardBtn.innerHTML = '&times;';
+                discardBtn.onclick = () => onDiscard(playerId, cardIndex);
+                cardDiv.appendChild(discardBtn);
+            }
+
+            return cardDiv;
+        }
+
+        function updateGameUI() {
+            deckCountEl.textContent = deck.length;
+            
+            if (gameInProgress) {
+                const currentPlayer = players[currentPlayerIndex];
+                currentPlayerDisplay.textContent = `Player ${currentPlayer.id}`;
+                gameStatusEl.textContent = "Game in progress...";
+            }
+
+            players.forEach((player, index) => {
+                updatePlayerUI(player, index === currentPlayerIndex && gameInProgress);
+            });
+        }
+        
+        function updatePlayerUI(player, isActive = false) {
+            const statusEl = player.el.querySelector(`#player-${player.id}-status`);
+            statusEl.textContent = player.status;
+
+            const hitBtn = player.el.querySelector('.hit-btn');
+            
+            // Set button state
+            if (isActive && player.status === 'Playing') {
+                hitBtn.disabled = false;
+                hitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-500');
+                hitBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            } else {
+                hitBtn.disabled = true;
+                hitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                hitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                hitBtn.classList.add('bg-gray-500');
+            }
+
+            // Set card active state
+            if (isActive && player.status === 'Playing') {
+                player.el.classList.add('active');
+            } else {
+                player.el.classList.remove('active');
+            }
+            
+            // Set status color
+            if (player.status.includes('Won')) {
+                statusEl.className = 'text-green-400';
+            } else if (player.status.includes('Lost') || player.status.includes('Bust')) {
+                statusEl.className = 'text-red-400';
+            } else {
+                statusEl.className = 'text-gray-400';
+            }
+        }
+
+        function showMessage(msg) {
+            messageText.textContent = msg;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- Event Listeners ---
+        newGameBtn.addEventListener('click', startGame);
+        startPokerBtn.addEventListener('click', startPokerHand);
+
+        // --- Initial Start ---
+        startGame();
+
+        // --- START POKER EVALUATION LOGIC ---
+
+        function createPokerDeck() {
+            const suits = ['♥', '♦', '♣', '♠'];
+            const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
+            let deck = [];
+            for (const suit of suits) {
+                for (const rank of ranks) {
+                    deck.push({ suit, rank, value: getPokerCardValue(rank) });
+                }
+            }
+            return shuffle(deck);
+        }
+
+        function getPokerCardValue(rank) {
+            if (rank === 'A') return 14;
+            if (rank === 'K') return 13;
+            if (rank === 'Q') return 12;
+            if (rank === 'J') return 11;
+            if (rank === 'T') return 10;
+            return parseInt(rank);
+        }
+
+        const POKER_HAND_RANKS = {
+            ROYAL_FLUSH: 9,
+            STRAIGHT_FLUSH: 8,
+            FOUR_OF_A_KIND: 7,
+            FULL_HOUSE: 6,
+            FLUSH: 5,
+            STRAIGHT: 4,
+            THREE_OF_A_KIND: 3,
+            TWO_PAIR: 2,
+            ONE_PAIR: 1,
+            HIGH_CARD: 0
+        };
+
+        // Takes 7 cards, returns the best 5-card hand evaluation
+        function getBestPokerHand(sevenCards) {
+            const combinations = getCombinations(sevenCards, 5);
+            let bestHand = { name: 'High Card', eval: { rank: 0, kickers: [0,0,0,0,0] } };
+
+            for (const fiveCardHand of combinations) {
+                const eval_ = evaluateFiveCardHand(fiveCardHand);
+                if (comparePokerHands(eval_, bestHand.eval) > 0) {
+                    bestHand = { name: getHandName(eval_.rank), eval: eval_ };
+                }
+            }
+            return bestHand;
+        }
+
+        // Evaluates a 5-card hand, returns an object for comparison
+        function evaluateFiveCardHand(hand) {
+            const sortedHand = [...hand].sort((a, b) => b.value - a.value);
+            const values = sortedHand.map(c => c.value);
+            const suits = sortedHand.map(c => c.suit);
+            
+            const isFlush = suits.every(s => s === suits[0]);
+            
+            // Check for straight (Ace-low and Ace-high)
+            const isAceLowStraight = (values.join(',') === '14,5,4,3,2');
+            let isNormalStraight = true;
+            for (let i = 0; i < 4; i++) {
+                if (values[i] !== values[i+1] + 1) {
+                    isNormalStraight = false;
+                    break;
+                }
+            }
+            
+            const isStraight = isNormalStraight || isAceLowStraight;
+            const straightKickers = isAceLowStraight ? [5,4,3,2,1] : values; // Use 1 for Ace in A-5 straight
+
+            if (isStraight && isFlush) {
+                if (values[0] === 14 && values[1] === 13) { // Ace high straight flush
+                    return { rank: POKER_HAND_RANKS.ROYAL_FLUSH, kickers: straightKickers };
+                }
+                return { rank: POKER_HAND_RANKS.STRAIGHT_FLUSH, kickers: straightKickers };
+            }
+
+            // Check for pairs, threes, fours
+            const counts = {};
+            values.forEach(v => { counts[v] = (counts[v] || 0) + 1; });
+            const groups = Object.entries(counts).sort((a, b) => b[1] - a[1]); // Sort by count
+            
+            const ranksByCount = {};
+            for (const [value, count] of groups) {
+                if (!ranksByCount[count]) ranksByCount[count] = [];
+                ranksByCount[count].push(parseInt(value));
+            }
+            for (const count in ranksByCount) {
+                ranksByCount[count].sort((a,b) => b-a); // Sort values high to low
+            }
+
+            if (ranksByCount[4]) { // Four of a Kind
+                const quadValue = ranksByCount[4][0];
+                const kicker = ranksByCount[1][0];
+                return { rank: POKER_HAND_RANKS.FOUR_OF_A_KIND, kickers: [quadValue, kicker] };
+            }
+
+            if (ranksByCount[3] && ranksByCount[2]) { // Full House
+                const tripValue = ranksByCount[3][0];
+                const pairValue = ranksByCount[2][0];
+                return { rank: POKER_HAND_RANKS.FULL_HOUSE, kickers: [tripValue, pairValue] };
+            }
+
+            if (isFlush) {
+                return { rank: POKER_HAND_RANKS.FLUSH, kickers: values };
+            }
+
+            if (isStraight) {
+                return { rank: POKER_HAND_RANKS.STRAIGHT, kickers: straightKickers };
+            }
+
+            if (ranksByCount[3]) { // Three of a Kind
+                const tripValue = ranksByCount[3][0];
+                const kickers = ranksByCount[1];
+                return { rank: POKER_HAND_RANKS.THREE_OF_A_KIND, kickers: [tripValue, ...kickers] };
+            }
+            
+            if (ranksByCount[2] && ranksByCount[2].length === 2) { // Two Pair
+                const pairValues = ranksByCount[2];
+                const kicker = ranksByCount[1][0];
+                return { rank: POKER_HAND_RANKS.TWO_PAIR, kickers: [pairValues[0], pairValues[1], kicker] };
+            }
+
+            if (ranksByCount[2]) { // One Pair
+                const pairValue = ranksByCount[2][0];
+                const kickers = ranksByCount[1];
+                return { rank: POKER_HAND_RANKS.ONE_PAIR, kickers: [pairValue, ...kickers] };
+            }
+
+            // High Card
+            return { rank: POKER_HAND_RANKS.HIGH_CARD, kickers: values };
+        }
+
+        // Compare two hand evaluations. Returns > 0 if evalA is better, < 0 if evalB is better, 0 if tie.
+        function comparePokerHands(evalA, evalB) {
+            if (evalA.rank !== evalB.rank) {
+                return evalA.rank - evalB.rank;
+            }
+            // Same rank, check kickers
+            for (let i = 0; i < evalA.kickers.length; i++) {
+                if (evalA.kickers[i] !== evalB.kickers[i]) {
+                    return evalA.kickers[i] - evalB.kickers[i];
+                }
+            }
+            return 0; // Absolute tie
+        }
+
+        function getHandName(rank) {
+            for (const name in POKER_HAND_RANKS) {
+                if (POKER_HAND_RANKS[name] === rank) return name.replace('_', ' ');
+            }
+            return 'Unknown';
+        }
+
+        // Helper function to get all combinations
+        function getCombinations(array, k) {
+            const result = [];
+            function comb(temp, start) {
+                if (temp.length === k) {
+                    result.push([...temp]);
+                    return;
+                }
+                for (let i = start; i < array.length; i++) {
+                    temp.push(array[i]);
+                    comb(temp, i + 1);
+                    temp.pop();
+                }
+            }
+            comb([], 0);
+            return result;
+        }
+
+        // --- END POKER EVALUATION LOGIC ---
+
+    </script>
+</body>
+</html>
+
+
