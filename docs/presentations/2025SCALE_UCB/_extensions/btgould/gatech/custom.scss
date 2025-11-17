@@ -1,0 +1,137 @@
+/*-- scss:defaults --*/
+
+// <!-- Primary Colors -->
+$tech-gold: #b3a369 !default;
+$navy-blue: #003057 !default;
+$white: #ffffff !default;
+
+// <!-- Accessible Tech Gold (For fonts on white backgrounds) -->
+$tech-medium-gold: #a4925a !default;
+$tech-dark-gold: #857437 !default;
+
+// <!-- Secondary Colors -->
+$gray-matter: #54585a !default;
+$pi-mile: #d6dbd4 !default;
+$diploma: #f9f6e5 !default;
+$buzz-gold: #eaaa00 !default;
+
+// <!-- Tertiary Colors -->
+// <!-- CMYK-Based Tertiaries -->
+$impact-purple: #5f249f !default;
+$bold-blue: #3a5dae !default;
+$olympic-teal: #008c95 !default;
+$electric-blue: #64ccc9 !default;
+$canopy-lime: #a4d233 !default;
+$rat-cap: #ffcd00 !default;
+$new-horizon: #e04f39 !default;
+
+$tertiaries : (
+  "purple": $impact-purple,
+  "blue": $bold-blue,
+  "teal": $olympic-teal,
+  "electric": $electric-blue,
+  "canopy": $canopy-lime,
+  "cap": $rat-cap,
+  "horizon": $new-horizon,
+);
+
+// <!-- RGB-Based Tertiaries ("Brights") -->
+$bright-purple: #7800ff !default;
+$bright-blue: #2961ff !default;
+$bright-electric: #00ffff !default;
+$bright-canopy: #00ec9c !default;
+$bright-buzz: #ffcc00 !default;
+$bright-horizon: #ff640f !default;
+
+$brights : (
+  "purple": $bright-purple,
+  "blue": $bright-blue,
+  "electric": $bright-electric,
+  "canopy": $bright-canopy,
+  "buzz": $bright-buzz,
+  "horizon": $bright-horizon,
+);
+
+$navy-stroke: #171543 !default;
+$pi-mile-stroke: #808080 !default;
+$yellow: #fed76e !default;
+
+$font-family-sans-serif: "Roboto" !default;
+
+$body-color: $navy-blue !default;
+
+$callout-color-note: $yellow !default;
+$callout-color-tip: $canopy-lime !default;
+$callout-color-caution: $new-horizon !default;
+$callout-color-warning: $rat-cap !default;
+$callout-color-important: $electric-blue !default;
+
+
+$br-default: 10px; 
+$padding-default: 5px;
+$margin-default: 5px;
+$opacity-default: 0.5;
+
+/*-- scss:rules --*/
+
+.reveal .backgrounds .quarto-title-block {
+  background-image: url("/assets/background_title.png");
+  background-size: cover;
+}
+
+.reveal .backgrounds .title-slide {
+  background-image: url("/assets/background_section_blank.jpg");
+  background-size: cover;
+}
+
+.reveal .backgrounds {
+  background-image: url("/assets/background_slide.png");
+  background-size: cover;
+}
+
+.reveal .slides .pdf-page .slide-background.quarto-title-block {
+  background-image: url("/assets/background_title.png");
+  background-size: cover;
+}
+
+.reveal .slides .pdf-page .slide-background.title-slide.slide {
+  background-image: url("/assets/background_section_blank.jpg");
+  background-size: cover;
+}
+
+.reveal .slides .pdf-page .slide-background.slide {
+  background-image: url("/assets/background_slide.png");
+  background-size: cover;
+}
+
+.reveal .slides blockquote {
+  color: $gray-matter;
+  border-left: 4px solid $buzz-gold;
+}
+
+// Custom classes 
+
+
+.horiz {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@each $color, $value in $brights {
+  .hl-#{$color} {
+    margin: $margin-default;
+    padding: $padding-default;
+    border-radius: $br-default;
+    background-color: rgba($value, $opacity-default);
+  }
+
+  .reveal .slides section .fragment.hl-#{$color} {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .reveal .slides section .fragment.hl-#{$color}.visible {
+    background-color: rgba($value, $opacity-default);
+  }
+}

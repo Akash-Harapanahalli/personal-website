@@ -24,4 +24,6 @@ My research is centered around safety verification of nonlinear control systems-
 I have been developing a toolbox called [`immrax`](https://github.com/gtfactslab/immrax), which we have used to scalably certify safe performance of neural networks in safety-critical control systems, and train neural networks with robust safety guarantees outright.
 I am also interested in more mathematical tools such as contraction theory and differential geometry, and how they factor into modern control systems analysis.
 
+Please see [link](/presentations/2025SCALE_UCB/) for a distilled presentation on my research into parametric reachable sets for neural network controlled dynamical systems.
+
 <!-- For instance, combining monotone systems theory with geometric integration theory, I developed an algorithm to efficiently compute reachable sets in control systems evolving on Lie groups \[[see here]()\].  -->

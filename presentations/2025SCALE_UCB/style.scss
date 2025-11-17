@@ -1,0 +1,55 @@
+/* file: style.css */
+
+/*-- scss:rules --*/
+
+
+#vcenter {
+  vertical-align: middle;
+}
+
+#center {
+  text-align: center;
+}
+
+
+.callout.callout-style-default .callout-body {
+  font-size: 2.5rem !important;
+}
+
+
+.reveal .slide aside, .reveal .slide div.aside {
+  bottom: -10px;
+  font-size: 0.75em !important;
+  color: #003057;
+}
+
+// .reveal pre {
+//   font-size: 1.8rem !important;
+// }
+
+.reveal pre code {
+  font-size: 1.75em !important;
+}
+
+.reveal code {
+  font-size: 1.0em !important;
+}
+
+// .citations {
+//   font-size: 1.0em !important;
+//   color: #003057;
+// }
+
+
+figcaption {
+  margin: auto;
+  text-align: center;
+}
+
+
+// $callout-color-note: $yellow !default;
+// $callout-color-tip: $canopy-lime !default;
+// $callout-color-caution: $new-horizon !default;
+// $callout-color-warning: $rat-cap !default;
+// $callout-color-important: #4e5700 !important;
+
