@@ -1,5 +1,29 @@
 ---
 title: CV
+jupyter: python3
+execute:
+  enabled: true
 ---
 
-<embed src="/files/AkashHarapanahalliCV.pdf" type="application/pdf" width=800 height=1200/>
+```{python}
+#| echo: false
+#| output: asis
+import importlib.util, sys
+from pathlib import Path
+
+# Locate _render.py regardless of where Quarto invokes us from.
+_here = Path(sys.path[0] or ".").resolve()
+for candidate in (_here, _here / "cv", Path.cwd() / "cv", Path.cwd()):
+    if (candidate / "_render.py").exists():
+        _render_dir = candidate
+        break
+else:
+    raise FileNotFoundError("Could not locate cv/_render.py")
+
+spec = importlib.util.spec_from_file_location("_render", _render_dir / "_render.py")
+_render = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(_render)
+
+yaml_path = (_render_dir.parent / "_data" / "cv.yml").resolve()
+print(_render.render_cv(str(yaml_path)))
+```

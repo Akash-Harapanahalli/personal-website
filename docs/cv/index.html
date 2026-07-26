@@ -70,8 +70,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 <meta property="og:title" content="CV – Akash Harapanahalli">
+<meta property="og:description" content="I am a Graduate Research Assistant in the Formal Methods &amp; Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech. Broadly, I am interested in the intersection of control theory and machine learning; more specifically, I want to guarantee safe behavior in safety-critical learning-enabled applications.">
 <meta property="og:site_name" content="Akash Harapanahalli">
 <meta name="twitter:title" content="CV – Akash Harapanahalli">
+<meta name="twitter:description" content="I am a Graduate Research Assistant in the Formal Methods &amp; Autonomous Control of Transportation Systems (FACTS) Lab at Georgia Tech. Broadly, I am interested in the intersection of control theory and machine learning; more specifically, I want to guarantee safe behavior in safety-critical learning-enabled applications.">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -142,9 +144,525 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<embed src="../files/AkashHarapanahalliCV.pdf" type="application/pdf" width="800" height="1200/">
+<style>
+.cv-row { display: flex; justify-content: space-between; gap: 1em; align-items: baseline; margin-top: 0.15em; }
+.cv-date { white-space: nowrap; color: #555; font-size: 0.95em; }
+.cv-bullets { margin-top: 0.25em; margin-bottom: 0.5em; }
+.cv-bullets li { margin-bottom: 0.15em; }
+.cv-contact { text-align: center; font-size: 0.95em; margin-bottom: 0.5em; }
+.cv-downloads { text-align: center; margin-bottom: 1.2em; }
+.cv-skill { margin-top: 0.15em; }
+</style>
+<div class="cv-contact">
+408-515-9157 ♦ Atlanta, GA ♦ San Ramon, CA ♦ US Citizen ♦ <a href="mailto:akash.harapanahalli@gmail.com">akash.harapanahalli@gmail.com</a> ♦ <a href="https://akashhara.com">akashhara.com</a> ♦ <a href="https://github.com/Akash-Harapanahalli">github.com/Akash-Harapanahalli</a> ♦ <a href="https://scholar.google.com/citations?user=27NJl1kAAAAJ&amp;hl=en">Google Scholar</a>
+</div>
+<div class="cv-downloads">
+<a href="../files/AkashHarapanahalliCV.pdf" class="btn btn-primary">Download CV (PDF)</a> <a href="../files/AkashHarapanahalliResume.pdf" class="btn btn-outline-primary">Download Resume (PDF)</a>
+</div>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Graduate Research Assistant in the Formal Methods &amp; Autonomous Control of Transportation Systems (<a href="https://coogan.ece.gatech.edu/">FACTS</a>) Lab at Georgia Tech, under the supervision of Dr.&nbsp;Samuel Coogan, currently pursuing a PhD in Machine Learning. Research is centered around safety verification of nonlinear AI-based control systems, mainly through reachability, invariance, and contraction analysis. Developer of <a href="https://github.com/gtfactslab/immrax">immrax</a>, a JAX toolbox used to scalably certify safe performance of neural networks in safety-critical control systems and to train neural networks with robust safety guarantees outright.</p>
+</section>
+<section id="current-position" class="level2">
+<h2 class="anchored" data-anchor-id="current-position">Current Position</h2>
+<strong>Georgia Institute of Technology</strong> — Atlanta, GA<br>
+
+<div class="cv-row">
+<div>
+Machine Learning PhD Candidate, Department of Electrical and Computer Engineering
+</div>
+<div class="cv-date">
+Aug 2022 - Present
+</div>
+</div>
+</section>
+<section id="education" class="level2">
+<h2 class="anchored" data-anchor-id="education">Education</h2>
+<p><strong>Georgia Institute of Technology</strong> — Atlanta, GA</p>
+<div class="cv-row">
+<div>
+<strong>PhD Machine Learning</strong> — GPA: 4.00
+</div>
+<div class="cv-date">
+Aug 2022 - 2027
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>MS Mathematics</strong> — GPA: 4.00
+</div>
+<div class="cv-date">
+Aug 2022 - Aug 2025
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>BS Computer Engineering, with Highest Honor</strong> — GPA: 4.00
+</div>
+<div class="cv-date">
+Aug 2019 - May 2022
+</div>
+</div>
+</section>
+<section id="technical-skills" class="level2">
+<h2 class="anchored" data-anchor-id="technical-skills">Technical Skills</h2>
+<div class="cv-skill">
+<strong>ML &amp; Scientific Computing:</strong> JAX, PyTorch, Tensorflow, NumPy, SciPy, SymPy, DRAKE, immrax (author)
+</div>
+<div class="cv-skill">
+<strong>Math, Control &amp; Robotics:</strong> Neural network verification, Reachability analysis, Contraction theory, Lie groups, Differential geometry, Model predictive control
+</div>
+<div class="cv-skill">
+<strong>Programming Languages:</strong> Python, C/C++, MATLAB, SystemVerilog, Embedded C / RTOS
+</div>
+<div class="cv-skill">
+<strong>Tools &amp; Platforms:</strong> Linux, Claude Code, Git, ROS2, Arduino, Raspberry Pi, Onshape, Solidworks, Eagle PCB
+</div>
+</section>
+<section id="research-experience" class="level2">
+<h2 class="anchored" data-anchor-id="research-experience">Research Experience</h2>
+<div class="cv-row">
+<div>
+<strong>Graduate Research Assistant</strong> — <a href="https://coogan.ece.gatech.edu/group.html">FACTS Lab, Georgia Tech</a>
+</div>
+<div class="cv-date">
+Aug 2022 - Present
+</div>
+</div>
+<p>Research is centered around safety verification in AI-based control of nonlinear dynamical systems.<br>
+<em>Research Philosophy:</em> Develop rich mathematical theory alongside useful computational tools.</p>
+<ul class="cv-bullets">
+<li>
+AI models have little robustness guarantees; this is dangerous when applied in safety-critical domains.
+</li>
+<li>
+Developed a mathematical framework and efficient, GPU-scalable, differentiable toolbox called <a href="https://github.com/gtfactslab/immrax"><code>immrax</code></a> for parametric reachability analysis of nonlinear systems with neural network controllers.
+</li>
+<li>
+Trained neural network controllers for dynamical systems with formal guarantees of safe operation.
+</li>
+<li>
+Developed algorithm for efficient reachable set computation in systems evolving on Lie group state spaces.
+</li>
+<li>
+Studied contracting dynamical systems evolving on homogeneous manifolds with Riemannian metrics.
+</li>
+<li>
+Mentoring a PhD student and an undergraduate student, building technical communication skills.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>Athena Controls Lead</strong> — <a href="https://lab-idar.gatech.edu/">LIDAR Lab, Georgia Tech</a>
+</div>
+<div class="cv-date">
+Jan 2020 - May 2022
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+Led and mentored a subteam of 8 undergraduates to design manipulator planning and control solutions for a humanoid robot using position, velocity, and force approaches.
+</li>
+<li>
+Guided peers through a ramping process to understand complex math and background theory.
+</li>
+<li>
+Used the DRAKE C++ toolbox to simulate dynamic physical conditions and validate control methods.
+</li>
+<li>
+Designed impedance controller for robust, compliant task-space position and force robot manipulation.
+</li>
+</ul>
+</section>
+<section id="publications-google-scholar" class="level2">
+<h2 class="anchored" data-anchor-id="publications-google-scholar">Publications [<a href="https://scholar.google.com/citations?user=27NJl1kAAAAJ&amp;hl=en">Google Scholar</a>]</h2>
+<p>* <em>indicates equal contribution</em></p>
+<style>.cv-preprints ol { list-style-type:none; counter-reset:item 3; padding-left: 2.5em; }.cv-preprints ol > li { counter-increment:item -1; }.cv-preprints ol > li::marker { content: "[P" counter(item) "]  "; }</style>
+<p><strong><em>Preprints</em></strong></p>
+<div class="cv-preprints">
+<ol type="1">
+<li><strong>A. Harapanahalli</strong>, S. Coogan, A. Davydov, “<a href="https://arxiv.org/abs/2603.28011">Learning Certified Neural Network Controllers Using Contraction and Interval Analysis.</a>” <em>To appear in IEEE Control Systems Letters (L-CSS), 2026</em>. [<a href="https://arxiv.org/pdf/2603.28011">pdf</a>]</li>
+<li>V. Madabushi, <strong>A. Harapanahalli</strong>, S. Coogan, M. Tucker, “<a href="https://arxiv.org/abs/2604.05108">Differentiable Invariant Sets for Hybrid Limit Cycles with Application to Legged Robots.</a>” <em>In submission, 2026</em>. [<a href="https://arxiv.org/pdf/2604.05108">pdf</a>]</li>
+</ol>
+</div>
+<style>.cv-journals ol { list-style-type:none; counter-reset:item 6; padding-left: 2.5em; }.cv-journals ol > li { counter-increment:item -1; }.cv-journals ol > li::marker { content: "[J" counter(item) "]  "; }</style>
+<p><strong><em>Journal Articles</em></strong></p>
+<div class="cv-journals">
+<ol type="1">
+<li><strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://doi.org/10.1109/TAC.2025.3626266">A Linear Differential Inclusion for Contraction Analysis to Known Trajectories.</a>” <em>IEEE Transactions on Automatic Control (TAC), 2025</em>. [<a href="https://arxiv.org/pdf/2411.11587">pdf</a>] [<a href="../presentations/2024CDC_LDIcontr/">slides</a>]</li>
+<li>B. Gould, <strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://doi.org/10.1109/LCSYS.2025.3582206">Automatic and Scalable Safety Verification Using Interval Reachability With Subspace Sampling.</a>” <em>IEEE Control Systems Letters (L-CSS), 2025</em>. [<a href="https://coogan.ece.gatech.edu/papers/pdf/gould2025interval.pdf">pdf</a>]</li>
+<li>S. Jafarpour*, <strong>A. Harapanahalli*</strong>, S. Coogan, “<a href="https://doi.org/10.1109/TAC.2024.3420968">Efficient Interaction-Aware Interval Analysis of Neural Network Feedback Loops.</a>” <em>IEEE Transactions on Automatic Control (TAC), 2024</em>. [<a href="https://arxiv.org/pdf/2307.14938">pdf</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Jafarpour, S. Coogan, “<a href="https://doi.org/10.1109/LCSYS.2023.3341980">Forward Invariance in Neural Network Controlled Systems.</a>” <em>IEEE Control Systems Letters (L-CSS), 2023</em>. [<a href="https://arxiv.org/pdf/2309.09043">pdf</a>] [<a href="../presentations/2024ACC_Invariance/">slides</a>]</li>
+<li>L. Baird, <strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://doi.org/10.1109/LCSYS.2023.3337744">Interval Signal Temporal Logic From Natural Inclusion Functions.</a>” <em>IEEE Control Systems Letters (L-CSS), 2023</em>. [<a href="https://arxiv.org/pdf/2309.10686">pdf</a>]</li>
+</ol>
+</div>
+<style>.cv-conferences ol { list-style-type:none; counter-reset:item 11; padding-left: 2.5em; }.cv-conferences ol > li { counter-increment:item -1; }.cv-conferences ol > li::marker { content: "[C" counter(item) "]  "; }</style>
+<p><strong><em>Conference Papers and Abstracts</em></strong></p>
+<div class="cv-conferences">
+<ol type="1">
+<li><strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://arxiv.org/abs/2509.23367">Efficient Norm-Based Reachable Sets via Iterative Dynamic Programming.</a>” <em>American Control Conference (ACC), 2026</em>. [<a href="https://arxiv.org/pdf/2509.23367">pdf</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://arxiv.org/abs/2408.01273">Certified Robust Invariant Polytope Training in Neural Controlled ODEs.</a>” <em>Learning for Dynamics and Control Conference (L4DC), 2026</em>. [<a href="https://arxiv.org/pdf/2408.01273">pdf</a>] [<a href="https://github.com/gtfactslab/Polytope-Training">code</a>] [<a href="../presentations/2025VNNCS_workshop/">slides</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://arxiv.org/abs/2504.06955">Parametric Reachable Sets Via Controlled Dynamical Embeddings.</a>” <em>IEEE Conference on Decision and Control (CDC), 2025</em>. [<a href="https://arxiv.org/pdf/2504.06955">pdf</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://arxiv.org/abs/2410.15441">A Global Coordinate-Free Approach to Invariant Contraction on Homogeneous Manifolds.</a>” <em>American Control Conference (ACC), 2025</em>. [<a href="https://arxiv.org/pdf/2410.15441">pdf</a>] [<a href="../presentations/2025ACC_Homogeneous/">slides</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Coogan, “<a href="https://arxiv.org/abs/2403.16214">Efficient Reachable Sets on Lie Groups Using Lie Algebra Monotonicity and Tangent Intervals.</a>” <em>IEEE Conference on Decision and Control (CDC), 2024</em>. <strong>Runner-Up for the Hybrid Systems Technical Committee Outstanding Student Paper Prize</strong> [<a href="https://arxiv.org/pdf/2403.16214">pdf</a>] [<a href="../presentations/2024CDC_liereach/">slides</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Jafarpour, S. Coogan, “<a href="https://arxiv.org/abs/2401.11608">immrax: A Parallelizable and Differentiable Toolbox for Interval Analysis and Mixed Monotone Reachability in JAX.</a>” <em>IFAC Conference on Analysis and Design of Hybrid Systems (ADHS), 2024</em>. [<a href="https://arxiv.org/pdf/2401.11608">pdf</a>] [<a href="https://github.com/gtfactslab/immrax">github</a>] [<a href="../presentations/2024ADHS_immrax/">slides</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Jafarpour, S. Coogan, “<a href="https://doi.org/10.1109/CDC49753.2023.10383360">Contraction-Guided Adaptive Partitioning for Reachability Analysis of Neural Network Controlled Systems.</a>” <em>IEEE Conference on Decision and Control (CDC), 2023</em>. [<a href="https://arxiv.org/pdf/2304.03671">pdf</a>] [<a href="../files/2023CDC_ContractionGuidedPresentation.pdf">slides</a>]</li>
+<li><strong>A. Harapanahalli</strong>, S. Jafarpour, S. Coogan, “<a href="https://arxiv.org/abs/2306.15340">A Toolbox for Fast Interval Arithmetic in numpy with an Application to Formal Verification of Neural Network Controlled Systems.</a>” <em>Workshop on Formal Verification of Machine Learning, ICML (WFVML), 2023</em>. [<a href="https://arxiv.org/pdf/2306.15340">pdf</a>] [<a href="https://github.com/gtfactslab/npinterval">github</a>] [<a href="../files/2023WFVML_npintervalPoster.pdf">poster</a>]</li>
+<li>S. Jafarpour*, <strong>A. Harapanahalli*</strong>, S. Coogan, “<a href="https://proceedings.mlr.press/v211/jafarpour23a.html">Interval Reachability of Nonlinear Dynamical Systems with Neural Network Controllers.</a>” <em>Learning for Dynamics and Control Conference (L4DC), 2023</em>. [<a href="https://arxiv.org/pdf/2301.07912">pdf</a>] [<a href="../files/2023L4DC_IntervalReachPoster.pdf">poster</a>]</li>
+<li><strong>A. Harapanahalli*</strong>, E. Muly*, H. Welch*, T. Brumfiel*, Z. Weng*, M. Akhtar, A. R. Abouelnasr, A. Newland, J. Bunting, K. McGorrey, J. S. Lee, G. Wang, L. Drnach, D. J. Lee, Y. Zhao, “Towards a Biomimetic and Dexterous Robot Avatar: Design, Control, and Kinematics Considerations.” <em>IEEE/ASME International Conference on Advanced Intelligent Mechatronics (AIM), 2020</em>. <strong>Best Latest Breaking Results Poster; First Place in the Hardware, Devices &amp; Robotics Track of the 2021 GaTech VIP Innovation Competition</strong> [<a href="https://akashhara.com/files/AIM_2020_Athena.pdf">pdf</a>] [<a href="../files/Athena_Abstract.pdf">abstract</a>] [<a href="../files/Athena_Poster.pdf">poster</a>] [<a href="https://www.youtube.com/watch?v=xN51JtM-6LU">video</a>]</li>
+</ol>
+</div>
+</section>
+<section id="honors-and-awards" class="level2">
+<h2 class="anchored" data-anchor-id="honors-and-awards">Honors and Awards</h2>
+<div class="cv-row">
+<div>
+<strong>2025-2026 Herbert P. Haley Fellowship</strong> — ML PhD Program, Georgia Tech
+</div>
+<div class="cv-date">
+Dec 2025
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Georgia Tech President’s Fellowship</strong>
+</div>
+<div class="cv-date">
+2022 - 2026
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Runner Up for Outstanding Student Paper Prize</strong> — IEEE CSS Hybrid Systems TC
+</div>
+<div class="cv-date">
+2024
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>ECE Senior Scholar Award (4.00 GPA)</strong> — School of ECE, Georgia Tech
+</div>
+<div class="cv-date">
+Apr 2022
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Faculty Honors (every semester)</strong> — Georgia Tech
+</div>
+<div class="cv-date">
+Fall 2019 - Spring 2022
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Best Overall Hack</strong> — HackGT Horizons 2022
+</div>
+<div class="cv-date">
+Mar 2022
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Best Hardware Hack</strong> — HackGT 8
+</div>
+<div class="cv-date">
+Oct 2021
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>First Place</strong> — 2021 Georgia Tech VIP Innovation Competition (Hardware, Devices &amp; Robotics)
+</div>
+<div class="cv-date">
+Apr 2021
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Best Latest Breaking Results Poster</strong> — 2020 IEEE/ASME Intl. Conf. on Adv. Int. Mechatronics
+</div>
+<div class="cv-date">
+Jul 2020
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Best in Show</strong> — HackGT Horizons 2020
+</div>
+<div class="cv-date">
+Feb 2020
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Second Place, Best TI Integration</strong> — The Invention Studio’s Hack-A-Thing 2020
+</div>
+<div class="cv-date">
+Jan 2020
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>State Tournament Champion</strong> — 2019 California VEX Robotics High School State Championship
+</div>
+<div class="cv-date">
+Mar 2019
+</div>
+</div>
+</section>
+<section id="academic-service" class="level2">
+<h2 class="anchored" data-anchor-id="academic-service">Academic Service</h2>
+<div class="cv-row">
+<div>
+<strong>Student Activities Lead of IEEE CSS Hybrid Systems TC</strong> [<a href="https://ieeecss.org/tc/hybrid-systems/members">link</a>]
+</div>
+<div class="cv-date">
+May 2026 - Present
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>General Chair of the Decision and Control Laboratory Student Committee</strong> [<a href="https://dcl.gatech.edu/">link</a>]
+</div>
+<div class="cv-date">
+Aug 2025 - Present
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Organizer of IEEE CSS Hybrid Systems TC Seminar Series</strong> [<a href="https://dcl.gatech.edu/events/hstc-series-fall-2025/">link</a>]
+</div>
+<div class="cv-date">
+Jul 2025 - Dec 2025
+</div>
+</div>
+<div class="cv-row">
+<div>
+<strong>Chair of 2025 Decision and Control Symposium Organizing Committee</strong> [<a href="https://ece.gatech.edu/news/2025/05/decision-and-control-laboratory-graduate-students-host-annual-symposium">link</a>]
+</div>
+<div class="cv-date">
+2025
+</div>
+</div>
+<p><strong>Reviewer for the following venues:</strong></p>
+<div class="cv-row">
+<div>
+Automatica
+</div>
+<div class="cv-date">
+2024 - 2025
+</div>
+</div>
+<div class="cv-row">
+<div>
+IEEE Control Systems Letters (L-CSS)
+</div>
+<div class="cv-date">
+2023 - 2026
+</div>
+</div>
+<div class="cv-row">
+<div>
+IEEE Control Systems Magazine
+</div>
+<div class="cv-date">
+2026
+</div>
+</div>
+<div class="cv-row">
+<div>
+IEEE Conference on Decision and Control (CDC)
+</div>
+<div class="cv-date">
+2023 - 2025
+</div>
+</div>
+<div class="cv-row">
+<div>
+American Control Conference (ACC)
+</div>
+<div class="cv-date">
+2023 - 2025
+</div>
+</div>
+<div class="cv-row">
+<div>
+IEEE Int’l Conference on Intelligent Transportation Systems (ITSC)
+</div>
+<div class="cv-date">
+2024
+</div>
+</div>
+</section>
+<section id="teaching-and-professional-experience-portfolio" class="level2">
+<h2 class="anchored" data-anchor-id="teaching-and-professional-experience-portfolio">Teaching and Professional Experience [<a href="https://akashhara.com/portfolio/">Portfolio</a>]</h2>
+<div class="cv-row">
+<div>
+<strong>Graduate Teaching Assistant</strong> — School of ECE, Georgia Tech
+</div>
+<div class="cv-date">
+Aug 2022 - Dec 2022
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+ECE 3803 — Optimization for Information Systems
+</li>
+<li>
+ECE 3084 — Signals and Systems
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>Applications Engineering Intern</strong> — Texas Instruments
+</div>
+<div class="cv-date">
+Jun 2021 - Aug 2021
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+Designed modern Over-The-Air update process for Wi-Fi network processors using embedded C with RTOS.
+</li>
+<li>
+Analyzed customer feedback to optimize the design for utility, functionality, and practicality.
+</li>
+<li>
+Developed interpersonal professional skills while learning about product lifecycle and post-market strategy.
+</li>
+</ul>
+</section>
+<section id="other-experiences-and-projects-portfolio" class="level2">
+<h2 class="anchored" data-anchor-id="other-experiences-and-projects-portfolio">Other Experiences and Projects [<a href="https://akashhara.com/portfolio/">Portfolio</a>]</h2>
+<div class="cv-row">
+<div>
+<strong>Data Acquisition Technician — GT Off-Road (BAJA SAE)</strong> [<a href="https://github.com/Georgia-Tech-Off-Road">github</a>]
+</div>
+<div class="cv-date">
+Jan 2020 - May 2022
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+GT Off-Road designs and manufactures a car to compete in the BAJA SAE competition cycle.
+</li>
+<li>
+Rebuilt embedded software infrastructure with a custom dynamic communications protocol using C++ to streamline data transfer in a mesh network of microcontrollers communicating over wired and wireless regimes.
+</li>
+<li>
+Designed and programmed a dashboard for a driver to read critical measurements using Solidworks and Eagle.
+</li>
+<li>
+Built a closed-loop control algorithm for an Electronic Continuous Variable Transmission (eCVT) in C++.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>Voxel — ECE Senior Capstone</strong> [<a href="https://expo.gatech.edu/prod1/portal/portal.jsp?c=17462&amp;p=413142918&amp;g=413665329&amp;id=416289822">expo</a>] [<a href="https://docs.google.com/document/d/1qhV8GDdIMrLP8EwcKlGMuooxcJW86hkDLJmOhb5gmRU">report</a>]
+</div>
+<div class="cv-date">
+Aug 2021 - May 2022
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+Created world’s first fully volumetric high-density holographic persistence of vision display (3D hologram).
+</li>
+<li>
+Designed an algorithm to convert arbitrary mesh files to a custom cylindrical 3D display video format.
+</li>
+<li>
+Wrote embedded software in C++ and SystemVerilog to encode/decode 3D video over HDMI.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>StepDance — HackGT Horizons 2022 — Best Overall Hack</strong> [<a href="https://devpost.com/software/step-dance">devpost</a>] [<a href="https://github.com/Ryan-K-Chen/StepDance">github</a>]
+</div>
+<div class="cv-date">
+Mar 2022 - Mar 2022
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+An interactable piano using stepper motor vibrations to generate music with computer vision features.
+</li>
+<li>
+Personally wrote all embedded C++ code to take inputs, schedule, and control stepper motors.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>Zen — HackGT 8 — Best Hardware Hack</strong> [<a href="https://devpost.com/software/zen-k1w6ri">devpost</a>] [<a href="https://github.com/Akash-Harapanahalli/the-modern-hourglass">github</a>]
+</div>
+<div class="cv-date">
+Oct 2021 - Oct 2021
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+Repurposed an old 3D printer as a data visualization tool and art piece under strict time constraints.
+</li>
+<li>
+Personally designed the system and mounts in Onshape and wrote embedded C++ to control stepper motors.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>OxySpool — Tikkum Olam Makers (TOM) at GT Makeathon 2021 — Second Place</strong> [<a href="https://tomglobal.org/project?id=604568f06a4bc57101dcd0b6">project</a>] [<a href="https://github.com/Akash-Harapanahalli/OxygenTubeSpool">github</a>]
+</div>
+<div class="cv-date">
+May 2021 - May 2021
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+TOM is a service organization sponsoring open source solutions to the challenges of underserved people.
+</li>
+<li>
+Created a low-force oxygen cord reel designed for patients with COPD to avoid tripping hazards.
+</li>
+<li>
+Personally helped design/manufacture using Onshape, and wrote embedded C++ to control the device.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>TrashTalker — HackGT Horizons 2020 — Best in Show</strong> [<a href="https://devpost.com/software/trashtalker">devpost</a>] [<a href="https://github.com/Akash-Harapanahalli/TrashTalker/tree/master">github</a>]
+</div>
+<div class="cv-date">
+Feb 2020 - Feb 2020
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+Integrated art and technology by engineering a music instrument out of trashed beer bottles.
+</li>
+<li>
+Modeled mounts and connections in Solidworks, wrote embedded Arduino software using MATLAB.
+</li>
+</ul>
+<div class="cv-row">
+<div>
+<strong>Industrial Screw Sorter — Hack-a-Thing — Second Place, Best TI Integration</strong> [<a href="https://github.com/Akash-Harapanahalli/Hack-A-Thing-2019-2020">github</a>]
+</div>
+<div class="cv-date">
+Sep 2019 - Jan 2020
+</div>
+</div>
+<ul class="cv-bullets">
+<li>
+Competed in a five-month-long competition to create an industrial screw sorting apparatus.
+</li>
+<li>
+Personally worked on its design and on reusable embedded C++ for its TI MSP-432 using Energia.
+</li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

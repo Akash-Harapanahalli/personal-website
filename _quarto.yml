@@ -1,9 +1,11 @@
 project:
   type: website
   output-dir: docs
-  resources: 
+  resources:
     - CNAME
     - presentations
+    - files
+  pre-render: cv/build-pdfs.sh
 
 website:
   title: "Akash Harapanahalli"
