@@ -4,3 +4,16 @@ $primary: #2780e3;
 $link-color: $primary;
 // Keep simplex's white navbar (otherwise Quarto falls back to $primary).
 $navbar-bg: #fff;
+
+/*-- scss:rules --*/
+// Site title + nav links read like body text. Quarto stamps
+// data-bs-theme="dark" on the navbar, so we need that selector to match
+// Bootstrap's own dark-mode override in specificity.
+.navbar,
+.navbar[data-bs-theme="dark"] {
+  --bs-navbar-color: #212529;
+  --bs-navbar-brand-color: #212529;
+  --bs-navbar-brand-hover-color: #{$primary};
+  --bs-navbar-hover-color: #{$primary};
+}
+.navbar-brand { font-weight: 400; }

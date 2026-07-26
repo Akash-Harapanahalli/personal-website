@@ -89,19 +89,9 @@ experience:
 publications:
   # ---------- Preprints ----------
   - type: preprint
-    authors: ["A. Harapanahalli", "S. Coogan", "A. Davydov"]
-    title: "Learning Certified Neural Network Controllers Using Contraction and Interval Analysis."
-    venue: "To appear in IEEE Control Systems Letters (L-CSS)"
-    year: 2026
-    links:
-      arxiv: https://arxiv.org/abs/2603.28011
-      pdf: https://arxiv.org/pdf/2603.28011
-    resume: true
-
-  - type: preprint
     authors: ["V. Madabushi", "A. Harapanahalli", "S. Coogan", "M. Tucker"]
     title: "Differentiable Invariant Sets for Hybrid Limit Cycles with Application to Legged Robots."
-    venue: "In submission"
+    venue: "To appear in IEEE Conference on Decision and Control (CDC)"
     year: 2026
     links:
       arxiv: https://arxiv.org/abs/2604.05108
@@ -109,6 +99,17 @@ publications:
     resume: true
 
   # ---------- Journal Papers ----------
+  - type: journal
+    authors: ["A. Harapanahalli", "S. Coogan", "A. Davydov"]
+    title: "Learning Certified Neural Network Controllers Using Contraction and Interval Analysis."
+    venue: "IEEE Control Systems Letters (L-CSS)"
+    year: 2026
+    links:
+      doi: https://doi.org/10.1109/LCSYS.2026.3707155
+      arxiv: https://arxiv.org/abs/2603.28011
+      pdf: https://arxiv.org/pdf/2603.28011
+    resume: true
+
   - type: journal
     authors: ["A. Harapanahalli", "S. Coogan"]
     title: "A Linear Differential Inclusion for Contraction Analysis to Known Trajectories."
