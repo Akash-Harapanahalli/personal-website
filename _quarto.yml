@@ -28,9 +28,9 @@ website:
 format:
   html:
     theme:
-      - cosmo
+      - simplex
+      - custom.scss
     page-layout: full
-      # - custom.scss
     # toc: true
     # toc_depth: 3
     # toc_float: true

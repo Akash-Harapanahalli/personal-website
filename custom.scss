@@ -1,0 +1,6 @@
+/*-- scss:defaults --*/
+// Cosmo's primary blue, layered over simplex.
+$primary: #2780e3;
+$link-color: $primary;
+// Keep simplex's white navbar (otherwise Quarto falls back to $primary).
+$navbar-bg: #fff;
